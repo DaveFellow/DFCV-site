@@ -1,0 +1,28 @@
+<app-bg #bg [paused]="bgPaused" state="home"></app-bg>
+
+<div id="content">
+  <h3 style="color: #fff">States:</h3>
+  <button (click)="bg.setState('home')">HOME</button><br>
+  <button (click)="bg.setState('summary')">SUMMARY</button><br>
+  
+
+  <br>
+  <h3 style="color: #fff">Controls:</h3>
+  <ng-container *ngIf="bg.paused">
+    <button (click)="bgPaused = false">PLAY</button><br>
+  </ng-container>
+  
+  <ng-container *ngIf="!bg.paused">
+    <button (click)="bgPaused = true">PAUSE</button><br>
+  </ng-container>
+
+  <ng-container *ngIf="bg.scene.orbitControls">
+    <ng-container *ngIf="bg.scene.orbitControls.enabled">
+      <button (click)="bg.scene.orbitControls.enabled = false">TURN ORBIT OFF</button><br>
+    </ng-container>
+
+    <ng-container *ngIf="!bg.scene.orbitControls.enabled">
+      <button (click)="bg.scene.orbitControls.enabled = true">TURN ORBIT ON</button><br>
+    </ng-container>
+  </ng-container>
+</div>
