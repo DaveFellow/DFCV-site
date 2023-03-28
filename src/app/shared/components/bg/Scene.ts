@@ -11,26 +11,51 @@ export class Scene {
   public readonly scene = new THREE.Scene();
 
   public markers!: THREE.Vector3[];
-  private markerTracker: THREE.ArrowHelper = new THREE.ArrowHelper;
+  private readonly markerTracker: THREE.ArrowHelper = new THREE.ArrowHelper;
+
+  private markerTrackLerp: THREE.Vector3 = new THREE.Vector3;
+  public markerTrackLerpFromPos: THREE.Vector3 = new THREE.Vector3;
+  
+  private readonly targetMarkers: { [key: string]: THREE.Vector3 } = {
+    prev: new THREE.Vector3,
+    next: new THREE.Vector3
+  }
+
+  public get prevMarker(): THREE.Vector3 {
+    return this.targetMarkers['prev'];
+  }
+
+  public get nextMarker(): THREE.Vector3 {
+    return this.targetMarkers['next'];
+  }
+
+  public get prevMarkerIsValid(): boolean {
+    return this.targetMarkers['prev'].x !== 0
+      && this.targetMarkers['prev'].y !== 0
+      && this.targetMarkers['prev'].z !== 0;
+  }
+
+  public get nextMarkerIsValid(): boolean {
+    return this.targetMarkers['next'].x !== 0
+      && this.targetMarkers['next'].y !== 0
+      && this.targetMarkers['next'].z !== 0;
+  }
 
   private modelSetupFinished: boolean = false;
   public get modelIsLoaded(): boolean { return this.modelSetupFinished; }
 
   public orbitControls!: OrbitControls;
 
-  public stateCamPosition: THREE.Mesh = new THREE.Mesh;
-  public stateCamPositionAxes: THREE.AxesHelper = new THREE.AxesHelper(20);
-  public camHelper: THREE.CameraHelper = new THREE.CameraHelper(this.camera);
+  public readonly stateCamPosition: THREE.Mesh = new THREE.Mesh;
+  public readonly stateCamPositionAxes: THREE.AxesHelper = new THREE.AxesHelper(20);
+  public readonly camHelper: THREE.CameraHelper = new THREE.CameraHelper(this.camera);
 
   private ready: boolean = false;
   public get isReady() { return this.ready; }
 
-  public destinationRotation: THREE.Euler = new THREE.Euler(0, 0, 0);
-  public initRotation: THREE.Euler = new THREE.Euler(0, 0, 0);
-
-  readonly quarterRadian: number = (Math.PI * 2) / 4;
-
   debug: boolean = true;
+
+  private readonly camTargetHelper = new THREE.Mesh;
 
   constructor() { }
 
@@ -110,12 +135,16 @@ export class Scene {
           this.scene.add(axesHelper);
         });
   
-        const sphere = new THREE.SphereGeometry(0.1);
-        this.stateCamPosition = new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({color: 0xffff00, depthTest: false, depthWrite: false}));
         this.orbitControls.target = this.stateCamPosition.position;
 
+        this.stateCamPosition.geometry = new THREE.SphereGeometry(0.1);
+        this.stateCamPosition.material = new THREE.MeshBasicMaterial({color: 0xffff00, depthTest: false, depthWrite: false});
         this.scene.add(this.stateCamPosition);
         this.scene.add(this.stateCamPositionAxes);
+
+        this.camTargetHelper.geometry = new THREE.SphereGeometry(0.1);
+        this.camTargetHelper.material = new THREE.MeshBasicMaterial({color: 0x0000ff, depthTest: false, depthWrite: false});
+        this.scene.add(this.camTargetHelper);
       }
       // end debug
 
@@ -137,39 +166,15 @@ export class Scene {
     this.camera.setRotationFromEuler(rotation);
   }
 
-
-  public trackMarker(index: number): THREE.Euler {
-    let rot = this.camera.rotation;
-    this.initRotation = new THREE.Euler(rot.x, rot.y, rot.z);
-
-    this.camera.lookAt(this.markers[index]);
-
-    rot = this.camera.rotation;
-    this.destinationRotation = new THREE.Euler(rot.x, rot.y, rot.z);
-
-    this.camera.setRotationFromEuler(this.initRotation);
-
-    return this.destinationRotation;
+  public trackMarker(index: number): void {
+    this.markerTrackLerpFromPos = new THREE.Vector3(this.markerTrackLerp.x, this.markerTrackLerp.y, this.markerTrackLerp.z);
+    this.targetMarkers['prev'] = this.targetMarkers['next'];
+    this.targetMarkers['next'] = this.markers[index];
   }
 
-
-  private getSteppedRotation(): THREE.Vector3 {
-    const x = this.steppedAxisRotation('x');
-    const y = this.steppedAxisRotation('y');
-    const z = this.steppedAxisRotation('z');
-    return new THREE.Vector3(x, y, z);
-  }
-
-  private steppedAxisRotation(axis: 'x'|'y'|'z'): number {
-    return 0;
-    // const rot = this.camera.rotation;
-    // const rawDistance = rot[axis] - this.rotDestination[axis];
-    // const distance = rawDistance < 0 ? rawDistance * -1 : rawDistance;
-    // const unsignedRawSpeed = distance / 60;
-    // const rawSpeed = rot[axis] < this.rotDestination[axis] 
-    //   ? rot[axis] + unsignedRawSpeed
-    //   : rot[axis] - unsignedRawSpeed
-
-    // return (rawSpeed * this.currentStep) / 100;
+  public getSteppedRotation(factor: number): THREE.Vector3 {
+    this.markerTrackLerp.lerpVectors(this.markerTrackLerpFromPos, this.nextMarker, factor);
+    if (this.debug) this.camTargetHelper.position.set(this.markerTrackLerp.x, this.markerTrackLerp.y, this.markerTrackLerp.z);
+    return this.markerTrackLerp;
   }
 }
