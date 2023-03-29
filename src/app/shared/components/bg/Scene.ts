@@ -4,60 +4,48 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { VectorsUtils } from '../../utils/vectors';
 
 export class Scene {
   public readonly renderer = new THREE.WebGLRenderer();
   public readonly camera = new THREE.PerspectiveCamera();
   public readonly scene = new THREE.Scene();
+  private readonly vectorsUtils: VectorsUtils;
 
   public markers!: THREE.Vector3[];
   private readonly markerTracker: THREE.ArrowHelper = new THREE.ArrowHelper;
-
-  private markerTrackLerp: THREE.Vector3 = new THREE.Vector3;
+  private readonly markerTrackLerp: THREE.Vector3 = new THREE.Vector3;
   public markerTrackLerpFromPos: THREE.Vector3 = new THREE.Vector3;
-  
+
   private readonly targetMarkers: { [key: string]: THREE.Vector3 } = {
     prev: new THREE.Vector3,
     next: new THREE.Vector3
   }
 
-  public get prevMarker(): THREE.Vector3 {
-    return this.targetMarkers['prev'];
-  }
-
-  public get nextMarker(): THREE.Vector3 {
-    return this.targetMarkers['next'];
-  }
-
-  public get prevMarkerIsValid(): boolean {
-    return this.targetMarkers['prev'].x !== 0
-      && this.targetMarkers['prev'].y !== 0
-      && this.targetMarkers['prev'].z !== 0;
-  }
-
-  public get nextMarkerIsValid(): boolean {
-    return this.targetMarkers['next'].x !== 0
-      && this.targetMarkers['next'].y !== 0
-      && this.targetMarkers['next'].z !== 0;
-  }
+  public get prevMarker(): THREE.Vector3 { return this.targetMarkers['prev']; }
+  public get nextMarker(): THREE.Vector3 { return this.targetMarkers['next']; }
+  public get prevMarkerIsValid(): boolean { return !this.vectorsUtils.isDefault(this.prevMarker) }
+  public get nextMarkerIsValid(): boolean { return !this.vectorsUtils.isDefault(this.nextMarker) }
 
   private modelSetupFinished: boolean = false;
   public get modelIsLoaded(): boolean { return this.modelSetupFinished; }
 
   public orbitControls!: OrbitControls;
 
-  public readonly stateCamPosition: THREE.Mesh = new THREE.Mesh;
-  public readonly stateCamPositionAxes: THREE.AxesHelper = new THREE.AxesHelper(20);
-  public readonly camHelper: THREE.CameraHelper = new THREE.CameraHelper(this.camera);
-
   private ready: boolean = false;
   public get isReady() { return this.ready; }
 
-  debug: boolean = true;
 
-  private readonly camTargetHelper = new THREE.Mesh;
+  // Debug members
+  private readonly _debugCamPosition: THREE.Mesh = new THREE.Mesh;
+  private readonly _debugCamPositionAxes: THREE.AxesHelper = new THREE.AxesHelper(20);
+  private readonly _debugCamTargetHelper = new THREE.Mesh;
+  _debug: boolean = true;
+  // Debug members END
 
-  constructor() { }
+  constructor() {
+    this.vectorsUtils = new VectorsUtils;
+  }
 
   render(): void {
     if (!this.renderer) return;
@@ -69,8 +57,6 @@ export class Scene {
     this.initCameraSetup();
 
     this.orbitControls = new OrbitControls(this.camera, this.renderer.domElement);
-    // this.orbitControls.enablePan = false;
-    // this.orbitControls.enableZoom = false;
     this.orbitControls.enabled = false;
     
     this.initModelSetup(callback);
@@ -79,16 +65,15 @@ export class Scene {
 
 
   private initCameraSetup(): void {
-    this.camera.position.x = 0;
-    this.camera.position.y = 0;
-    this.camera.position.z = 2;
-    this.camera.fov = 75;
+    this.camera.position.set(0, 0, 2);
+    this.camera.fov = 50;
     this.updateCameraAspectRatio();
   }
 
 
   private updateCameraAspectRatio(): void {
     this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
   }
 
 
@@ -121,32 +106,9 @@ export class Scene {
       pointLight.position.set(0, 7, 0);
       this.scene.add(pointLight);
       
-      // debug
-      if (this.debug) {
-        this.markers.forEach(elem => {
-          const axesHelper = new THREE.AxesHelper(1);
-          axesHelper.position.set(elem.x, elem.y, elem.z);
-          (axesHelper.material as THREE.LineBasicMaterial).depthTest = false;
-          (axesHelper.material as THREE.LineBasicMaterial).depthWrite = false;
-          const sphere = new THREE.SphereGeometry(0.1);
-          const mesh = new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({color: 0xff0000, depthTest: false, depthWrite: false}));
-          mesh.position.set(elem.x, elem.y, elem.z);
-          this.scene.add(mesh);
-          this.scene.add(axesHelper);
-        });
-  
-        this.orbitControls.target = this.stateCamPosition.position;
-
-        this.stateCamPosition.geometry = new THREE.SphereGeometry(0.1);
-        this.stateCamPosition.material = new THREE.MeshBasicMaterial({color: 0xffff00, depthTest: false, depthWrite: false});
-        this.scene.add(this.stateCamPosition);
-        this.scene.add(this.stateCamPositionAxes);
-
-        this.camTargetHelper.geometry = new THREE.SphereGeometry(0.1);
-        this.camTargetHelper.material = new THREE.MeshBasicMaterial({color: 0x0000ff, depthTest: false, depthWrite: false});
-        this.scene.add(this.camTargetHelper);
-      }
-      // end debug
+      // _debug
+      this.setDebugModelSetup();
+      // end _debug
 
       this.ready = true;
       callback();
@@ -156,25 +118,49 @@ export class Scene {
 
   public setCamPosition(position: THREE.Vector3): void {
     this.markerTracker.position.set(position.x, position.y, position.z);
-    this.stateCamPosition.position.set(position.x, position.y, position.z);
-    this.stateCamPositionAxes.position.set(position.x, position.y, position.z);
     this.camera.position.set(position.x, position.y, position.z);
-  }
-
-
-  public setCamRotation(rotation: THREE.Euler): void {
-    this.camera.setRotationFromEuler(rotation);
+    
+    if (!this._debug) return;
+    this._debugCamPosition.position.set(position.x, position.y, position.z);
+    this._debugCamPositionAxes.position.set(position.x, position.y, position.z);
   }
 
   public trackMarker(index: number): void {
-    this.markerTrackLerpFromPos = new THREE.Vector3(this.markerTrackLerp.x, this.markerTrackLerp.y, this.markerTrackLerp.z);
+    this.markerTrackLerpFromPos = this.vectorsUtils.copyPosition(this.markerTrackLerp);
     this.targetMarkers['prev'] = this.targetMarkers['next'];
     this.targetMarkers['next'] = this.markers[index];
   }
 
   public getSteppedRotation(factor: number): THREE.Vector3 {
     this.markerTrackLerp.lerpVectors(this.markerTrackLerpFromPos, this.nextMarker, factor);
-    if (this.debug) this.camTargetHelper.position.set(this.markerTrackLerp.x, this.markerTrackLerp.y, this.markerTrackLerp.z);
+    if (this._debug) this._debugCamTargetHelper.position.set(this.markerTrackLerp.x, this.markerTrackLerp.y, this.markerTrackLerp.z);
     return this.markerTrackLerp;
+  }
+
+  private setDebugModelSetup(): void {
+    if (!this._debug) return;
+
+    this.markers.forEach(elem => {
+      const axesHelper = new THREE.AxesHelper(1);
+      axesHelper.position.set(elem.x, elem.y, elem.z);
+      (axesHelper.material as THREE.LineBasicMaterial).depthTest = false;
+      (axesHelper.material as THREE.LineBasicMaterial).depthWrite = false;
+      const sphere = new THREE.SphereGeometry(0.1);
+      const mesh = new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({color: 0xff0000, depthTest: false, depthWrite: false}));
+      mesh.position.set(elem.x, elem.y, elem.z);
+//      this.scene.add(mesh);
+      this.scene.add(axesHelper);
+    });
+
+    this.orbitControls.target = this._debugCamPosition.position;
+
+    this._debugCamPosition.geometry = new THREE.SphereGeometry(0.1);
+    this._debugCamPosition.material = new THREE.MeshBasicMaterial({color: 0xffff00, depthTest: false, depthWrite: false});
+//    this.scene.add(this._debugCamPosition);
+//    this.scene.add(this._debugCamPositionAxes);
+
+    this._debugCamTargetHelper.geometry = new THREE.SphereGeometry(0.1);
+    this._debugCamTargetHelper.material = new THREE.MeshBasicMaterial({color: 0x0000ff, depthTest: false, depthWrite: false});
+    //this.scene.add(this._debugCamTargetHelper);
   }
 }

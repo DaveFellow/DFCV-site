@@ -1,9 +1,10 @@
 import { Scene } from "../../components/bg/Scene";
+import { VectorsUtils } from "../../utils/vectors";
 import { AbstractState } from "./AbstractState";
 import * as THREE from 'three';
 
 export abstract class BGTransitionState extends AbstractState {
-  protected duration = 1500;
+  protected duration = 500;
 
   protected initCamPosition: THREE.Vector3 = new THREE.Vector3;
   protected destCamPosition: THREE.Vector3 = new THREE.Vector3;
@@ -15,18 +16,21 @@ export abstract class BGTransitionState extends AbstractState {
   
   protected _debug: boolean = false;
 
+  protected readonly vectorsUtils: VectorsUtils;
+
   constructor(scene: Scene) {
     super(scene);
+    this.vectorsUtils = new VectorsUtils;
   }
 
   public override onEnter(): void {
-    this.scene.trackMarker(this.targetIndex);
     this.deltaTime = 0;
     this.totalTime = 0;
     this.initTime = 0;
-
+    
+    this.scene.trackMarker(this.targetIndex);
     const camPos = this.scene.camera.position;
-    this.initCamPosition = new THREE.Vector3(camPos.x, camPos.y, camPos.z);
+    this.initCamPosition = this.vectorsUtils.copyPosition(camPos);
   }
 
   public override onAnimation(): void {
@@ -41,7 +45,8 @@ export abstract class BGTransitionState extends AbstractState {
       this.scene.camera.lookAt(steppedRotation);
 
     } else {
-      this.scene.camera.lookAt(this.scene.nextMarker);
+      const steppedRotation = this.scene.getSteppedRotation(1);
+      this.scene.camera.lookAt(steppedRotation);
       this.scene.camera.position.set(this.destCamPosition.x, this.destCamPosition.y, this.destCamPosition.z);
     }
 
