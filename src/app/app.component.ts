@@ -10,7 +10,7 @@ export class AppComponent implements AfterViewChecked {
 
   bgPaused: boolean = false;
 
-  _debug: boolean = false;
+  _debug: boolean = true;
 
   // debug
   constructor(private cd: ChangeDetectorRef) {}

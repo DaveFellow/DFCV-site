@@ -13,6 +13,10 @@ export abstract class BGTransitionState extends AbstractState {
   private deltaTime: number = 0;
   private initTime: number = 0;
   private totalTime: number = 0;
+
+  public get isTransitioning(): boolean {
+    return this.totalTime <= this.duration;
+  }
   
   protected _debug: boolean = false;
 
@@ -32,9 +36,9 @@ export abstract class BGTransitionState extends AbstractState {
     const camPos = this.scene.camera.position;
     this.initCamPosition = this.vectorsUtils.copyPosition(camPos);
   }
-
+  
   public override onAnimation(): void {
-    if (this.totalTime > this.duration) return;
+    if (!this.isTransitioning) return;
 
     if (this.scene.prevMarkerIsValid) {
       let factor = this.totalTime / this.duration;
