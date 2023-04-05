@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header.component';
-import { LinkButtonModule } from '../link-button/link-button.module';
+import { LinkButtonComponent } from './link-button.component';
 import { RouterModule } from '@angular/router';
 
 
 
 @NgModule({
   declarations: [
-    HeaderComponent
+    LinkButtonComponent
   ],
   imports: [
     CommonModule,
-    LinkButtonModule,
     RouterModule
   ],
   exports: [
-    HeaderComponent
+    LinkButtonComponent
   ]
 })
-export class HeaderModule { }
+export class LinkButtonModule { }

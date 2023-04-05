@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppLayoutComponent } from './app-layout.component';
+import { HeaderModule } from '../../components/header/header.module';
+import { FooterModule } from '../../components/footer/footer.module';
 
 
 
@@ -9,7 +11,9 @@ import { AppLayoutComponent } from './app-layout.component';
     AppLayoutComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    HeaderModule,
+    FooterModule
   ],
   exports: [
     AppLayoutComponent

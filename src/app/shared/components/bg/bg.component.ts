@@ -3,6 +3,8 @@ import { StatesMachine } from '../../FSM/StatesMachine';
 import { StatesFactoryService } from '../../FSM/Factory/states-factory.service';
 import { State } from '../../FSM/States/State';
 import { Scene } from './Scene';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-bg',
@@ -21,10 +23,14 @@ export class BGComponent implements OnInit, OnChanges, AfterViewInit, StatesMach
 
   constructor(
     private renderer: Renderer2,
-    private statesFactory: StatesFactoryService
+    private statesFactory: StatesFactoryService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe((e) => this.setState((e as NavigationEnd).url));
   }
 
   ngAfterViewInit() {

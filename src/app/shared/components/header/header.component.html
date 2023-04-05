@@ -1,1 +1,15 @@
-<p>header works!</p>
+<header>
+  <div id="logo">
+    <img src="assets/img/logo.svg" alt="Site logo">
+  </div>
+
+  <nav>
+    <link-button
+      *ngFor="let link of links"
+      [active]="activeLink == link.route"
+      [route]="link.route"
+    >
+      {{ link.label }}
+    </link-button>
+  </nav>
+</header>

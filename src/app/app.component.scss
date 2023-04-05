@@ -1,8 +1,13 @@
 app-bg {
-  z-index: 0
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
 }
 
-#content {
-  position: fixed;
+app-layout {
+  position: relative;
+  width: 100%;
+  height: 100%;
   z-index: 1;
 }
