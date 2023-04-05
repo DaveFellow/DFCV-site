@@ -6,7 +6,7 @@
   <nav>
     <link-button
       *ngFor="let link of links"
-      [active]="activeLink == link.route"
+      [active]="activeRouteRoot == link.route"
       [route]="link.route"
     >
       {{ link.label }}

@@ -5,11 +5,12 @@ import { SkillsetPageModule } from 'src/app/pages/skillset-page/skillset-page.mo
 import { WorkExperiencePageModule } from 'src/app/pages/work-experience-page/work-experience-page.module';
 import { PortfolioPageModule } from 'src/app/pages/portfolio-page/portfolio-page.module';
 import { SummaryPageModule } from 'src/app/pages/summary-page/summary-page.module';
+import { AboutMePageModule } from 'src/app/pages/about-me-page/about-me-page.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('src/app/pages/home-page/home-page.module').then(m => HomePageModule) },
-  { path: 'summary', loadChildren: () => import('src/app/pages/summary-page/summary-page.module').then(m => SummaryPageModule) },
+  { path: 'about-me', loadChildren: () => import('src/app/pages/about-me-page/about-me-page.module').then(m => AboutMePageModule) },
   { path: 'skillset', loadChildren: () => import('src/app/pages/skillset-page/skillset-page.module').then(m => SkillsetPageModule) },
   { path: 'work-experience', loadChildren: () => import('src/app/pages/work-experience-page/work-experience-page.module').then(m => WorkExperiencePageModule) },
   { path: 'portfolio', loadChildren: () => import('src/app/pages/portfolio-page/portfolio-page.module').then(m => PortfolioPageModule) },
