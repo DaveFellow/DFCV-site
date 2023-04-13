@@ -1,0 +1,101 @@
+$container-padding: 5rem;
+$transition-duration: .5s;
+
+#container {
+  height: 100%;
+  display: grid;
+  padding: $container-padding;
+
+  $transition: $transition-duration ease-out;
+  transition: $transition;
+
+  grid-template-columns: 1fr 1fr 0fr;
+
+  section {
+    grid-row: 1 / -1;
+    transition: $transition;
+  }
+
+  #basic-info {
+    display: grid;
+    grid-template-rows: 1fr max-content;
+    grid-template-columns: max-content;
+    transition: $transition;
+  }
+
+  #main-info {
+    grid-column: 2 / 3;
+  }
+  
+  $present-card-duration: .6s;
+  
+  &.history {
+    grid-template-columns: 0fr 0.7fr 0.3fr;
+
+    #presentation-card {
+      animation: present-card-intro-right $present-card-duration ease-in-out;
+      animation-fill-mode: backwards;
+      animation-delay: $transition-duration;
+      right: $container-padding;
+    }
+  }
+
+  &.summary {
+    #presentation-card {
+      animation: present-card-intro-left $present-card-duration ease-in-out;
+      animation-fill-mode: backwards;
+      animation-delay: $transition-duration;
+    }
+  }
+}
+
+#presentation-card {
+  position: fixed;
+  bottom: 15rem;
+  background-color: var(--card-bg);
+  padding: 3rem;
+  z-index: 0;
+  grid-row: 2;
+  overflow: hidden;
+  transition: $transition-duration ease-out;
+  transform-origin: center;
+
+  &::after, &::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    border: 1rem solid var(--accent-color);
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    z-index: 2;
+  }
+
+  &::before { top: 0; left: 0; }
+  &::after { bottom: 0; right: 0; transform: rotate(180deg); }
+
+  h3 {
+    text-transform: uppercase;
+    color: var(--accent-color);
+    margin-bottom: .5rem;
+    white-space: nowrap;
+  }
+
+  p {
+    margin-bottom: 0;
+    line-height: 1.2;
+    font-size: 1.6rem;
+    white-space: nowrap;
+  }
+}
+
+@keyframes present-card-intro-left {
+  from { transform: translateX(calc(-100% - $container-padding)); }
+  to { transform: translateX(0); }
+}
+
+@keyframes present-card-intro-right {
+  from { transform: translateX(calc(100% + $container-padding)); }
+  to { transform: translateX(0); }
+}

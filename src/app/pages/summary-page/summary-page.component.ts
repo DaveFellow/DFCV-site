@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Tab } from 'src/app/shared/models/Tab';
+import { tabs } from 'src/app/shared/objects/AboutMePage';
 
 @Component({
   selector: 'app-summary-page',
@@ -6,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./summary-page.component.scss']
 })
 export class SummaryPageComponent {
-
+  public tabs: Tab[] = tabs;
 }

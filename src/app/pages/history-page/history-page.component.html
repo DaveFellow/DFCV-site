@@ -1,1 +1,52 @@
-<p>history-page works!</p>
+<div id="wrapper" #wrapper>
+  <div id="timeline" #timeline>
+    <ng-container *ngFor="let item of timelineItems; let i = index">
+      <link-button
+        [active]="currentBookmark == i"
+        (click)="goToBookmark(i)"
+        [ngStyle]="{ top: item.offsetTop * .95 + 'px' }"
+      >
+        <div class="button-inner" #timelineButtonInner>
+          <p>{{ item.text[0] }}</p>
+          <p>{{ item.text[1] }}</p>
+
+          <div *ngIf="i"
+            class="timeline-line"
+            [ngStyle]="{ height: item.lineHeight + 'px' }"></div>
+        </div>
+      </link-button>
+    </ng-container>
+  </div>
+  
+  <tabbed-container [tabs]="tabs" activeTab="history">
+    <div #bookmark class="bookmark" [ngClass]="{ 'current': currentBookmark == 0 }">
+      <h3>Education</h3>
+      <p>Graduated in 2013 with a bachelor’s degree on Graphic Design in the Rafael Belloso Chacin University (URBE) in Zulia, Venezuela.</p>
+      <p class="sidenote"><b>Sidenote</b>: His final project for the bachelor’s degree was a 3D educational application in Unity (programming included), for which the focus of the thesis was graphics for interactable experiences.</p>
+    </div>
+
+    <div #bookmark class="bookmark" [ngClass]="{ 'current': currentBookmark == 1 }">
+      <h3>2012 - Freelance Designer</h3>
+      <p>Since 2012 he spent several years working as a freelancer graphic designer on fields like illustration, advertising, branding, photography and, of course, UX/UI.</p>
+      <p>As he was already doing web development for hobby as a teenager, he also later worked on web design and development projects that mostly included static website, UI re-design/implementation and WordPress websites. Some projects involved the use of Unity for several task, some related to programming.</p>
+    </div>
+
+    <div #bookmark class="bookmark" [ngClass]="{ 'current': currentBookmark == 2 }">
+      <h3>2017 - Freelance Developer</h3>
+      <p>In 2017 David decided to dive deeper into software development since he always enjoyed programming more than anything else in his projects, so he immersed himself into a learning process of all modern web development techniques by updating his current skills and learning new ones like Angular and TypeScript, which nowadays take part of his strength.</p>
+      <p>The most important project developed during this period was the design, development and direction of the checkout interface and mobile app for a reputable bus ticket business in Chile.</p>
+    </div>
+
+    <div #bookmark class="bookmark" [ngClass]="{ 'current': currentBookmark == 3 }">
+      <h3>2020 - 4ID</h3>
+      <p>In 2020 he got hired by a Chilean company as a Full-stack web developer, in which he worked on featured and maintenance for an important local conference streaming platform and other clients and some external client’s projects.</p>
+      <p>His most important achievement within the company was the design and development of a very important management system for the company which took around 7 months since the beginning of the project until completion. The system was so successful that made a 180° turnaround on the company pipeline as it basically took care of many things that were taken care manually before by several people, significantly reducing the amount of necessary personnel and attention for general business process.
+      <p>Other achievements within that company involved the design and developments of several UX/UI improvements for the main service system as well as international support for a client business that only operated within the country.</p>        
+    </div>
+
+    <div #bookmark class="bookmark" [ngClass]="{ 'current': currentBookmark == 4 }">
+      <h3>2022 - Publicis Sapient</h3>
+      <p>In 2022 David got hired by Publicis Sapient, where he currently works and is ready for the next challenge.</p>
+    </div>
+  </tabbed-container>
+</div>

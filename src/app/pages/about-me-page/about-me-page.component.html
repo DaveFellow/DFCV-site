@@ -1,8 +1,13 @@
-<p>about-me-page works!</p>
+<div id="container" [class]="activeRoute">
+  <section id="basic-info">
+      <div id="presentation-card">
+        <h3>DAVID FUENTES</h3>
+        <p>Colombia</p>
+        <p>Software developer / Graphic designer</p>
+      </div>
+  </section>
 
-<a routerLink="./summary">Summary</a><br>
-<a routerLink="./history">History</a>
-
-<div>
-  <router-outlet></router-outlet>
+  <section id="main-info">
+    <router-outlet></router-outlet>
+  </section>
 </div>

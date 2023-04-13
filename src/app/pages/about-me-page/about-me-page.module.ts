@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AboutMePageComponent } from './about-me-page.component';
 import { RouterModule, Routes } from '@angular/router';
+import { TabbedContainerModule } from 'src/app/shared/components/tabbed-container/tabbed-container.module';
 
 const routes: Routes = [
   { path: '', component: AboutMePageComponent, children: [
@@ -17,7 +18,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ]
 })
 export class AboutMePageModule { }

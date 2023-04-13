@@ -1,7 +1,7 @@
 <div
   id="wrapper"
   tabindex="0"
-  (click)="router.navigate([route])"
+  (click)="route ? router.navigate([route]) : null"
   [ngClass]="{'active': isActive}"
   [attr.aria-label]="ariaLabel"
   [attr.role]="role"

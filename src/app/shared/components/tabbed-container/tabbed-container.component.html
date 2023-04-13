@@ -1,0 +1,14 @@
+<section id="wrapper">
+  <a *ngFor="let tab of tabs"
+    [routerLink]="tab.route?.length ? tab.route : null"
+    class="tab"
+    [ngClass]="{ active: activeTab == tab.name }"
+    (click)="tab.action ? tab.action() : null"
+  >{{ tab.label || tab.name }}</a>
+
+  <div id="content" #content>
+    <div class="content-inner">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</section>
