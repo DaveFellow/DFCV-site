@@ -2,11 +2,11 @@ import { Scene } from "../../components/bg/Scene";
 import { BGTransitionState } from "./BGTransitionState";
 import * as THREE from 'three';
 
-export class SampleState1 extends BGTransitionState {
+export class AboutMeState extends BGTransitionState {
   constructor(scene: Scene) {
     super(scene);
-    super.name = '/skillset';
-    super.destCamPosition = new THREE.Vector3(-7.5844, 6.98064, 1.79739);
-    super.targetIndex = 2;
+    super.name = '/about-me';
+    super.destCamPosition = new THREE.Vector3(-0.39498, 4.59093, -8.12091);
+    super.targetIndex = 1;
   }
 }

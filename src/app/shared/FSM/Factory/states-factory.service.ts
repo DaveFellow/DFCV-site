@@ -1,14 +1,15 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HomeState } from '../States/HomeState';
 import { SummaryState } from '../States/SummaryState';
 import { AbstractState } from '../States/AbstractState';
 import { State } from '../States/State';
-import * as THREE from 'three';
 import { Scene } from '../../components/bg/Scene';
-import { SampleState1 } from '../States/SampleState1';
+import { HistoryState } from '../States/HistoryState';
 import { SampleState2 } from '../States/SampleState2';
 import { SampleState3 } from '../States/SampleState3';
 import { SampleState4 } from '../States/SampleState4';
+import { SkillsetState } from '../States/SkillsetState';
+import { AboutMeState } from '../States/AboutMeState';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,10 @@ export class StatesFactoryService {
     const scene = this.scene || new Scene;
     return [
       new HomeState(scene),
+      new AboutMeState(scene),
       new SummaryState(scene),
-      new SampleState1(scene),
+      new HistoryState(scene),
+      new SkillsetState(scene),
       new SampleState2(scene),
       new SampleState3(scene),
       new SampleState4(scene),
