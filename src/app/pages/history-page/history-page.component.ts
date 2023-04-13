@@ -49,9 +49,10 @@ export class HistoryPageComponent implements AfterViewInit {
   }
 
   public goToBookmark(index: number): void {
-    const element = this.bookmarks.find((elem, i) => i == index);
+    const element = this.bookmarks.get(index);
     if (!element) return;
     element.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => this.currentBookmark = index, 100);
   }
 
   private setTimelineItemsData(): void {
@@ -70,25 +71,19 @@ export class HistoryPageComponent implements AfterViewInit {
 
   private addScrollEvent(): void {
     const contentElement = this.content.content.nativeElement;
-    const maxContentScrollHeight = this.contentHeight - contentElement.offsetHeight;
+    
     contentElement.addEventListener('scroll', (e: Event) => {
       const target = e.target as HTMLDivElement;
       let bookmarkActivated = false;
+
       this.bookmarks.forEach((bookmark: ElementRef, index: number) => {
-        console.log(bookmark.nativeElement.offsetTop, target.scrollTop);
         if (bookmarkActivated) return;
         
+        const paddingTop = this.content.contentInner.offsetTop;
         const bookmarkTop = bookmark.nativeElement.offsetTop;
-        const addedTop = this.content.contentInner.offsetTop;
-        const offsetTop = bookmarkTop - addedTop;
+        const offsetTop = paddingTop + bookmarkTop;
 
-        if (offsetTop > maxContentScrollHeight - 50) {
-          this.currentBookmark = this.bookmarks.length - 1;
-          bookmarkActivated = true;
-          return;
-        }
-
-        if (offsetTop < target.scrollTop - 20) return;
+        if (target.scrollTop >= offsetTop) return;
         this.currentBookmark = index;
         bookmarkActivated = true;
       });

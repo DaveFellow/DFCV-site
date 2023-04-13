@@ -6,4 +6,11 @@ div, div > canvas {
 
 canvas {
   background-color: #293459;
+  z-index: 1;
+}
+
+#blured-border {
+  z-index: 2;
+  user-select: none;
+  box-shadow: inset 0 0 80rem rgba(0, 0, 0, .5);
 }

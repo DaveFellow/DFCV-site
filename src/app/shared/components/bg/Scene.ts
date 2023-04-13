@@ -97,12 +97,15 @@ export class Scene {
 
       this.scene.add(gltf.scene);
 
-      const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+      const ambientLight = new THREE.AmbientLight(0xe3efff, 0.3);
+      this.scene.add(ambientLight);
+
+      const dirLight = new THREE.DirectionalLight(0xffffff, 0.3);
       dirLight.position.set(0, 10, 0);
       dirLight.lookAt(this.markers[2]);
       this.scene.add(dirLight);
 
-      const pointLight = new THREE.PointLight(0xffffff, 0.6, 35);
+      const pointLight = new THREE.PointLight(0xffffff, 0.8, 35);
       pointLight.position.set(0, 7, 0);
       this.scene.add(pointLight);
       
