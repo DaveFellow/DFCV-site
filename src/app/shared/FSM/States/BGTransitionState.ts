@@ -4,11 +4,18 @@ import { AbstractState } from "./AbstractState";
 import * as THREE from 'three';
 
 export abstract class BGTransitionState extends AbstractState {
-  protected duration = 500;
+  protected duration: number = 500;
 
   protected initCamPosition: THREE.Vector3 = new THREE.Vector3;
   protected destCamPosition: THREE.Vector3 = new THREE.Vector3;
   protected targetIndex: number = 0;
+
+  public get getDestCamPosition(): THREE.Vector3 {
+    return this.destCamPosition;
+  }
+  public get getTargetIndex(): number {
+    return this.targetIndex;
+  };
   
   private deltaTime: number = 0;
   private initTime: number = 0;

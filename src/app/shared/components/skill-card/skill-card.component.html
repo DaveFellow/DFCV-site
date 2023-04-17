@@ -1,1 +1,13 @@
-<p>skill-card works!</p>
+<div id="wrapper">
+  <div id="icon">
+    <ng-content select="[icon]"></ng-content>
+  </div>
+  
+  <h4 id="title">
+    {{ title }}
+  </h4>
+  
+  <div id="body">
+    <ng-content></ng-content>
+  </div>
+</div>

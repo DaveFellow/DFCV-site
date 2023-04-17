@@ -6,7 +6,7 @@ export class SkillsetState extends BGTransitionState {
   constructor(scene: Scene) {
     super(scene);
     super.name = '/skillset';
-    super.destCamPosition = new THREE.Vector3(-9.57811, 14.9787, -18.9113);
-    super.targetIndex = 5;
+    super.destCamPosition = new THREE.Vector3(0, 12, -11);
+    super.targetIndex = 6;
   }
 }

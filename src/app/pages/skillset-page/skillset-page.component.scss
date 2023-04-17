@@ -1,0 +1,77 @@
+@import '../../shared/styles/mixins';
+
+#wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, [link] 1fr) [blank] 0fr [end];
+  grid-template-rows: [title] 1fr [content] 0fr [end];
+  align-items: center;
+  padding: 5rem;
+  height: calc(100vh - 7rem);
+  transition: .5s;
+
+  &:not(.skillset) {
+    align-items: start;
+    grid-template-rows: [title] max-content [content] 1fr [end];
+    grid-template-columns: repeat(2, [link] 1fr) [blank] 1fr [end];
+    row-gap: 5rem;
+
+    a {
+      font-size: 3.5vw;
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    .link {
+      grid-row: title / content;
+    }
+
+    #content {
+      grid-column: span 2;
+      grid-row: content / end;
+      
+      display: block;
+      height: 100%;
+      overflow: auto;
+    }
+  }
+
+  &.design {
+    // #development-link { opacity: 0; }
+    #development-link { display: none; }
+  }
+
+  &.development {
+    // #design-link { opacity: 0; }
+    #design-link { display: none; }
+  }
+}
+
+.link {
+  &:nth-child(2) > a { align-items: flex-end; }
+}
+
+a {
+  @include flexbox(column);
+  font-family: 'oswald';
+  text-transform: uppercase;
+  font-size: 12rem;
+  color: var(--big-title-color);
+  transition: .3s;
+
+  & > span { line-height: 1; }
+
+  .outlined {
+    color: transparent;
+    -webkit-text-stroke: .005rem var(--big-title-color);
+    $distance: 0.5vw;
+    text-shadow: $distance $distance 0 #fff;
+    // text-shadow: $distance $distance 0 var(--accent-color);
+    // text-shadow: 1rem 1rem 0 var(--accent-color); // Good idea but needs to refinement
+  }
+}
+
+#content {
+  display: none;
+  // padding-top: 5rem;
+  // width: 70vw;
+}

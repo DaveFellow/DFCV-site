@@ -10,6 +10,9 @@ import { SkillCardComponent } from './skill-card.component';
   ],
   imports: [
     CommonModule
+  ],
+  exports: [
+    SkillCardComponent
   ]
 })
 export class SkillCardModule { }

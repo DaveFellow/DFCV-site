@@ -1,0 +1,31 @@
+@import '../../styles/mixins';
+
+#wrapper {
+  display: grid;
+  grid-template-columns: [icon] 5rem [text] 1fr [end];
+
+  padding: 2rem;
+  background: var(--card-bg);
+  backdrop-filter: var(--bg-blur);
+
+  border-left: .7rem solid var(--accent-color);
+
+  height: 100%;
+}
+
+#icon {
+  grid-area: 1 / icon / -1 / text;
+  align-self: center;
+  justify-self: center;
+}
+
+#title {
+  grid-column: text / end;
+  font-size: 2rem;
+  font-family: oswald, sans-serif;
+}
+
+#body {
+  grid-column: text / end;
+  p { margin: 0; }
+}

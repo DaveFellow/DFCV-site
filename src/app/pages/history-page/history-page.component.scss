@@ -58,8 +58,8 @@ tabbed-container {
     bottom: calc(100% + 20px);
     left: 50%;
     border: 0;
-    border-right: 2px dotted var(--primary-color);
-    // border-right: 2px dotted #fff;
+    // border-right: 2px dotted var(--primary-color);
+    border-right: 2px dotted #fff;
     user-select: none;
   }
 }

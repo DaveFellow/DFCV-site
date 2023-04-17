@@ -1,0 +1,16 @@
+#wrapper {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(29rem, 1fr));
+  // grid-template-columns: repeat(4, minmax(1fr, 10rem));
+}
+
+skill-card {
+  // Esto probablemente vaya mejor dentro del mismo componente...
+  // Pasarle el array directo por un @Input en vez de usar proyección
+  p {
+    margin-bottom: 0;
+    font-size: 1.4rem;
+    line-height: 1.2;
+  }
+}

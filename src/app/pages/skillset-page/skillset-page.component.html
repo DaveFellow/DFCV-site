@@ -1,1 +1,17 @@
-<p>skillset-page works!</p>
+<div id="wrapper" [class]="activeRoute">
+  <div class="link" id="development-link">
+    <a routerLink="./software-development">
+      <span>Software</span><span class="outlined">Development</span>
+    </a>
+  </div>
+  
+  <div class="link" id="design-link">
+    <a routerLink="./graphic-design">
+      <span class="outlined">Graphic</span><span>Design</span>
+    </a>
+  </div>
+
+  <section id="content">
+    <router-outlet></router-outlet>
+  </section>
+</div>

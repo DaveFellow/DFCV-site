@@ -1,0 +1,6 @@
+<div id="wrapper">
+  <skill-card *ngFor="let card of data" [title]="card.title">
+    <span icon></span>
+    <p *ngFor="let text of card.body">{{ text }}</p>
+  </skill-card>
+</div>
