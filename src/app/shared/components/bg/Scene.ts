@@ -40,7 +40,7 @@ export class Scene {
   private readonly _debugCamPosition: THREE.Mesh = new THREE.Mesh;
   private readonly _debugCamPositionAxes: THREE.AxesHelper = new THREE.AxesHelper(20);
   private readonly _debugCamTargetHelper = new THREE.Mesh;
-  _debug: boolean = true;
+  _debug: boolean = false;
   // Debug members END
 
   constructor() {
@@ -60,6 +60,13 @@ export class Scene {
     this.orbitControls.enabled = false;
     
     this.initModelSetup(callback);
+    this.render();
+  }
+
+
+  public updateViewport(): void {
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.updateCameraAspectRatio();
     this.render();
   }
 

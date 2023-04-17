@@ -1,21 +1,20 @@
 <div id="wrapper" #wrapper>
   <div id="timeline" #timeline>
-    <ng-container *ngFor="let item of timelineItems; let i = index">
-      <link-button
-        [active]="currentBookmark == i"
-        (click)="goToBookmark(i)"
-        [ngStyle]="{ top: item.offsetTop * .95 + 'px' }"
-      >
-        <div class="button-inner" #timelineButtonInner>
-          <p>{{ item.text[0] }}</p>
-          <p>{{ item.text[1] }}</p>
+    <link-button
+      *ngFor="let item of timelineItems; let i = index"
+      [active]="currentBookmark == i"
+      (click)="goToBookmark(i)"
+      [ngStyle]="{ top: item.offsetTop * .95 + 'px' }"
+    >
+      <div class="button-inner" #timelineButtonInner>
+        <p>{{ item.text[0] }}</p>
+        <p>{{ item.text[1] }}</p>
 
-          <div *ngIf="i"
-            class="timeline-line"
-            [ngStyle]="{ height: item.lineHeight + 'px' }"></div>
-        </div>
-      </link-button>
-    </ng-container>
+        <div *ngIf="i"
+          class="timeline-line"
+          [ngStyle]="{ height: item.lineHeight + 'px' }"></div>
+      </div>
+    </link-button>
   </div>
   
   <tabbed-container [tabs]="tabs" activeTab="history">

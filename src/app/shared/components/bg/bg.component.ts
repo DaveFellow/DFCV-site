@@ -11,11 +11,10 @@ import { filter } from 'rxjs';
   templateUrl: './bg.component.html',
   styleUrls: ['./bg.component.scss'],
 })
-export class BGComponent implements OnInit, OnChanges, AfterViewInit, StatesMachine {
+export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   @ViewChild('container') container!: ElementRef<HTMLCanvasElement>;
 
   @Input() paused: boolean = false;
-  @Input('state') stateName: string = 'home';
 
   public scene: Scene = new Scene;
   
@@ -39,16 +38,10 @@ export class BGComponent implements OnInit, OnChanges, AfterViewInit, StatesMach
   ngAfterViewInit() {
     this.scene.setup(() => {
       this.setup();
-      this.setState(this.stateName);
       if (!this.paused) this.animate();
     });
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['state'])
-      this.setState(changes['state'].currentValue);
-    if (!this.paused)
-      this.animate();
+    addEventListener('resize', () => this.scene.updateViewport());
   }
 
   animate(): void {
@@ -82,5 +75,6 @@ export class BGComponent implements OnInit, OnChanges, AfterViewInit, StatesMach
   private setup(): void {
     this.statesFactory.setScene(this.scene);
     this.renderer.appendChild(this.container.nativeElement, this.scene.renderer.domElement);
+    this.setState(this.router.url);
   }
 }

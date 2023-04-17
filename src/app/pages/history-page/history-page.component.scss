@@ -33,11 +33,16 @@ tabbed-container {
 #timeline {
   @include flexbox(column, flex-start, center);
   position: relative;
+  transform: translateY(5rem);
   height: 100%;
   margin-left: -7rem;
   animation: fade-in .5s ease-in-out;
   animation-delay: .5s;
   animation-fill-mode: backwards;
+
+  #timeline-inner {
+    position: relative
+  }
   
   link-button {
     position: absolute;
