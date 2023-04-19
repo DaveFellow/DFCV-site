@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { TabbedContainerComponent } from 'src/app/shared/components/tabbed-container/tabbed-container.component';
 import { Tab } from 'src/app/shared/models/Tab';
 import { tabs } from 'src/app/shared/objects/AboutMePage';
@@ -20,6 +20,8 @@ export class HistoryPageComponent implements AfterViewInit {
 
   public currentBookmark: number = 0;
   public contentHeight: number = 0;
+
+  resizeEvent!: Event;
 
   readonly timelineItems = [
     { text: ['', 'Education'], offsetTop: 0, lineHeight: 0 },
@@ -55,7 +57,10 @@ export class HistoryPageComponent implements AfterViewInit {
     setTimeout(() => this.currentBookmark = index, 100);
   }
 
+  @HostListener('window:resize')
   private setTimelineItemsData(): void {
+    console.log("setTimelineItemsData");
+    
     this.content.children.forEach((child: HTMLElement, index: number) => {
       if (!index) return;
       const prevItem = this.timelineItems[index - 1];

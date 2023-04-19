@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Input, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { StatesMachine } from '../../FSM/StatesMachine';
 import { StatesFactoryService } from '../../FSM/Factory/states-factory.service';
 import { State } from '../../FSM/States/State';
@@ -40,8 +40,6 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
       this.setup();
       if (!this.paused) this.animate();
     });
-
-    addEventListener('resize', () => this.scene.updateViewport());
   }
 
   animate(): void {
@@ -76,5 +74,10 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     this.statesFactory.setScene(this.scene);
     this.renderer.appendChild(this.container.nativeElement, this.scene.renderer.domElement);
     this.setState(this.router.url);
+  }
+
+  @HostListener('window:resize')
+  private updateViewport(): void {
+    this.scene.updateViewport();
   }
 }

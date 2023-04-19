@@ -1,11 +1,13 @@
 <div id="wrapper" [class]="activeRoute">
-  <div class="link" id="development-link">
+  <a id="back-btn" routerLink="/skillset" *ngIf="activeRoute != 'skillset'"></a>
+  
+  <div class="link" id="development-link" *ngIf="activeRoute != 'design'">
     <a routerLink="./software-development">
       <span>Software</span><span class="outlined">Development</span>
     </a>
   </div>
   
-  <div class="link" id="design-link">
+  <div class="link" id="design-link" *ngIf="activeRoute != 'development'">
     <a routerLink="./graphic-design">
       <span class="outlined">Graphic</span><span>Design</span>
     </a>
