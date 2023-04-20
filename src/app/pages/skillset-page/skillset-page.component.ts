@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { UtilsService } from 'src/app/shared/services/utils.service';
+import { backBtnAnim, designLinkAnim, devLinkAnim, routeAnim } from './skillset-page.anim';
 
 @Component({
   selector: 'app-skillset-page',
   templateUrl: './skillset-page.component.html',
-  styleUrls: ['./skillset-page.component.scss']
+  styleUrls: ['./skillset-page.component.scss'],
+  animations: [ routeAnim, devLinkAnim, designLinkAnim, backBtnAnim ]
 })
 export class SkillsetPageComponent {
   public activeRoute!: string;
@@ -18,13 +20,9 @@ export class SkillsetPageComponent {
 
   ngOnInit(): void {
     this.activeRoute = this.utils.getRouteLastSegment(this.router.url);
-    console.log('Skillset - ' + this.activeRoute);
     
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe((e) => {
-        this.activeRoute = this.utils.getRouteLastSegment((e as NavigationEnd).url);
-        console.log('Skillset - ' + this.activeRoute);
-      });
+      .subscribe((e) => this.activeRoute = this.utils.getRouteLastSegment((e as NavigationEnd).url));
   }
 }

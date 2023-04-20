@@ -1,15 +1,31 @@
 <div id="wrapper" [class]="activeRoute">
-  <a id="back-btn" routerLink="/skillset" *ngIf="activeRoute != 'skillset'"></a>
+  <a 
+    id="back-btn"
+    routerLink="/skillset"
+    *ngIf="activeRoute != 'skillset'"
+    [@backBtnAnim]="activeRoute"
+  ></a>
   
-  <div class="link" id="development-link" *ngIf="activeRoute != 'design'">
+  <div
+    id="development-link"
+    class="link"
+    *ngIf="activeRoute != 'design'"
+    [@devLinkAnim]="activeRoute"
+  >
     <a routerLink="./software-development">
       <span>Software</span><span class="outlined">Development</span>
     </a>
   </div>
   
-  <div class="link" id="design-link" *ngIf="activeRoute != 'development'">
+  <div
+    id="design-link"
+    class="link"
+    *ngIf="activeRoute != 'development'"
+    [@designLinkAnim]="activeRoute"
+  >
     <a routerLink="./graphic-design">
-      <span class="outlined">Graphic</span><span>Design</span>
+      <span [ngClass]="{ outlined: activeRoute == 'skillset'}">Graphic</span>
+      <span [ngClass]="{ outlined: activeRoute == 'design'}">Design</span>
     </a>
   </div>
 

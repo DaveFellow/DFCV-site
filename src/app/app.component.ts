@@ -1,22 +1,28 @@
 import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
+import { ChildrenOutletContexts } from '@angular/router';
+import { routeAnimations } from './app.anim';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [ routeAnimations ]
 })
 export class AppComponent implements AfterViewChecked {
-  title = 'df-portfolio-site';
+  title = 'David Fuentes :: CV';
 
   bgPaused: boolean = false;
 
   _debug: boolean = true;
 
-  // debug
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(
+    private cd: ChangeDetectorRef,
+    private contexts: ChildrenOutletContexts
+  ) {}
 
   ngAfterViewChecked() {
     this.cd.detectChanges();
   }
-  //end debug
+
+  public getAnimation = () => this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
 }

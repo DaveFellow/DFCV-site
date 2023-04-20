@@ -1,4 +1,4 @@
-<div id="wrapper">
+<div id="wrapper" [@enter]>
   <skill-card *ngFor="let card of data" [title]="card.title">
     <span icon></span>
     <p *ngFor="let text of card.body">{{ text }}</p>

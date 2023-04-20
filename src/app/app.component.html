@@ -1,38 +1,7 @@
 <app-bg #bg [paused]="bgPaused"></app-bg>
 
 <app-layout>
-  <router-outlet></router-outlet>
-  <!-- <div id="content">
-
-    <ng-container *ngIf="_debug">
-      <h3 style="color: #fff">States:</h3>
-      <button (click)="bg.setState('home')">HOME</button><br>
-      <button (click)="bg.setState('summary')">SUMMARY</button><br>
-      <button (click)="bg.setState('sample1')">SAMPLE 1</button><br>
-      <button (click)="bg.setState('sample2')">SAMPLE 2</button><br>
-      <button (click)="bg.setState('sample3')">SAMPLE 3</button><br>
-      <button (click)="bg.setState('sample4')">SAMPLE 4</button><br>
-      
-    
-      <br>
-      <h3 style="color: #fff">Controls:</h3>
-      <ng-container *ngIf="bg.paused">
-        <button (click)="bgPaused = false">PLAY</button><br>
-      </ng-container>
-      
-      <ng-container *ngIf="!bg.paused">
-        <button (click)="bgPaused = true">PAUSE</button><br>
-      </ng-container>
-    
-      <ng-container *ngIf="bg.scene.orbitControls">
-        <ng-container *ngIf="bg.scene.orbitControls.enabled">
-          <button (click)="bg.scene.orbitControls.enabled = false">TURN ORBIT OFF</button><br>
-        </ng-container>
-    
-        <ng-container *ngIf="!bg.scene.orbitControls.enabled">
-          <button (click)="bg.scene.orbitControls.enabled = true">TURN ORBIT ON</button><br>
-        </ng-container>
-      </ng-container>
-    </ng-container>
-  </div> -->
+  <div id="router-outlet-container" @routeAnimations>
+    <router-outlet></router-outlet>
+  </div>
 </app-layout>

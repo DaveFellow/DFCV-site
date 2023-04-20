@@ -18,27 +18,28 @@ $global-transition: .5s;
     align-items: start;
     grid-template-rows: [title] max-content [content] 1fr [end];
     grid-template-columns: [start] 7rem repeat(2, [link] 1fr) [end];
-    row-gap: 5rem;
-    column-gap: 3rem;
-
+    gap: 5rem 3rem;
     .link {
+      font-size: 6rem;
       grid-area: title / link 1 / content / end !important;
       a {
-        font-size: 3.5vw;
+        flex-direction: row;
         justify-content: start;
         user-select: none;
+        cursor:default;
       }
-    }
-
-    #content {
-      opacity: 1;
-      grid-column: start / end;
-      grid-row: content / end;
-      overflow: auto;
     }
   }
 
+  #content {
+    opacity: 1;
+    grid-column: start / end;
+    grid-row: content / end;
+    overflow: auto;
+  }
+
   .link {
+    font-size: 12rem;
     &:nth-child(1) { grid-column: link 1 / link 2; }
     &:nth-child(2) { grid-column: link 2 / end; }
     a { transition: none; }
@@ -49,7 +50,6 @@ a {
   @include flexbox(column);
   font-family: 'oswald';
   text-transform: uppercase;
-  font-size: 12rem;
   color: var(--big-title-color);
 
   & > span { line-height: 1; }

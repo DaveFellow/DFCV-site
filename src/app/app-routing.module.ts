@@ -8,12 +8,31 @@ import { SummaryPageModule } from 'src/app/pages/summary-page/summary-page.modul
 import { AboutMePageModule } from 'src/app/pages/about-me-page/about-me-page.module';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', loadChildren: () => import('src/app/pages/home-page/home-page.module').then(m => HomePageModule) },
-  { path: 'about-me', loadChildren: () => import('src/app/pages/about-me-page/about-me-page.module').then(m => AboutMePageModule) },
-  { path: 'skillset', loadChildren: () => import('src/app/pages/skillset-page/skillset-page.module').then(m => SkillsetPageModule) },
-  { path: 'work-experience', loadChildren: () => import('src/app/pages/work-experience-page/work-experience-page.module').then(m => WorkExperiencePageModule) },
-  { path: 'portfolio', loadChildren: () => import('src/app/pages/portfolio-page/portfolio-page.module').then(m => PortfolioPageModule) },
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  }, {
+    path: 'home',
+    loadChildren: () => import('src/app/pages/home-page/home-page.module').then(m => HomePageModule),
+    data: { animation: 'HomePage' }
+  }, {
+    path: 'about-me',
+    loadChildren: () => import('src/app/pages/about-me-page/about-me-page.module').then(m => AboutMePageModule),
+    data: { animation: 'AboutMePage' }
+  }, {
+    path: 'skillset',
+    loadChildren: () => import('src/app/pages/skillset-page/skillset-page.module').then(m => SkillsetPageModule),
+    data: { animation: 'SkillsetPage' }
+  }, {
+    path: 'work-experience',
+    loadChildren: () => import('src/app/pages/work-experience-page/work-experience-page.module').then(m => WorkExperiencePageModule),
+    data: { animation: 'WorkExperiencePage' }
+  }, {
+    path: 'portfolio',
+    loadChildren: () => import('src/app/pages/portfolio-page/portfolio-page.module').then(m => PortfolioPageModule),
+    data: { animation: 'PortfolioPage' }
+  },
 ];
 
 @NgModule({

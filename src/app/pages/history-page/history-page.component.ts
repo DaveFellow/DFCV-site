@@ -35,11 +35,6 @@ export class HistoryPageComponent implements AfterViewInit {
 
   public tabs: Tab[] = tabs;
 
-  constructor(
-    private cd: ChangeDetectorRef,
-    private renderer: Renderer2
-  ) {}
-
   ngAfterViewInit(): void {       
     this.wrapperHeight = this.wrapper.nativeElement.clientHeight;
     this.contentHeight = this.content.content.nativeElement.scrollHeight;
@@ -47,7 +42,6 @@ export class HistoryPageComponent implements AfterViewInit {
     this.setTimelineItemsData();
     this.addScrollEvent();
 
-    this.cd.detectChanges();
   }
 
   public goToBookmark(index: number): void {
@@ -58,9 +52,7 @@ export class HistoryPageComponent implements AfterViewInit {
   }
 
   @HostListener('window:resize')
-  private setTimelineItemsData(): void {
-    console.log("setTimelineItemsData");
-    
+  private setTimelineItemsData(): void {    
     this.content.children.forEach((child: HTMLElement, index: number) => {
       if (!index) return;
       const prevItem = this.timelineItems[index - 1];

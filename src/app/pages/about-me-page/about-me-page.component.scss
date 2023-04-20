@@ -33,18 +33,18 @@ $transition-duration: .5s;
     grid-template-columns: 0fr 0.7fr 0.3fr;
 
     #presentation-card {
-      animation: present-card-intro-right $present-card-duration ease-in-out;
-      animation-fill-mode: backwards;
-      animation-delay: $transition-duration;
+      // animation: present-card-intro-right $present-card-duration ease-in-out;
+      // animation-fill-mode: backwards;
+      // animation-delay: $transition-duration;
       right: $container-padding;
     }
   }
 
   &.summary {
     #presentation-card {
-      animation: present-card-intro-left $present-card-duration ease-in-out;
-      animation-fill-mode: backwards;
-      animation-delay: $transition-duration;
+      // animation: present-card-intro-left $present-card-duration ease-in-out;
+      // animation-fill-mode: backwards;
+      // animation-delay: $transition-duration;
     }
   }
 }
