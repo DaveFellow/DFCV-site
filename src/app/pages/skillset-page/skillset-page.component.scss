@@ -32,7 +32,6 @@ $global-transition: .5s;
   }
 
   #content {
-    opacity: 1;
     grid-column: start / end;
     grid-row: content / end;
     overflow: auto;
@@ -62,14 +61,9 @@ a {
   }
 }
 
-#content {
-  opacity: 0;
-}
-
 #back-btn {
   width: 100%;
   height: 100%;
-  grid-column: start / link 1;
 
   background: url('../../../assets/img/back_arrow.svg') no-repeat;
   background-size: 5rem;

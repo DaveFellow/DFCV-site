@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { UtilsService } from 'src/app/shared/services/utils.service';
-import { backBtnAnim, designLinkAnim, devLinkAnim, routeAnim } from './skillset-page.anim';
+import { animations } from './skillset-page.anim';
 
 @Component({
   selector: 'app-skillset-page',
   templateUrl: './skillset-page.component.html',
   styleUrls: ['./skillset-page.component.scss'],
-  animations: [ routeAnim, devLinkAnim, designLinkAnim, backBtnAnim ]
+  animations: [ animations ]
 })
 export class SkillsetPageComponent {
   public activeRoute!: string;
