@@ -1,0 +1,11 @@
+@import '../../shared/styles/mixins';
+
+header {
+  @include flexbox(row, flex-start, center);
+  margin-bottom: 5rem;
+
+  h2 {
+    font-size: 6rem;
+    margin-left: 3rem;
+  }
+}

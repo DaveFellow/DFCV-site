@@ -1,3 +1,5 @@
+@import './mixins';
+
 *, *::after, *::before {
   margin: 0;
   padding: 0;
@@ -26,10 +28,7 @@ a {
   text-transform: uppercase;
   text-decoration: none;
   transition: .35s;
-
-  &:hover {
-    color: var(--link-hover-color);
-  }
+  &:hover { color: var(--link-hover-color); }
 }
 
 p {
@@ -42,4 +41,33 @@ p {
 h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   color: var(--small-title-color);
+}
+
+.super-title {
+  font-family: 'oswald';
+  text-transform: uppercase;
+  color: var(--big-title-color);
+
+  &, &--block {
+    @include flexbox(column);
+    &--right { align-items: flex-end; }
+  }
+  
+  &--inline {
+    @include flexbox();
+    &--right { justify-content: flex-end; margin-left: .2em; }
+    & > span { margin-right: .2em; }
+  }
+
+  & > span {
+    line-height: 1;
+    
+    &.super-title__outline {
+      color: transparent;
+      -webkit-text-stroke: 1px var(--big-title-color);
+      $distance: .07em;
+      text-shadow: $distance $distance 0 #fff;
+    }
+  }
+
 }

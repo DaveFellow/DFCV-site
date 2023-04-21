@@ -4,80 +4,53 @@ import { defaultRouteTransition, slideAnimIn, slideAnimOutLeft, slideAnimOutRigh
 const innerPageAnim = [ style({overflow: 'hidden'}), animateChild() ];
 
 export const animations = trigger('routeAnimations', [
-  transition('* => skillset', [
+  transition('void => skillset', [
     group([
       query('#development-link', [ slideStyleLeft, slideAnimIn ]),
       query('#design-link', [ slideStyleRight, slideAnimIn ])
     ])
   ]),
-  transition('* => development', [
+  transition(':leave', [
     group([
-      query('#content @enter', innerPageAnim),
-      query('#back-btn', [ slideStyleLeft, slideAnimIn ]),
-      query('#development-link', [ slideStyleRight, slideAnimIn ])
+      query('#development-link', [ slideStyleBase, slideAnimOutLeft ]),
+      query('#design-link', [ slideStyleBase, slideAnimOutRight ]),
     ])
   ]),
-  transition('* => design', [
+  transition('skillset => development, skillset => design', [
     group([
-      query('#content @enter', innerPageAnim),
-      query('#back-btn', [ slideStyleLeft, slideAnimIn ]),
+      query('#development-link', [ slideStyleBase, slideAnimOutLeft ]),
+      query('#design-link', [ slideStyleBase, slideAnimOutRight ]),
+    ]),
+    group([
+      query(':enter @header', animateChild()),
+      query(':enter @skillsetGridAnim', animateChild()),
+    ])
+  ]),
+  transition('development => *, design => *', [
+    query('#development-link', slideStyleLeft),
+    query('#design-link', slideStyleRight),
+    group([
+      query(':leave @header', animateChild()),
+      query(':leave @skillsetGridAnim', animateChild()),
+    ]),
+    group([
+      query('#development-link', [ slideStyleLeft, slideAnimIn ]),
       query('#design-link', [ slideStyleRight, slideAnimIn ])
     ])
-  ]),
-  // transition('skillset => *', [
-  //   animateChild(),
-  //   query('#content', [
-  //   ])
-  // ]),
+  ])
 ]);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// style({
-//   gridTemplateRows: '0 repeat(2, 1fr)',
-//   gridTemplateColumns: '1fr 0'
-// }),
-// animate(500, style({
-//   gridTemplateRows: 'max-content 1fr',
-//   gridTemplateColumns: '7rem repeat(2, 1fr)'
-// }))
+export const subpageHeaderAnimation = trigger('header', [
+  transition(':enter', [
+    group([
+      query('h2', [ slideStyleLeft, slideAnimIn ]),
+      query('arrow-button', [ slideStyleLeft, slideAnimIn ])
+    ])
+  ]),
+  transition(':leave', [
+    group([
+      query('h2', [ slideStyleBase, slideAnimOutLeft ]),
+      query('arrow-button', [ slideStyleBase, slideAnimOutLeft ])
+    ])
+  ])
+]);

@@ -23,6 +23,9 @@ export class SkillsetPageComponent {
     
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe((e) => this.activeRoute = this.utils.getRouteLastSegment((e as NavigationEnd).url));
+      .subscribe((e) => {
+        this.activeRoute = this.utils.getRouteLastSegment((e as NavigationEnd).url);
+        // debugger;
+      });
   }
 }

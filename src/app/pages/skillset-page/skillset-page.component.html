@@ -1,30 +1,19 @@
-<div id="wrapper" [class]="activeRoute" [@routeAnimations]="activeRoute">
-  <a 
-    id="back-btn"
-    routerLink="/skillset"
-    *ngIf="activeRoute != 'skillset'"
-  ></a>
-  
-  <div
-    id="development-link"
-    class="link"
-    *ngIf="activeRoute != 'design'"
-  >
-    <a routerLink="./software-development">
-      <span>Software</span><span class="outlined">Development</span>
-    </a>
-  </div>
-  
-  <div
-    id="design-link"
-    class="link"
-    *ngIf="activeRoute != 'development'"
-  >
-    <a routerLink="./graphic-design">
-      <span [ngClass]="{ outlined: activeRoute == 'skillset'}">Graphic</span>
-      <span [ngClass]="{ outlined: activeRoute == 'design'}">Design</span>
-    </a>
-  </div>
+<div id="wrapper" [class]="activeRoute" [@routeAnimations]="activeRoute">  
+  <ng-container *ngIf="activeRoute == 'skillset'">
+    <div id="development-link" class="link" >
+      <h3 class="super-title" routerLink="./software-development" role="link">
+        <span>Software</span>
+        <span class="super-title__outline">Development</span>
+      </h3>
+    </div>
+    
+    <div id="design-link" class="link" >
+      <h3 class="super-title super-title--right" routerLink="./graphic-design" role="link">
+        <span class="super-title__outline">Graphic</span>
+        <span>Design</span>
+      </h3>
+    </div>
+  </ng-container>
 
   <section id="content">
     <router-outlet></router-outlet>
