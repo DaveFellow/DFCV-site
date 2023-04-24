@@ -1,37 +1,25 @@
 import { animate, query, stagger, style, transition, trigger } from "@angular/animations";
 
+const wrapperInitStyles = style({ position: 'absolute', width: 'calc(100% - 10rem)' });
+
+const cardOutStyles = style({ opacity: 0, transform: 'translate(5rem, -5rem)', backdropFilter: 'var(--bg-blur)' });
+const cardInStyles = style({ opacity: 1, transform: 'translate(0, 0)', backdropFilter: 'var(--bg-blur)' });
+
 export const skillsetGridAnim = trigger('skillsetGridAnim', [
   transition(':enter', [
-    style({ position: 'absolute', width: 'calc(100% - 10rem)' }),
+    wrapperInitStyles,
     query('skill-card', [
-      style({
-        opacity: 0,
-        transform: 'translate(5rem, -5rem)',
-        backdropFilter: 'var(--bg-blur)'
-      }),
-      stagger('50ms', [
-        animate('500ms ease-out', style({
-          opacity: 1,
-          transform: 'translate(0, 0)'
-        }))
-      ])
-    ], {
-      optional: true
-    }),
-    style({ position: 'relative', width: 'auto' }),
+      cardOutStyles,
+      stagger('50ms', animate('500ms ease-out', cardInStyles))
+    ], { optional: true }
+    ),
   ]),
-  // Not working, most probably needs the router anim to anim before moving
   transition(':leave', [
+    wrapperInitStyles,
     query('skill-card', [
-      style({ opacity: 1, transform: 'translate(0, 0)', backdropFilter: 'var(--bg-blur)' }),
-      stagger('50ms', [
-        animate(
-          '500ms ease-out',
-          style({ opacity: 0, transform: 'translate(5rem, -5rem)', backdropFilter: 'var(--bg-blur)' }),
-        ),
-      ])
-    ], {
-      optional: true
-    })
+      cardInStyles,
+      stagger('50ms', animate('500ms ease-in', cardOutStyles))
+    ], { optional: true }
+    )
   ]),
 ]);

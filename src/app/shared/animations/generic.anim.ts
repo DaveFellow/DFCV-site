@@ -8,5 +8,5 @@ export const slideAnimOutLeft = animate('500ms ease-in', slideStyleLeft);
 export const slideAnimOutRight = animate('500ms ease-in', slideStyleRight);
 
 export const defaultRouteTransition = transition('* => *', [
-  query(':leave', [animateChild()], { optional: true }),
+  query(':leave, :leave @routeAnimations', animateChild(), { optional: true }),
 ]);
