@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { SkillCard } from 'src/app/shared/models/Skills';
+import { subpageHeaderAnimation } from '../skillset-page/skillset-page.anim';
 
 @Component({
   selector: 'app-design-skills-page',
   templateUrl: './design-skills-page.component.html',
-  styleUrls: ['./design-skills-page.component.scss']
+  styleUrls: ['./design-skills-page.component.scss'],
+  animations: [ subpageHeaderAnimation ]
 })
 export class DesignSkillsPageComponent {
   public cardsData: SkillCard[] = [

@@ -3,13 +3,13 @@ import { defaultRouteTransition, slideAnimIn, slideAnimOutLeft, slideAnimOutRigh
 
 const innerPageAnim = [ style({overflow: 'hidden'}), animateChild() ];
 
+const skillsetLinksAnim = group([
+  query('#development-link', [ slideStyleLeft, slideAnimIn ]),
+  query('#design-link', [ slideStyleRight, slideAnimIn ])
+])
+
 export const animations = trigger('routeAnimations', [
-  transition('void => skillset', [
-    group([
-      query('#development-link', [ slideStyleLeft, slideAnimIn ]),
-      query('#design-link', [ slideStyleRight, slideAnimIn ])
-    ])
-  ]),
+  transition('void => skillset', skillsetLinksAnim),
   transition(':leave', [
     group([
       query('#development-link', [ slideStyleBase, slideAnimOutLeft ]),
@@ -33,10 +33,7 @@ export const animations = trigger('routeAnimations', [
       query(':leave @header', animateChild()),
       query(':leave @skillsetGridAnim', animateChild()),
     ]),
-    group([
-      query('#development-link', [ slideStyleLeft, slideAnimIn ]),
-      query('#design-link', [ slideStyleRight, slideAnimIn ])
-    ])
+    skillsetLinksAnim
   ])
 ]);
 
