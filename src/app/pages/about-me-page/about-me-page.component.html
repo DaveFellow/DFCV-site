@@ -1,10 +1,12 @@
-<div id="container" [class]="activeRoute">
-  <section id="basic-info">
-      <div id="presentation-card">
-        <h3>DAVID FUENTES</h3>
-        <p>Colombia</p>
-        <p>Software developer / Graphic designer</p>
-      </div>
+<div
+  id="container"
+  [class]="currentRoute.segment"
+  [@routeAnimations]="currentRoute.segment"
+>
+  <section id="presentation-card">
+    <h3>DAVID FUENTES</h3>
+    <p>Colombia</p>
+    <p>Software developer / Graphic designer</p>
   </section>
 
   <section id="main-info">

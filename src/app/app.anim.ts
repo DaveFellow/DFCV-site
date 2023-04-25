@@ -1,4 +1,8 @@
-import { trigger } from "@angular/animations";
-import { defaultRouteTransition } from "./shared/animations/generic.anim";
+import { animateChild, query, transition, trigger } from "@angular/animations";
 
-export const routeAnimations = trigger('routeAnimations', [ defaultRouteTransition ]);
+export const routeAnimations = trigger('routeAnimations', [
+  // transition('* => *', [
+  //   query(':enter, :enter @routeAnimations', animateChild(), { optional: true }),
+  //   query(':leave, :leave @routeAnimations', animateChild(), { optional: true }),
+  // ])
+]);

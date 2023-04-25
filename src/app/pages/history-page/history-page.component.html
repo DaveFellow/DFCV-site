@@ -1,22 +1,4 @@
-<div id="wrapper" #wrapper>
-  <div id="timeline" #timeline>
-    <link-button
-      *ngFor="let item of timelineItems; let i = index"
-      [active]="currentBookmark == i"
-      (click)="goToBookmark(i)"
-      [ngStyle]="{ top: item.offsetTop * .95 + 'px' }"
-    >
-      <div class="button-inner" #timelineButtonInner>
-        <p>{{ item.text[0] }}</p>
-        <p>{{ item.text[1] }}</p>
-
-        <div *ngIf="i"
-          class="timeline-line"
-          [ngStyle]="{ height: item.lineHeight + 'px' }"></div>
-      </div>
-    </link-button>
-  </div>
-  
+<div id="wrapper" #wrapper>  
   <tabbed-container [tabs]="tabs" activeTab="history">
     <div #bookmark class="bookmark" [ngClass]="{ 'current': currentBookmark == 0 }">
       <h3>Education</h3>
@@ -48,4 +30,22 @@
       <p>In 2022 David got hired by Publicis Sapient, where he currently works and is ready for the next challenge.</p>
     </div>
   </tabbed-container>
+
+  <div id="timeline" #timeline>
+    <link-button
+      *ngFor="let item of timelineItems; let i = index"
+      [active]="currentBookmark == i"
+      (click)="goToBookmark(i)"
+      [ngStyle]="{ top: item.offsetTop * .95 + 'px' }"
+    >
+      <div class="button-inner" #timelineButtonInner>
+        <p>{{ item.text[0] }}</p>
+        <p>{{ item.text[1] }}</p>
+
+        <div *ngIf="i"
+          class="timeline-line"
+          [ngStyle]="{ height: item.lineHeight + 'px' }"></div>
+      </div>
+    </link-button>
+  </div>
 </div>

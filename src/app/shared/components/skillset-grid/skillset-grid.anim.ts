@@ -1,4 +1,5 @@
-import { animate, query, stagger, style, transition, trigger } from "@angular/animations";
+import { animate, query, stagger, state, style, transition, trigger } from "@angular/animations";
+import { transitionStyle } from "../../animations/generic.anim";
 
 const wrapperInitStyles = style({ position: 'absolute', width: 'calc(100% - 10rem)' });
 
@@ -18,8 +19,8 @@ export const skillsetGridAnim = trigger('skillsetGridAnim', [
     wrapperInitStyles,
     query('skill-card', [
       cardInStyles,
-      stagger('50ms', animate('500ms ease-in', cardOutStyles))
+      stagger('50ms', animate('500ms ease-in', cardOutStyles)),
     ], { optional: true }
-    )
-  ]),
+    ),
+  ])
 ]);

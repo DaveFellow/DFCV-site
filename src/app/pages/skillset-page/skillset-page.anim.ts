@@ -1,9 +1,10 @@
-import { animate, animateChild, group, query, sequence, stagger, state, style, transition, trigger } from "@angular/animations";
-import { defaultRouteTransition, slideAnimIn, slideAnimOutLeft, slideAnimOutRight, slideStyleBase, slideStyleLeft, slideStyleRight } from "src/app/shared/animations/generic.anim";
+import { animateChild, group, query, transition, trigger } from "@angular/animations";
+import { transitionStyle } from "src/app/shared/animations/generic.anim";
+import { slideAnimIn, slideAnimOutLeft, slideAnimOutRight, slideStyleBase, slideStyleLeft, slideStyleRight } from "src/app/shared/animations/slide.anim";
 
 const linksAnimIn = group([
-  query('#development-link', [ slideStyleLeft, slideAnimIn ]),
-  query('#design-link', [ slideStyleRight, slideAnimIn ])
+  query('#development-link', [ slideStyleLeft, slideAnimIn ], { optional: true }),
+  query('#design-link', [ slideStyleRight, slideAnimIn ], { optional: true })
 ])
 
 const linksAnimOut = group([
@@ -12,21 +13,25 @@ const linksAnimOut = group([
 ]);
 
 const childrenAnim = group([
-  query(':enter @header, :leave @header, :enter @skillsetGridAnim, :leave @skillsetGridAnim', [
-    animateChild()
-  ],{ optional: true })
+  query(`:enter @header,
+    :leave @header,
+    :enter @skillsetGridAnim,
+    :leave @skillsetGridAnim`,
+    animateChild(),
+    { optional: true }
+  )
 ]);
 
 export const animations = trigger('routeAnimations', [
-  transition('void => skillset', linksAnimIn),
-  transition(':leave', [linksAnimOut, childrenAnim]),
-  transition('skillset => development, skillset => design', [linksAnimOut, childrenAnim]),
-  transition('development => *, design => *', [
+  transition(':leave, skillset => *', [transitionStyle, linksAnimOut, childrenAnim]),
+  
+  transition('* => skillset', [
+    transitionStyle,
     query('#development-link', slideStyleLeft, { optional: true }),
     query('#design-link', slideStyleRight, { optional: true }),
     childrenAnim,
     linksAnimIn
-  ])
+  ]),
 ]);
 
 export const subpageHeaderAnimation = trigger('header', [
@@ -39,7 +44,8 @@ export const subpageHeaderAnimation = trigger('header', [
   transition(':leave', [
     group([
       query('h2', [ slideStyleBase, slideAnimOutLeft ]),
-      query('arrow-button', [ slideStyleBase, slideAnimOutLeft ])
+      query('arrow-button', [ slideStyleBase, slideAnimOutLeft ]),
+      slideStyleLeft
     ])
   ])
 ]);

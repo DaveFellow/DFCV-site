@@ -29,10 +29,7 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   ngOnInit(): void {
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe((e) => {
-        this.setState((e as NavigationEnd).url);
-        console.log((e as NavigationEnd).url);
-      });
+      .subscribe((e) => this.setState((e as NavigationEnd).url));
   }
 
   ngAfterViewInit() {

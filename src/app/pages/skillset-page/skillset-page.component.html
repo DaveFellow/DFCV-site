@@ -1,5 +1,9 @@
-<div id="wrapper" [class]="activeRoute" [@routeAnimations]="activeRoute">  
-  <ng-container *ngIf="activeRoute == 'skillset'">
+<div
+  id="wrapper"
+  [class]="currentRoute.segment"
+  [@routeAnimations]="currentRoute.segment"
+>  
+  <ng-container *ngIf="currentRoute.segment == 'skillset'">
     <div id="development-link" class="link" >
       <h3 class="super-title" routerLink="./software-development" role="link">
         <span>Software</span>

@@ -6,6 +6,6 @@ import { Injectable } from '@angular/core';
 export class UtilsService {
 
   getRouteLastSegment(route: string) {
-    return (route.match(/[\w]+$/) || [''])[0];
+    return (route.match(/[\w-]+$/) || [''])[0];
   }
 }

@@ -2,51 +2,22 @@ $container-padding: 5rem;
 $transition-duration: .5s;
 
 #container {
-  height: 100%;
-  display: grid;
   padding: $container-padding;
-
-  $transition: $transition-duration ease-out;
-  transition: $transition;
-
-  grid-template-columns: 1fr 1fr 0fr;
-
-  section {
-    grid-row: 1 / -1;
-    transition: $transition;
-  }
-
-  #basic-info {
-    display: grid;
-    grid-template-rows: 1fr max-content;
-    grid-template-columns: max-content;
-    transition: $transition;
-  }
-
-  #main-info {
-    grid-column: 2 / 3;
-  }
-  
-  $present-card-duration: .6s;
   
   &.history {
-    grid-template-columns: 0fr 0.7fr 0.3fr;
-
-    #presentation-card {
-      // animation: present-card-intro-right $present-card-duration ease-in-out;
-      // animation-fill-mode: backwards;
-      // animation-delay: $transition-duration;
+    #main-info {
+      width: 70%;
       right: $container-padding;
     }
-  }
-
-  &.summary {
     #presentation-card {
-      // animation: present-card-intro-left $present-card-duration ease-in-out;
-      // animation-fill-mode: backwards;
-      // animation-delay: $transition-duration;
+      right: auto;
     }
   }
+}
+
+#main-info {
+  position: fixed;
+  width: 50%;
 }
 
 #presentation-card {
@@ -56,10 +27,8 @@ $transition-duration: .5s;
   backdrop-filter: var(--bg-blur);
   padding: 3rem;
   z-index: 0;
-  grid-row: 2;
   overflow: hidden;
-  transition: $transition-duration ease-out;
-  transform-origin: center;
+  right: $container-padding;
 
   &::after, &::before {
     content: '';
@@ -89,14 +58,4 @@ $transition-duration: .5s;
     font-size: 1.6rem;
     white-space: nowrap;
   }
-}
-
-@keyframes present-card-intro-left {
-  from { transform: translateX(calc(-100% - $container-padding)); }
-  to { transform: translateX(0); }
-}
-
-@keyframes present-card-intro-right {
-  from { transform: translateX(calc(100% + $container-padding)); }
-  to { transform: translateX(0); }
 }
