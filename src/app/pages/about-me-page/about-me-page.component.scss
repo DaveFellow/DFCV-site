@@ -1,13 +1,10 @@
-$container-padding: 5rem;
-$transition-duration: .5s;
-
-#container {
-  padding: $container-padding;
+#wrapper {
+  padding: var(--main-content-padding);
   
   &.history {
     #main-info {
       width: 70%;
-      right: $container-padding;
+      right: var(--main-content-padding);
     }
     #presentation-card {
       right: auto;
@@ -28,7 +25,7 @@ $transition-duration: .5s;
   padding: 3rem;
   z-index: 0;
   overflow: hidden;
-  right: $container-padding;
+  right: var(--main-content-padding);
 
   &::after, &::before {
     content: '';

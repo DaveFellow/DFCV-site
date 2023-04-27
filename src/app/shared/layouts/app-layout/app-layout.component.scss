@@ -1,5 +1,5 @@
 main {
-  height: calc(100% - 7rem);
+  height: var(--main-content-height);
   position: relative;
   overflow: auto;
 }

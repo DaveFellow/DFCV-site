@@ -12,3 +12,7 @@ app-layout {
   z-index: 1;
   display: block;
 }
+
+#router-outlet-container {
+  height: 100%;
+}

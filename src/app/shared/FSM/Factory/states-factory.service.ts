@@ -6,11 +6,11 @@ import { AbstractState } from '../States/AbstractState';
 import { State } from '../States/State';
 import { Scene } from '../../components/bg/Scene';
 import { HistoryState } from '../States/HistoryState';
-import { SampleState2 } from '../States/SampleState2';
 import { SampleState3 } from '../States/SampleState3';
 import { SampleState4 } from '../States/SampleState4';
 import { SkillsetState } from '../States/SkillsetState';
 import { SummaryStateAlt } from '../States/SummaryStateAlt';
+import { WorkExperienceState } from '../States/WorkExperienceState';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class StatesFactoryService {
       new SummaryStateAlt(scene),
       new HistoryState(scene),
       new SkillsetState(scene),
-      new SampleState2(scene),
+      new WorkExperienceState(scene),
       new SampleState3(scene),
       new SampleState4(scene),
     ];

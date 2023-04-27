@@ -12,4 +12,7 @@
   --font-timeline-color: rgba(255, 255, 255, 0.5);
   --small-title-color: var(--accent-color);
   --big-title-color: var(--accent-color);
+  --main-header-height: 7rem;
+  --main-content-padding: 5rem;
+  --main-content-height: calc(100% - var(--main-header-height));
 }

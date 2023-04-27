@@ -1,10 +1,8 @@
 @import '../../shared/styles/mixins';
 
-$global-transition: .5s;
-
 #wrapper {
-  padding: 5rem;
-  height: calc(100vh - 7rem);
+  padding: var(--main-content-padding);
+  height: 100%;
   position: relative;
 
   &.skillset {

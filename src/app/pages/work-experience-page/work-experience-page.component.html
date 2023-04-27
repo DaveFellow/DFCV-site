@@ -1,1 +1,15 @@
-<p>work-experience-page works!</p>
+<div id="wrapper" #wrapper [@routeAnimations]>
+  <div id="background"></div>
+  <div class="work-exp" *ngFor="let exp of workExperience">
+    <div class="work-exp__year">{{ exp.year }}</div>
+    <h3 class="work-exp__title super-title">{{ exp.title }}</h3>
+    <div class="work-exp__subtitle">{{ exp.subtitle }}</div>
+
+    <div class="work-exp__roles-resp" *ngIf="exp.rolesAndResp.length">
+      <h4>Roles and Responsibilities</h4>
+      <ul>
+        <li *ngFor="let item of exp.rolesAndResp">{{ item }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
