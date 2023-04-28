@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BGComponent } from './shared/components/bg/bg.component';
 import { AppLayoutModule } from './shared/layouts/app-layout/app-layout.module';
+import { ArrowButtonModule } from './shared/components/arrow-button/arrow-button.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { AppLayoutModule } from './shared/layouts/app-layout/app-layout.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AppLayoutModule
+    AppLayoutModule,
+    ArrowButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,4 @@
-div, div > canvas {
+canvas {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -9,8 +9,23 @@ canvas {
   z-index: 1;
 }
 
-#blured-border {
-  z-index: 2;
-  user-select: none;
-  box-shadow: inset 0 0 80rem rgba(0, 0, 0, .5);
+.arrow-container {
+  position: fixed;
+  top: 50%;
+  $borderMargin: 6rem;
+  left: $borderMargin;
+  
+  transform: translateY(-50%);
+  z-index: 1;
+
+  &.right {
+    transform: translateY(-50%) scaleX(-1);
+    right: $borderMargin;
+    left: auto;
+  }
+
+  arrow-button {
+    position: absolute;
+  }
+  
 }

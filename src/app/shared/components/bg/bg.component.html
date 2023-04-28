@@ -1,2 +1,13 @@
-<div #container></div>
-<div id="blured-border"></div>
+<div
+  #container
+  [@bgDomAnimations]="panningDirection"
+>
+  <div class="arrow-container left">
+    <!-- <arrow-button size="10rem" class="left"></arrow-button> -->
+    <arrow-button size="10rem" class="left" *ngIf="panningDirection == 'left'"></arrow-button>
+  </div>
+  <div class="arrow-container right">
+    <!-- <arrow-button size="10rem" class="right"></arrow-button> -->
+    <arrow-button size="10rem" class="right" *ngIf="panningDirection == 'right'"></arrow-button>
+  </div>
+</div>

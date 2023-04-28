@@ -42,6 +42,8 @@ export abstract class BGTransitionState extends AbstractState {
     this.scene.trackMarker(this.targetIndex);
     const camPos = this.scene.camera.position;
     this.initCamPosition = this.vectorsUtils.copyPosition(camPos);
+    
+    this.scene.canControl = false;
   }
   
   public override onAnimation(): void {
@@ -50,7 +52,6 @@ export abstract class BGTransitionState extends AbstractState {
     if (this.scene.prevMarkerIsValid) {
       let factor = this.totalTime / this.duration;
       const steppedRotation = this.scene.getSteppedRotation(factor);
-      // console.log(factor);
       
       this.scene.camera.position.lerpVectors(this.initCamPosition, this.destCamPosition, factor);
       this.scene.camera.lookAt(steppedRotation);

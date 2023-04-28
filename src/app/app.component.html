@@ -1,6 +1,6 @@
-<app-bg #bg [paused]="bgPaused"></app-bg>
+<app-bg [paused]="bgPaused"></app-bg>
 
-<app-layout>
+<app-layout [ngClass]="{ 'can-control': canControl }">
   <div id="router-outlet-container" @routeAnimations>
     <router-outlet></router-outlet>
   </div>

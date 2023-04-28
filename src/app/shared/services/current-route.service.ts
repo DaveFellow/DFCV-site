@@ -17,8 +17,8 @@ export class CurrentRouteService {
 
   public setRoute(route: string): string {
     this._route = route;
-    this.segment = this.utils.getRouteLastSegment(this._route);
-    console.log(this.segment);
+    this.segment = this.utils.getRouteLastSegment(this._route) || 'home';
+    // console.log(this.segment);
     return this._route;
   }
 }

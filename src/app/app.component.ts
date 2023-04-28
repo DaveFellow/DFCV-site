@@ -15,6 +15,8 @@ export class AppComponent implements OnInit, AfterViewChecked {
 
   bgPaused: boolean = false;
 
+  canControl: boolean = false;
+
   _debug: boolean = true;
 
   constructor(
@@ -28,7 +30,12 @@ export class AppComponent implements OnInit, AfterViewChecked {
     
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe((e) => this.currentRoute.setRoute((e as NavigationEnd).url));
+      .subscribe((e) => {
+        this.currentRoute.setRoute((e as NavigationEnd).url);
+        this.canControl = false;
+        if (this.currentRoute.segment != 'home') return;
+        setTimeout(() => this.canControl = true, 700);
+      });
   }
 
   ngAfterViewChecked() {

@@ -11,6 +11,10 @@ app-layout {
   height: 100%;
   z-index: 1;
   display: block;
+
+  &.can-control {
+    height: auto;
+  }
 }
 
 #router-outlet-container {

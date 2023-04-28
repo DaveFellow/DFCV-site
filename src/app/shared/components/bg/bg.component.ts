@@ -1,15 +1,18 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Input, OnChanges, OnInit, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { StatesMachine } from '../../FSM/StatesMachine';
 import { StatesFactoryService } from '../../FSM/Factory/states-factory.service';
 import { State } from '../../FSM/States/State';
 import { Scene } from './Scene';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import * as THREE from 'three';
+import { bgDomAnimations } from './bg.anim';
 
 @Component({
   selector: 'app-bg',
   templateUrl: './bg.component.html',
   styleUrls: ['./bg.component.scss'],
+  animations: [ bgDomAnimations ]
 })
 export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   @ViewChild('container') container!: ElementRef<HTMLCanvasElement>;
@@ -20,6 +23,13 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   
   currentState: State | null = null;
 
+  private mouseSpeed = 0;
+  public get panningDirection() {
+    return !this.mouseSpeed ? ''
+      : this.mouseSpeed > 0 ? 'right'
+      : 'left'
+  }
+
   constructor(
     private renderer: Renderer2,
     private statesFactory: StatesFactoryService,
@@ -29,7 +39,7 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   ngOnInit(): void {
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe((e) => this.setState((e as NavigationEnd).url));
+      .subscribe((e) => this.setRouteActions((e as NavigationEnd).url));
   }
 
   ngAfterViewInit() {
@@ -44,8 +54,9 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     if (!this.paused) requestAnimationFrame(() => this.animate());
     this.currentState?.onAnimation();
   
-    if (this.scene.orbitControls.enabled)
-      this.scene.orbitControls.update();
+    // if (this.scene.controls.enabled)
+    // this.scene.controls.update(this.mouseSpeed)
+    this.scene.camera.rotateOnAxis(new THREE.Vector3(0, 1, 0), this.mouseSpeed * 0.05 * -1);
   
     this.scene.render();
   }
@@ -76,5 +87,40 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   @HostListener('window:resize')
   private updateViewport(): void {
     this.scene.updateViewport();
+  }
+
+  private setRouteActions(route: string): void {
+    this.setState(route);
+    // console.log(route);
+  }
+
+  @HostListener('window:mousemove', ['$event'])
+  private setMousePosition(e: MouseEvent): void {
+    if (!this.scene.canControl) {
+      this.mouseSpeed = 0;
+      return;
+    }
+
+    const baseSpeed = 0.3;
+    const thresholdX = window.innerWidth * .3;
+    const thresholdY = window.innerHeight * .10;
+    const onLeftEdge = e.clientX <= thresholdX;
+    const rightEdgeStart = window.innerWidth - thresholdX;
+    const onRightEdge = e.clientX >= rightEdgeStart;
+    const onTheMiddle = e.clientY <= (window.innerHeight - thresholdY)
+      && e.clientY >= thresholdY;
+
+    if (onLeftEdge && onTheMiddle) {
+      const position = e.clientX / thresholdX;
+      this.mouseSpeed = (1 - position) * -1 * baseSpeed;
+      return;
+    }
+    
+    if (onRightEdge && onTheMiddle) {
+      this.mouseSpeed = (e.clientX - rightEdgeStart) / thresholdX * baseSpeed;
+      return;
+    }
+
+    this.mouseSpeed = 0;
   }
 }

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
@@ -30,7 +31,7 @@ export class Scene {
   private modelSetupFinished: boolean = false;
   public get modelIsLoaded(): boolean { return this.modelSetupFinished; }
 
-  public orbitControls!: OrbitControls;
+  public canControl: boolean = false;
 
   private ready: boolean = false;
   public get isReady() { return this.ready; }
@@ -56,9 +57,6 @@ export class Scene {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.initCameraSetup();
 
-    this.orbitControls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.orbitControls.enabled = false;
-    
     this.initModelSetup(callback);
     this.render();
   }
@@ -162,7 +160,7 @@ export class Scene {
       this.scene.add(axesHelper);
     });
 
-    this.orbitControls.target = this._debugCamPosition.position;
+    // this.orbitControls.target = this._debugCamPosition.position;
 
     this._debugCamPosition.geometry = new THREE.SphereGeometry(0.1);
     this._debugCamPosition.material = new THREE.MeshBasicMaterial({color: 0xffff00, depthTest: false, depthWrite: false});
