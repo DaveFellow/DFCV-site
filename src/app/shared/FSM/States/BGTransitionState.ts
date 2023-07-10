@@ -4,7 +4,8 @@ import { AbstractState } from "./AbstractState";
 import * as THREE from 'three';
 
 export abstract class BGTransitionState extends AbstractState {
-  protected duration: number = 500;
+  protected duration: number = 1000;
+  protected factor: number = 0;
 
   protected initCamPosition: THREE.Vector3 = new THREE.Vector3;
   protected destCamPosition: THREE.Vector3 = new THREE.Vector3;
@@ -21,8 +22,12 @@ export abstract class BGTransitionState extends AbstractState {
   private initTime: number = 0;
   private totalTime: number = 0;
 
-  public get isTransitioning(): boolean {
+  public get timeIsRunning(): boolean {
     return this.totalTime <= this.duration;
+  }
+
+  public get isTransitioning(): boolean {
+    return this.factor < 1;
   }
   
   protected _debug: boolean = false;
@@ -38,6 +43,7 @@ export abstract class BGTransitionState extends AbstractState {
     this.deltaTime = 0;
     this.totalTime = 0;
     this.initTime = 0;
+    this.factor = 0;
     
     this.scene.trackMarker(this.targetIndex);
     const camPos = this.scene.camera.position;
@@ -47,19 +53,19 @@ export abstract class BGTransitionState extends AbstractState {
   }
   
   public override onAnimation(): void {
-    if (!this.isTransitioning) return;
+    if (this.factor == 1) return;
 
+    this.factor = Math.min(this.totalTime / this.duration, 1);
+    
     if (this.scene.prevMarkerIsValid) {
-      let factor = this.totalTime / this.duration;
-      const steppedRotation = this.scene.getSteppedRotation(factor);
-      
-      this.scene.camera.position.lerpVectors(this.initCamPosition, this.destCamPosition, factor);
+      const steppedRotation = this.scene.getSteppedRotation(this.factor);
+      this.scene.camera.position.lerpVectors(this.initCamPosition, this.destCamPosition, this.factor);
       this.scene.camera.lookAt(steppedRotation);
 
     } else {
       const steppedRotation = this.scene.getSteppedRotation(1);
-      this.scene.camera.lookAt(steppedRotation);
       this.scene.camera.position.set(this.destCamPosition.x, this.destCamPosition.y, this.destCamPosition.z);
+      this.scene.camera.lookAt(steppedRotation);
     }
 
     this.setTime();
