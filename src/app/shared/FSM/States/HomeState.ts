@@ -6,7 +6,7 @@ export class HomeState extends BGTransitionState {
   constructor(scene: Scene) {
     super(scene);
     super.name = '/home';
-    super.destCamPosition = new THREE.Vector3(0, 4, 0);
+    super.destCamPosition = new THREE.Vector3(0, 7, 0);
     super.targetIndex = 0;
   }
 

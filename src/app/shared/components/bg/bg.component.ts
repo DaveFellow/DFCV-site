@@ -23,10 +23,10 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   
   currentState: State | null = null;
 
-  private mouseSpeed = 0;
+  private cameraRotationSpeed = 0;
   public get panningDirection() {
-    return !this.mouseSpeed ? ''
-      : this.mouseSpeed > 0 ? 'right'
+    return !this.cameraRotationSpeed ? ''
+      : this.cameraRotationSpeed > 0 ? 'right'
       : 'left'
   }
 
@@ -55,8 +55,8 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     this.currentState?.onAnimation();
   
     // if (this.scene.controls.enabled)
-    // this.scene.controls.update(this.mouseSpeed)
-    this.scene.camera.rotateOnAxis(new THREE.Vector3(0, 1, 0), this.mouseSpeed * 0.05 * -1);
+    // this.scene.controls.update(this.cameraRotationSpeed)
+    this.scene.camera.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), this.cameraRotationSpeed * 0.05 * -1);
   
     this.scene.render();
   }
@@ -97,7 +97,7 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   @HostListener('window:mousemove', ['$event'])
   private setMousePosition(e: MouseEvent): void {
     if (!this.scene.canControl) {
-      this.mouseSpeed = 0;
+      this.cameraRotationSpeed = 0;
       return;
     }
 
@@ -112,15 +112,20 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
 
     if (onLeftEdge && onTheMiddle) {
       const position = e.clientX / thresholdX;
-      this.mouseSpeed = (1 - position) * -1 * baseSpeed;
+      this.cameraRotationSpeed = (1 - position) * -1 * baseSpeed;
       return;
     }
     
     if (onRightEdge && onTheMiddle) {
-      this.mouseSpeed = (e.clientX - rightEdgeStart) / thresholdX * baseSpeed;
+      this.cameraRotationSpeed = (e.clientX - rightEdgeStart) / thresholdX * baseSpeed;
       return;
     }
 
-    this.mouseSpeed = 0;
+    this.cameraRotationSpeed = 0;
+  }
+
+  @HostListener('mouseleave')
+  private stopCameraRotation() {
+    this.cameraRotationSpeed = 0;
   }
 }

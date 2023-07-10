@@ -86,7 +86,8 @@ export class Scene {
     const loader: GLTFLoader = new GLTFLoader();
 
     loader.load('assets/models/office.glb', (gltf) => {
-      const mat = new THREE.MeshLambertMaterial;
+      // const mat = new THREE.MeshToonMaterial({ color: 0xaaeeff });
+      const mat = new THREE.MeshLambertMaterial({ color: 0xaaeeff });
 
       const elements = gltf.scene.children;
 
