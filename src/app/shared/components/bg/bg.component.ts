@@ -23,10 +23,10 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   
   currentState: State | null = null;
 
-  private cameraRotationSpeed = 0;
+  private cameraOrbitSpeed = 0;
   public get panningDirection() {
-    return !this.cameraRotationSpeed ? ''
-      : this.cameraRotationSpeed > 0 ? 'right'
+    return !this.cameraOrbitSpeed ? ''
+      : this.cameraOrbitSpeed > 0 ? 'right'
       : 'left'
   }
 
@@ -53,11 +53,6 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     if (!this.scene.isReady) return;
     if (!this.paused) requestAnimationFrame(() => this.animate());
     this.currentState?.onAnimation();
-  
-    // if (this.scene.controls.enabled)
-    // this.scene.controls.update(this.cameraRotationSpeed)
-    this.scene.camera.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), this.cameraRotationSpeed * 0.05 * -1);
-  
     this.scene.render();
   }
 
@@ -79,7 +74,7 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   }
 
   private setup(): void {
-    this.statesFactory.setScene(this.scene);
+    this.statesFactory.setup(this.scene);
     this.renderer.appendChild(this.container.nativeElement, this.scene.renderer.domElement);
     this.setState(this.router.url);
   }
@@ -94,10 +89,10 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     // console.log(route);
   }
 
-  @HostListener('window:mousemove', ['$event'])
+  // @HostListener('window:mousemove', ['$event'])
   private setMousePosition(e: MouseEvent): void {
     if (!this.scene.canControl) {
-      this.cameraRotationSpeed = 0;
+      this.cameraOrbitSpeed = 0;
       return;
     }
 
@@ -112,20 +107,20 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
 
     if (onLeftEdge && onTheMiddle) {
       const position = e.clientX / thresholdX;
-      this.cameraRotationSpeed = (1 - position) * -1 * baseSpeed;
+      this.cameraOrbitSpeed = (1 - position) * -1 * baseSpeed;
       return;
     }
     
     if (onRightEdge && onTheMiddle) {
-      this.cameraRotationSpeed = (e.clientX - rightEdgeStart) / thresholdX * baseSpeed;
+      this.cameraOrbitSpeed = (e.clientX - rightEdgeStart) / thresholdX * baseSpeed;
       return;
     }
 
-    this.cameraRotationSpeed = 0;
+    this.cameraOrbitSpeed = 0;
   }
 
   @HostListener('mouseleave')
   private stopCameraRotation() {
-    this.cameraRotationSpeed = 0;
+    this.cameraOrbitSpeed = 0;
   }
 }

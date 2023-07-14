@@ -12,6 +12,8 @@ import * as THREE from 'three';
 export abstract class BGTransitionState extends AbstractState {
   protected duration: number = 1000;
   protected factor: number = 0;
+  protected baseFOV = 50;
+  protected isHomeState: boolean = false;
 
   protected initCamPosition: THREE.Vector3 = new THREE.Vector3;
   protected destCamPosition: THREE.Vector3 = new THREE.Vector3;
@@ -56,25 +58,25 @@ export abstract class BGTransitionState extends AbstractState {
     this.initCamPosition = this.vectorsUtils.copyPosition(camPos);
     
     this.scene.canControl = false;
+    this.scene.orbitControls.enabled = false;
   }
   
   public override onAnimation(): void {
     if (this.factor == 1) return;
-
     this.factor = Math.min(this.totalTime / this.duration, 1);
-    
-    if (this.scene.prevMarkerIsValid) {
-      const steppedRotation = this.scene.getSteppedRotation(this.factor);
-      this.scene.camera.position.lerpVectors(this.initCamPosition, this.destCamPosition, this.factor);
-      this.scene.camera.lookAt(steppedRotation);
-
-    } else {
-      const steppedRotation = this.scene.getSteppedRotation(1);
-      this.scene.camera.position.set(this.destCamPosition.x, this.destCamPosition.y, this.destCamPosition.z);
-      this.scene.camera.lookAt(steppedRotation);
-    }
-
+    this.setCameraPosition();
+    this.setCameraTarget();
     this.setTime();
+
+    if (this.isHomeState) return;
+
+    if (this.scene.camera.fov < this.baseFOV) {
+      const remainingFOV = this.baseFOV - this.scene.camera.fov;
+      this.scene.camera.fov += (remainingFOV * this.factor) * 0.9;
+    } else {
+      this.scene.camera.fov = 50;
+    }
+    this.scene.camera.updateProjectionMatrix();
   }
 
   public override onExit(): void {}
@@ -85,5 +87,19 @@ export abstract class BGTransitionState extends AbstractState {
     
     this.initTime = new Date().valueOf();
     this.totalTime += this.deltaTime;
+  }
+
+  private setCameraPosition(): void {
+    if (this.scene.prevMarkerIsValid) {
+      this.scene.camera.position.lerpVectors(this.initCamPosition, this.destCamPosition, this.factor);
+      return;
+    }
+    const { x, y, z } = this.destCamPosition;
+    this.scene.camera.position.set(x, y, z);
+  }
+
+  private setCameraTarget(): void {
+    const steppedRotation = this.scene.getSteppedRotation(this.scene.prevMarkerIsValid ? this.factor : 1);
+    this.scene.camera.lookAt(steppedRotation);
   }
 }

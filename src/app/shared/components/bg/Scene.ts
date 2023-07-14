@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 import { VectorsUtils } from '../../utils/vectors';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 export class Scene {
-  public readonly renderer = new THREE.WebGLRenderer();
+  public readonly renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   public readonly camera = new THREE.PerspectiveCamera();
   public readonly scene = new THREE.Scene();
   private readonly vectorsUtils: VectorsUtils;
@@ -12,6 +13,9 @@ export class Scene {
   private readonly markerTracker: THREE.ArrowHelper = new THREE.ArrowHelper;
   private readonly markerTrackLerp: THREE.Vector3 = new THREE.Vector3;
   public markerTrackLerpFromPos: THREE.Vector3 = new THREE.Vector3;
+
+  public orbitControls: OrbitControls = new OrbitControls(this.camera, this.renderer.domElement);
+  public lastOrbitPosition!: THREE.Vector3;
 
   private readonly targetMarkers: { [key: string]: THREE.Vector3 } = {
     prev: new THREE.Vector3,
@@ -53,6 +57,8 @@ export class Scene {
 
     this.initModelSetup(callback);
     this.render();
+    // setInterval(() => console.log(this.camera.position.distanceTo(new THREE.Vector3)), 1000);
+    // setInterval(() => console.log(this.camera.position.toArray()), 1000);
   }
 
 
@@ -67,6 +73,14 @@ export class Scene {
     this.camera.position.set(0, 0, 2);
     this.camera.fov = 50;
     this.updateCameraAspectRatio();
+    this.orbitControls.enabled = false;
+    // this.orbitControls.enableZoom = false;
+    this.orbitControls.enablePan = false;
+
+    this.orbitControls.maxPolarAngle = 1;
+    this.orbitControls.minPolarAngle = 1;
+    this.orbitControls.minDistance = 70;
+    this.orbitControls.maxDistance = 170;
   }
 
 
@@ -83,31 +97,19 @@ export class Scene {
       const elements = gltf.scene.children;
       
       const markers = elements.find(elem => elem.name == "EmptiesGroup")?.children as THREE.Object3D[];
-      this.markers = markers.map(marker => marker.position);
+      this.markers = markers.map((marker, index) => index ? marker.position : new THREE.Vector3(0.0000000001, 0, 0));
       
       /**
-       * Añadir el gradiente de sombras
-       * Añadir delineado
        * Personaje con color
        * Volver a colores cálidos anteriores por si acaso (quizá no, me gusta blanco todo)
        * Sombras u oclusión ambiental baked
        */
 
-      /**
-       * Concepto #2: DIORAMA!!
-       * Cámara principal es isométrica como mostrando todo desde arriba haciendo parecer la habitación como un "rombo"
-       * al hacer click en un link o una sección del diorama, se hace zoom y abre las mismas secciones
-       * Considerar el cambio animado de FOV 
-       * HACER EN RAMA NUEVA!!
-       */
       const gradientMap = new THREE.TextureLoader().load('assets/img/3D-shading-color-gradient.png');
       gradientMap.minFilter = THREE.NearestFilter;
       gradientMap.magFilter = THREE.NearestFilter;
-      // const mat = new THREE.MeshToonMaterial({ gradientMap });
       const roomTex = new THREE.TextureLoader().load('assets/models/Room_Tex.png');
-      const mat = new THREE.MeshToonMaterial({ map: roomTex });
-      mat.color = new THREE.Color(0xbdd0f2);
-
+      const mat = new THREE.MeshToonMaterial({ gradientMap, map: roomTex });
 
       gltf.scene.traverse((child) => {
         if ((child as THREE.Mesh).isMesh) {
@@ -130,7 +132,7 @@ export class Scene {
       this.scene.add(pointLight2);
 
       const pointLight3 = new THREE.PointLight(0xffffff, 0.3, 140);
-      pointLight3.position.set(0, 3, 1);
+      pointLight3.position.set(0.4, 3, 0.4);
       this.scene.add(pointLight3);
       
       this.setDebugModelSetup();
@@ -186,6 +188,6 @@ export class Scene {
 
     this._debugCamTargetHelper.geometry = new THREE.SphereGeometry(0.1);
     this._debugCamTargetHelper.material = new THREE.MeshBasicMaterial({color: 0x0000ff, depthTest: false, depthWrite: false});
-    //this.scene.add(this._debugCamTargetHelper);
+    this.scene.add(this._debugCamTargetHelper);
   }
 }

@@ -17,10 +17,16 @@ import { WorkExperienceState } from '../States/WorkExperienceState';
 })
 export class StatesFactoryService {
   private scene: Scene | null = null;
+  private states: AbstractState[] = [];
 
-  private states = (): AbstractState[] => {
-    const scene = this.scene || new Scene;
-    return [
+  public get(name: string): State | null {
+    if (!this.scene) return null;
+    return this.states.find(scene => scene.name === name) || null;
+  }
+
+  public setup(scene: Scene) {
+    this.scene = scene;
+    this.states = [
       new HomeState(scene),
       new HomeStateAlt(scene),
       new SummaryState(scene),
@@ -31,14 +37,5 @@ export class StatesFactoryService {
       new SampleState3(scene),
       new SampleState4(scene),
     ];
-  }
-
-  public get(name: string): State | null {
-    if (!this.scene) return null;
-    return this.states().find(scene => scene.name === name) || null;
-  }
-
-  public setScene(scene: Scene) {
-    this.scene = scene;
   }
 }
