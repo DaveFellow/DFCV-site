@@ -102,7 +102,7 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     }
 
     const baseSpeed = 0.3;
-    const thresholdX = window.innerWidth * .3;
+    const thresholdX = window.innerWidth * .2;
     const thresholdY = window.innerHeight * .10;
     const onLeftEdge = e.clientX <= thresholdX;
     const rightEdgeStart = window.innerWidth - thresholdX;

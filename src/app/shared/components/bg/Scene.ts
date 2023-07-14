@@ -1,11 +1,6 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
-import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { VectorsUtils } from '../../utils/vectors';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 export class Scene {
   public readonly renderer = new THREE.WebGLRenderer();
@@ -35,7 +30,6 @@ export class Scene {
 
   private ready: boolean = false;
   public get isReady() { return this.ready; }
-
 
   // Debug members
   private readonly _debugCamPosition: THREE.Mesh = new THREE.Mesh;
@@ -86,38 +80,60 @@ export class Scene {
     const loader: GLTFLoader = new GLTFLoader();
 
     loader.load('assets/models/office.glb', (gltf) => {
-      // const mat = new THREE.MeshToonMaterial({ color: 0xaaeeff });
-      const mat = new THREE.MeshLambertMaterial({ color: 0xaaeeff });
-
       const elements = gltf.scene.children;
-
+      
       const markers = elements.find(elem => elem.name == "EmptiesGroup")?.children as THREE.Object3D[];
       this.markers = markers.map(marker => marker.position);
+      
+      /**
+       * Añadir el gradiente de sombras
+       * Añadir delineado
+       * Personaje con color
+       * Volver a colores cálidos anteriores por si acaso (quizá no, me gusta blanco todo)
+       * Sombras u oclusión ambiental baked
+       */
+
+      /**
+       * Concepto #2: DIORAMA!!
+       * Cámara principal es isométrica como mostrando todo desde arriba haciendo parecer la habitación como un "rombo"
+       * al hacer click en un link o una sección del diorama, se hace zoom y abre las mismas secciones
+       * Considerar el cambio animado de FOV 
+       * HACER EN RAMA NUEVA!!
+       */
+      const gradientMap = new THREE.TextureLoader().load('assets/img/3D-shading-color-gradient.png');
+      gradientMap.minFilter = THREE.NearestFilter;
+      gradientMap.magFilter = THREE.NearestFilter;
+      // const mat = new THREE.MeshToonMaterial({ gradientMap });
+      const roomTex = new THREE.TextureLoader().load('assets/models/Room_Tex.png');
+      const mat = new THREE.MeshToonMaterial({ map: roomTex });
+      mat.color = new THREE.Color(0xbdd0f2);
+
 
       gltf.scene.traverse((child) => {
         if ((child as THREE.Mesh).isMesh) {
           const mesh = child as THREE.Mesh;
           mesh.material = mat;
+          
+          if (mesh.name != 'Floor') return;
+          const map = new THREE.TextureLoader().load('assets/models/Floor_Tex.png');
+          mesh.material = new THREE.MeshMatcapMaterial({ map });
         }
       });
 
       this.scene.add(gltf.scene);
 
-      const ambientLight = new THREE.AmbientLight(0xe3efff, 0.3);
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
       this.scene.add(ambientLight);
 
-      const dirLight = new THREE.DirectionalLight(0xffffff, 0.3);
-      dirLight.position.set(0, 10, 0);
-      dirLight.lookAt(this.markers[2]);
-      this.scene.add(dirLight);
+      const pointLight2 = new THREE.PointLight(0xffffff, 0.3, 200);
+      pointLight2.position.set(0, 10, 5);
+      this.scene.add(pointLight2);
 
-      const pointLight = new THREE.PointLight(0xffffff, 0.8, 35);
-      pointLight.position.set(0, 7, 0);
-      this.scene.add(pointLight);
+      const pointLight3 = new THREE.PointLight(0xffffff, 0.3, 140);
+      pointLight3.position.set(0, 3, 1);
+      this.scene.add(pointLight3);
       
-      // _debug
       this.setDebugModelSetup();
-      // end _debug
 
       this.ready = true;
       callback();

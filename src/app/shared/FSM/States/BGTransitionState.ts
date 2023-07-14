@@ -3,6 +3,12 @@ import { VectorsUtils } from "../../utils/vectors";
 import { AbstractState } from "./AbstractState";
 import * as THREE from 'three';
 
+
+
+// HOY TOCA ACTUALIZAR EL MODELO 3D PARA AÑADIRLO CON LAS TEXTURAS
+
+
+
 export abstract class BGTransitionState extends AbstractState {
   protected duration: number = 1000;
   protected factor: number = 0;
