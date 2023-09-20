@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { WorkExperience } from 'src/app/shared/models/WorkExperience';
 import { workExperienceData } from './work-experience-data';
 import { ReplaySubject } from 'rxjs';
@@ -12,6 +12,11 @@ import { routeAnimations } from './work-experience.anim';
 })
 export class WorkExperiencePageComponent implements AfterViewInit {
   @ViewChild('wrapper') wrapperElement!: ElementRef<HTMLDivElement>;
+  @ViewChild('item') itemElement!: ElementRef<HTMLDivElement>;
+
+  public get backgroundHeight() {
+    return this.itemElement?.nativeElement.clientHeight + 100 || 0;
+  }
 
   private isScrollingOnX: boolean = false;
   private currentDragSpeed: number = 0;
@@ -20,7 +25,12 @@ export class WorkExperiencePageComponent implements AfterViewInit {
 
   readonly workExperience: WorkExperience[] = workExperienceData;
 
+  constructor(private cd: ChangeDetectorRef) {
+
+  }
+
   ngAfterViewInit(): void {
+    // this.cd.detectChanges();    
   }
 
   @HostListener('mousemove', ['$event'])

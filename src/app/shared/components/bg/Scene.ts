@@ -100,6 +100,9 @@ export class Scene {
       this.markers = markers.map((marker, index) => index ? marker.position : new THREE.Vector3(0.0000000001, 0, 0));
       
       /**
+       * Primero que todo: ACOMODAR la posición de la cámara y markers finales, ahora sí
+       * Segundo: RENOMBRAR LOS MARKERS
+       * 
        * Personaje con color
        * Volver a colores cálidos anteriores por si acaso (quizá no, me gusta blanco todo)
        * Sombras u oclusión ambiental baked
@@ -109,26 +112,31 @@ export class Scene {
       gradientMap.minFilter = THREE.NearestFilter;
       gradientMap.magFilter = THREE.NearestFilter;
       const roomTex = new THREE.TextureLoader().load('assets/models/Room_Tex.png');
-      const mat = new THREE.MeshToonMaterial({ gradientMap, map: roomTex });
 
       gltf.scene.traverse((child) => {
         if ((child as THREE.Mesh).isMesh) {
           const mesh = child as THREE.Mesh;
-          mesh.material = mat;
-          
+
+          mesh.material = new THREE.MeshToonMaterial({ 
+            gradientMap, 
+            map: roomTex, 
+            color: mesh.name == 'Room' ? 0xffffff : 0xD1EFFF
+          });
+
           if (mesh.name != 'Floor') return;
           const map = new THREE.TextureLoader().load('assets/models/Floor_Tex.png');
-          mesh.material = new THREE.MeshMatcapMaterial({ map });
+          mesh.material = new THREE.MeshToonMaterial({ gradientMap, map, color: 0xE1F1FF });
+          // mesh.material = new THREE.MeshMatcapMaterial({ map });
         }
       });
 
       this.scene.add(gltf.scene);
 
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
       this.scene.add(ambientLight);
 
       const pointLight2 = new THREE.PointLight(0xffffff, 0.3, 200);
-      pointLight2.position.set(0, 10, 5);
+      pointLight2.position.set(0, 10, 0);
       this.scene.add(pointLight2);
 
       const pointLight3 = new THREE.PointLight(0xffffff, 0.3, 140);

@@ -1,6 +1,14 @@
 <div id="wrapper" #wrapper [@routeAnimations]>
-  <div id="background"></div>
-  <div class="work-exp" *ngFor="let exp of workExperience">
+  <div
+    id="background"
+    [ngStyle]="{ 'height.px': backgroundHeight }"
+  ></div>
+
+  <div
+    class="work-exp"
+    *ngFor="let exp of workExperience"
+    #item
+  >
     <div class="work-exp__year">{{ exp.year }}</div>
     <h3 class="work-exp__title super-title">{{ exp.title }}</h3>
     <div class="work-exp__subtitle">{{ exp.subtitle }}</div>

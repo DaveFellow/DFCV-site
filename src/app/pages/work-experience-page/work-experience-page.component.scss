@@ -18,16 +18,14 @@
   }
 
   #background {
-    // background: var(--card-bg);
     background: rgba(255, 255, 255, .05);
     backdrop-filter: var(--bg-blur);
     position: fixed;
     z-index: -1;
     width: 100%;
-    height: 70%;
-    top: calc(var(--main-content-padding) + 50%);
-    left: 0;
+    top: calc(50% + var(--main-content-padding) - 20px);
     transform: translateY(-50%);
+    left: 0;
   }
 }
 
