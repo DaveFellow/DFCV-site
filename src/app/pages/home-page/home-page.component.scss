@@ -1,0 +1,23 @@
+.floating-link {
+  display: block;
+  color: #fff;
+  font-size: 2rem;
+  text-align: center;
+  position: fixed;
+  left: 50%;
+  bottom: 4rem;
+  transform: translateX(-50%);
+  z-index: 2;
+  opacity: 0;
+  background: var(--accent-color);
+  padding: 1rem 2rem;
+
+  &.visible {
+    opacity: 1;
+    
+    &:hover {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.15);
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { pageLinks } from '../../objects/PageLinks';
 
 @Component({
   selector: 'app-header',
@@ -11,12 +12,7 @@ export class HeaderComponent implements OnInit {
   public activeRoute: string = '/';
   public activeRouteRoot: string = '/';
 
-  public readonly links = [
-    { label: 'About me', route: '/about-me' },
-    { label: 'Skillset', route: '/skillset' },
-    { label: 'Work experience', route: '/work-experience' },
-    // { label: 'Portfolio', route: '/portfolio' }
-  ];
+  public readonly links = [...pageLinks];
 
   constructor(private router: Router) {}
 

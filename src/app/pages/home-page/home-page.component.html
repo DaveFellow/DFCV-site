@@ -1,0 +1,15 @@
+<a routerLink="/about-me" [ngClass]="{ 'floating-link': true, 'visible': visibilityConditions['about-me']() }">
+  <span>Go to</span> About me
+</a>
+
+<a routerLink="/skillset" [ngClass]="{ 'floating-link': true, 'visible': visibilityConditions['skillset']() }">
+  <span>Go to</span> Skillset
+</a>
+
+<a routerLink="/work-experience" [ngClass]="{ 'floating-link': true, 'visible': visibilityConditions['work-experience']() }">
+  <span>Go to</span> About me
+</a>
+
+<!-- <p style="bottom: 10px; left: 10px; position: fixed;">
+{{ camAngleService.angle }} rad
+</p> -->

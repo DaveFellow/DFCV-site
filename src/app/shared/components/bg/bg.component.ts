@@ -7,6 +7,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import * as THREE from 'three';
 import { bgDomAnimations } from './bg.anim';
+import { CameraAngleService } from '../../services/camera-angle.service';
 
 @Component({
   selector: 'app-bg',
@@ -33,7 +34,8 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   constructor(
     private renderer: Renderer2,
     private statesFactory: StatesFactoryService,
-    private router: Router
+    private router: Router,
+    private camAngleService: CameraAngleService
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +56,7 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     if (!this.paused) requestAnimationFrame(() => this.animate());
     this.currentState?.onAnimation();
     this.scene.render();
+    this.camAngleService.updateAngle(this.scene.camera.rotation.z);
   }
 
   setState(name: string): void {

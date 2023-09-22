@@ -120,7 +120,7 @@ export class Scene {
           mesh.material = new THREE.MeshToonMaterial({ 
             gradientMap, 
             map: roomTex, 
-            color: mesh.name == 'Room' ? 0xffffff : 0xD1EFFF
+            color: mesh.name == 'Room' ? 0xE7F6FF : 0xD1EFFF
           });
 
           if (mesh.name != 'Floor') return;
