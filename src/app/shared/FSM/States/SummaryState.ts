@@ -5,8 +5,8 @@ import * as THREE from 'three';
 export class SummaryState extends BGTransitionState {
   constructor(scene: Scene) {
     super(scene);
-    super.name = '/about-me/summary';
-    super.destCamPosition = new THREE.Vector3(-0.39498, 4.59093, -8.12091);
-    super.targetIndex = 1;
+    this.name = '/about-me/summary';
+    this.destCamPosition = new THREE.Vector3(-0.39498, 4.59093, -8.12091);
+    this.targetIndex = 1;
   }
 }

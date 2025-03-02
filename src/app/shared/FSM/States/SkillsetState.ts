@@ -5,8 +5,8 @@ import * as THREE from 'three';
 export class SkillsetState extends BGTransitionState {
   constructor(scene: Scene) {
     super(scene);
-    super.name = '/skillset';
-    super.destCamPosition = new THREE.Vector3(0, 12, -11);
-    super.targetIndex = 6;
+    this.name = '/skillset';
+    this.destCamPosition = new THREE.Vector3(0, 12, -11);
+    this.targetIndex = 6;
   }
 }

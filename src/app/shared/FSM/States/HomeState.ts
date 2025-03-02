@@ -5,13 +5,13 @@ import * as THREE from 'three';
 export class HomeState extends BGTransitionState {
   constructor(scene: Scene) {
     super(scene);
-    super.name = '/home';
-    super.targetIndex = 0;
-    super.isHomeState = true;
+    this.name = '/home';
+    this.targetIndex = 0;
+    this.isHomeState = true;
   }
   
   public override onEnter(): void {
-    super.destCamPosition = this.scene.lastOrbitPosition
+    this.destCamPosition = this.scene.lastOrbitPosition
       ? this.vectorsUtils.copyPosition(this.scene.lastOrbitPosition)
       : new THREE.Vector3(-75.45200245539156, 67.18014334339586, 72.48295059870483);
 
