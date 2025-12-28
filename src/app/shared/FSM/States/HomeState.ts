@@ -3,22 +3,26 @@ import { BGTransitionState } from "./BGTransitionState";
 import * as THREE from 'three';
 
 export class HomeState extends BGTransitionState {
-  constructor(scene: Scene) {
-    super(scene);
-    this.name = '/home';
-    this.targetIndex = 0;
+  private ready = false;
+
+  constructor(scene: Scene, name: string = '/home') {
+    super(scene, name);
     this.isHomeState = true;
   }
   
   public override onEnter(): void {
-    this.destCamPosition = this.scene.lastOrbitPosition
-      ? this.vectorsUtils.copyPosition(this.scene.lastOrbitPosition)
-      : new THREE.Vector3(-75.45200245539156, 67.18014334339586, 72.48295059870483);
+    if (this.ready === false) {
+      this.scene.lastOrbitPosition = new THREE.Vector3(-75.45200245539156, 67.18014334339586, 72.48295059870483);
+      this.scene.camera.position.set(this.scene.lastOrbitPosition.x, this.scene.lastOrbitPosition.y, this.scene.lastOrbitPosition.z);
+      this.ready = true;
+    }
+
+    this.scene.markers[this.name].position = this.scene.lastOrbitPosition.clone();
 
     super.onEnter();
+
     setTimeout(() => this.scene.canControl = true, this.duration);
     this.scene.orbitControls.enabled = true;
-    this.scene.camera.updateProjectionMatrix();
   }
 
   public override onAnimation(): void {
@@ -34,6 +38,6 @@ export class HomeState extends BGTransitionState {
   }
 
   public override onExit(): void {
-    this.scene.lastOrbitPosition = this.vectorsUtils.copyPosition(this.scene.camera.position);
+    this.scene.lastOrbitPosition = this.scene.camera.position.clone();
   }
 }

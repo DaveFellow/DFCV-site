@@ -17,14 +17,10 @@ export abstract class BGTransitionState extends AbstractState {
 
   protected initCamPosition: THREE.Vector3 = new THREE.Vector3;
   protected destCamPosition: THREE.Vector3 = new THREE.Vector3;
-  protected targetIndex: number = 0;
 
   public get getDestCamPosition(): THREE.Vector3 {
     return this.destCamPosition;
   }
-  public get getTargetIndex(): number {
-    return this.targetIndex;
-  };
   
   private deltaTime: number = 0;
   private initTime: number = 0;
@@ -42,8 +38,8 @@ export abstract class BGTransitionState extends AbstractState {
 
   protected readonly vectorsUtils: VectorsUtils;
 
-  constructor(scene: Scene) {
-    super(scene);
+  constructor(scene: Scene, name: string) {
+    super(scene, name);
     this.vectorsUtils = new VectorsUtils;
   }
 
@@ -53,9 +49,11 @@ export abstract class BGTransitionState extends AbstractState {
     this.initTime = 0;
     this.factor = 0;
     
-    this.scene.trackMarker(this.targetIndex);
+    this.scene.trackMarker(this.name);
+    this.destCamPosition = this.scene.nextMarker.position.clone();
+
     const camPos = this.scene.camera.position;
-    this.initCamPosition = this.vectorsUtils.copyPosition(camPos);
+    this.initCamPosition = camPos.clone();
     
     this.scene.canControl = false;
     this.scene.orbitControls.enabled = false;
@@ -63,7 +61,8 @@ export abstract class BGTransitionState extends AbstractState {
   
   public override onAnimation(): void {
     if (this.factor == 1) return;
-    this.factor = Math.min(this.totalTime / this.duration, 1);
+    const squaredFactor = Math.sqrt(this.totalTime / this.duration);
+    this.factor = Math.min(squaredFactor, 1);
     this.setCameraPosition();
     this.setCameraTarget();
     this.setTime();
@@ -90,16 +89,11 @@ export abstract class BGTransitionState extends AbstractState {
   }
 
   private setCameraPosition(): void {
-    if (this.scene.prevMarkerIsValid) {
-      this.scene.camera.position.lerpVectors(this.initCamPosition, this.destCamPosition, this.factor);
-      return;
-    }
-    const { x, y, z } = this.destCamPosition;
-    this.scene.camera.position.set(x, y, z);
+    this.scene.camera.position.lerpVectors(this.initCamPosition, this.destCamPosition, this.factor);
   }
 
   private setCameraTarget(): void {
-    const steppedRotation = this.scene.getSteppedRotation(this.scene.prevMarkerIsValid ? this.factor : 1);
+    const steppedRotation = this.scene.getSteppedRotation(this.factor);
     this.scene.camera.lookAt(steppedRotation);
   }
 }

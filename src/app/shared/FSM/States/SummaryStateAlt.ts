@@ -5,7 +5,6 @@ import { SummaryState } from "./SummaryState";
 
 export class SummaryStateAlt extends SummaryState {
   constructor(scene: Scene) {
-    super(scene);
-    this.name = '/about-me';
+    super(scene, '/about-me');
   }
 }

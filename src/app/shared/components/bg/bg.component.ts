@@ -5,7 +5,6 @@ import { State } from '../../FSM/States/State';
 import { Scene } from './Scene';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import * as THREE from 'three';
 import { bgDomAnimations } from './bg.anim';
 import { CameraAngleService } from '../../services/camera-angle.service';
 
@@ -83,7 +82,7 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   }
 
   @HostListener('window:resize')
-  private updateViewport(): void {
+  public updateViewport(): void {
     this.scene.updateViewport();
   }
 
@@ -123,7 +122,7 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   }
 
   @HostListener('mouseleave')
-  private stopCameraRotation() {
+  public stopCameraRotation() {
     this.cameraOrbitSpeed = 0;
   }
 }

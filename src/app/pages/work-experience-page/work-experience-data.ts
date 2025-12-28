@@ -54,7 +54,7 @@ export const workExperienceData: WorkExperience[] = [
     ]
   }, {
     year: '2022 - CURRENTLY',
-    title: 'publicis sapient',
+    title: 'publicis global delivery, publicis sapient',
     subtitle: 'Senior Associate Experience Technology L1',
     rolesAndResp: [
       'Develop web applications that follow the latest web standards and conform with leading-edge front-end technologies',

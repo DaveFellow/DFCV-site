@@ -1,3 +1,5 @@
+@import './shared/styles/general';
+
 app-bg {
   position: fixed;
   top: 0;
@@ -19,4 +21,41 @@ app-layout {
 
 #router-outlet-container {
   height: 100%;
+}
+
+#hello-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(50% 50% at 50% 50%, #B0BBC9 0%, #717E8E 100%) center no-repeat;
+  background-size: cover;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  animation: fadeout 1000ms ease-in-out 1.5s;
+
+  &.hidden {
+    display: none;
+  }
+
+  .super-title {
+    font-size: 5rem;
+    display: inline;
+    margin-block: -1rem;
+    text-shadow: 0.07em 0.07em 0 #fff;
+    animation: fadeout 0.1ms 1.5s forwards;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

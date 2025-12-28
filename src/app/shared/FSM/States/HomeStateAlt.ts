@@ -5,7 +5,6 @@ import { HomeState } from "./HomeState";
 
 export class HomeStateAlt extends HomeState {
   constructor(scene: Scene) {
-    super(scene);
-    this.name = '/';
+    super(scene, '/');
   }
 }

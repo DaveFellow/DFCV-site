@@ -6,8 +6,9 @@ export abstract class AbstractState implements State {
 
   protected scene: Scene;
 
-  constructor(scene: Scene) {
+  constructor(scene: Scene, name: string = 'unnamed') {
     this.scene = scene;
+    this.name = name;
   }
   
   public onEnter(): void {}

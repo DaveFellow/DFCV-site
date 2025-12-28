@@ -5,3 +5,7 @@
     <router-outlet></router-outlet>
   </div>
 </app-layout>
+
+<div id="hello-overlay" [ngClass]="{ hidden: showOverlay === false }">
+  <span class="super-title">{{ helloText | async}}</span>
+</div>

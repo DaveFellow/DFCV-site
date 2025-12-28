@@ -1,7 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { routeAnimations } from './app.anim';
-import { filter } from 'rxjs';
+import { filter, interval, map, Observable, takeUntil } from 'rxjs';
 import { CurrentRouteService } from './shared/services/current-route.service';
 
 @Component({
@@ -17,7 +17,17 @@ export class AppComponent implements OnInit, AfterViewChecked {
 
   canControl: boolean = false;
 
+  showOverlay: boolean = true;
+
   _debug: boolean = true;
+
+  helloText: Observable<string> = interval(100).pipe(
+    map(i => {
+      const str = 'Hello :)';
+      return str.slice(0, Math.min(i + 1, str.length));
+    }),
+    takeUntil(interval(1500))
+  );
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -27,6 +37,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.currentRoute.setRoute(this.router.url);
+    setTimeout(() => this.showOverlay = false, 2500);
     
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
