@@ -23,6 +23,10 @@ export class HomeState extends BGTransitionState {
 
     setTimeout(() => this.scene.canControl = true, this.duration);
     this.scene.orbitControls.enabled = true;
+
+    const idleAction = this.scene.characterAnimMixer.clipAction(this.scene.characterModel.animations[0]);
+    idleAction.setLoop(THREE.LoopRepeat, Infinity);
+    idleAction.play();
   }
 
   public override onAnimation(): void {
@@ -35,6 +39,9 @@ export class HomeState extends BGTransitionState {
       this.scene.camera.fov = 25;
     }
     this.scene.camera.updateProjectionMatrix();
+
+    this.scene.characterAnimMixer.update(this.utils.getDeltaTime());
+
   }
 
   public override onExit(): void {

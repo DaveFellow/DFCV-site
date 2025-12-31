@@ -60,9 +60,10 @@ export class HistoryPageComponent implements AfterViewInit {
       ],
     },
     {
-      title: '2022 - Publicis Sapient',
+      title: '2022 - Publicis Groupe',
       paragraphs: [
-        'In 2022 David got hired by Publicis Sapient, where he currently works and is ready for the next challenge.',
+        'In 2022 David got hired by Publicis Global Delivery, a Publicis Groupe agency where he currently works.',
+        'He has occasionally worked for other Publicis Groupe agencies depending on the demand, like Publicis Sapient and Epsilon, and he\'s ready for any challenge.',
       ],
     }
   ]
@@ -87,7 +88,7 @@ export class HistoryPageComponent implements AfterViewInit {
   }
 
   @HostListener('window:resize')
-  private setTimelineItemsData(): void {    
+  public setTimelineItemsData(): void {    
     this.content.children.forEach((child: HTMLElement, index: number) => {
       if (!index) return;
       const prevItem = this.timelineItems[index - 1];

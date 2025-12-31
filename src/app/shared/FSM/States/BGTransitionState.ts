@@ -1,4 +1,5 @@
 import { Scene } from "../../components/bg/Scene";
+import { UtilsService } from "../../services/utils.service";
 import { VectorsUtils } from "../../utils/vectors";
 import { AbstractState } from "./AbstractState";
 import * as THREE from 'three';
@@ -36,6 +37,7 @@ export abstract class BGTransitionState extends AbstractState {
   
   protected _debug: boolean = false;
 
+  protected readonly utils = new UtilsService;
   protected readonly vectorsUtils: VectorsUtils;
 
   constructor(scene: Scene, name: string) {

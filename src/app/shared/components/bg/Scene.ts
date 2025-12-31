@@ -1,14 +1,22 @@
 import * as THREE from 'three';
 import { VectorsUtils } from '../../utils/vectors';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Marker, MarkersData } from '../../models/Generics';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { NgZone } from '@angular/core';
 
 export class Scene {
+  public readonly ngZone: NgZone;
   public readonly renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   public readonly camera = new THREE.PerspectiveCamera();
   public readonly scene = new THREE.Scene();
   private readonly vectorsUtils: VectorsUtils;
+
+  private _characterModel!: GLTF;
+  public get characterModel(): GLTF { return this._characterModel; }
+  private _characterAnimMixer!: THREE.AnimationMixer;
+  public get characterAnimMixer(): THREE.AnimationMixer { return this._characterAnimMixer; }
 
   public markers!: MarkersData;
   private readonly markerTracker: THREE.ArrowHelper = new THREE.ArrowHelper;
@@ -23,21 +31,18 @@ export class Scene {
     next: { position: new THREE.Vector3, lookAt: new THREE.Vector3 }
   }
 
+  private loadedSceneCallback = (): void => {};
+  private modelSetupProgress = 0;
+
   public get prevMarker(): Marker { return this.targetMarkers['prev']; }
   public get nextMarker(): Marker { return this.targetMarkers['next']; }
   public prevMarkerIsValid = (axis: 'position' | 'lookAt'): boolean => this.vectorsUtils.isDefault(this.prevMarker[axis]) == false;
   public nextMarkerIsValid = (axis: 'position' | 'lookAt'): boolean => this.vectorsUtils.isDefault(this.nextMarker[axis]) == false;
 
-  private modelSetupFinished: boolean = false;
-  public get modelIsLoaded(): boolean { return this.modelSetupFinished; }
-
   public canControl: boolean = false;
 
   private ready: boolean = false;
   public get isReady() { return this.ready; }
-
-  public onFirstTake: boolean = true;
-
 
   // Debug members
   private readonly _debugCamPosition: THREE.Mesh = new THREE.Mesh;
@@ -46,8 +51,9 @@ export class Scene {
   _debug: boolean = false;
   // Debug members END
 
-  constructor() {
+  constructor(ngZone: NgZone) {
     this.vectorsUtils = new VectorsUtils;
+    this.ngZone = ngZone;
   }
 
   render(): void {
@@ -56,10 +62,10 @@ export class Scene {
   }
 
   public setup(callback: () => void = () => {}): void {
+    this.loadedSceneCallback = callback;
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.initCameraSetup();
-
-    this.initModelSetup(callback);
+    this.initModelsSetup();
     this.render();
     // setInterval(() => console.log(this.camera.position.distanceTo(new THREE.Vector3)), 1000);
     // setInterval(() => console.log(this.camera.position.toArray()), 1000);
@@ -94,19 +100,27 @@ export class Scene {
   }
 
 
-  private initModelSetup(callback: () => void): void {
+  private initModelsSetup(): void {
     /**
      * Personaje con color
      * Volver a colores cálidos anteriores por si acaso (quizá no, me gusta blanco todo)
      * Sombras u oclusión ambiental baked
-     */
-    const loader: GLTFLoader = new GLTFLoader();
+     */    
+    this.ngZone.runOutsideAngular(() => {
+      this.setModels();
+      this.addLights();
+      this.setDebugModelSetup();
+    });
 
+    this.ready = true;
+  }
+
+  private setModels(): void {
+    const loader: GLTFLoader = new GLTFLoader();
     loader.load('assets/models/office.glb', (gltf) => {
       const gradientMap = new THREE.TextureLoader().load('assets/img/3D-shading-color-gradient.png');
       gradientMap.minFilter = THREE.NearestFilter;
       gradientMap.magFilter = THREE.NearestFilter;
-      const roomTex = new THREE.TextureLoader().load('assets/models/Room_Tex.png');
       let lookAtMarkers: THREE.Object3D[] = [];
       let positionMarkers: THREE.Object3D[] = [];
 
@@ -121,29 +135,46 @@ export class Scene {
           return;
         }
 
+        if (child.name === 'Floor') {
+          const map = new THREE.TextureLoader().load('assets/models/Floor_Tex.png');
+          (child as THREE.Mesh).material = new THREE.MeshToonMaterial({
+            gradientMap,
+            map,
+            // color: 0xE1F1FF
+          });
+          return;
+        }
+
         if ((child as THREE.Mesh).isMesh) {
           const mesh = child as THREE.Mesh;
-
           mesh.material = new THREE.MeshToonMaterial({ 
-            gradientMap, 
-            map: roomTex, 
-            color: mesh.name == 'Room' ? 0xE7F6FF : 0xD1EFFF
+            gradientMap,
+            map: mesh.material instanceof THREE.MeshStandardMaterial && mesh.material.map ? mesh.material.map : null,
+            // color: mesh.name == 'Room' ? 0xE7F6FF : 0xD1EFFF
           });
-
-          if (mesh.name != 'Floor') return;
-          const map = new THREE.TextureLoader().load('assets/models/Floor_Tex.png');
-          mesh.material = new THREE.MeshToonMaterial({ gradientMap, map, color: 0xE1F1FF });
-          // mesh.material = new THREE.MeshMatcapMaterial({ map });
         }
       });
       this.scene.add(gltf.scene);
-
       this.setMarkers(lookAtMarkers, positionMarkers);
-      this.addLights();
-      this.setDebugModelSetup();
+      this.setCharacterModel(this.scene);
+      this.checkModelSetupProgress();
+    });
+  }
 
-      this.ready = true;
-      callback();
+  private setCharacterModel(scene: THREE.Scene): void {
+    const loader: GLTFLoader = new GLTFLoader();
+    loader.load('assets/models/character.glb', (gltf) => {
+      gltf.scene.traverse((child) => {
+        const mesh = child as THREE.Mesh;
+        mesh.material = new THREE.MeshToonMaterial({
+          map: mesh.material instanceof THREE.MeshStandardMaterial && mesh.material.map ? mesh.material.map : null,
+          color: 0xFFFFFF
+        });
+      });
+      this._characterModel = gltf;
+      this._characterAnimMixer = new THREE.AnimationMixer(this._characterModel.scene);
+      scene.add(gltf.scene);
+      this.checkModelSetupProgress();
     });
   }
 
@@ -160,14 +191,14 @@ export class Scene {
   }
 
   private addLights(): void {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.37);
     this.scene.add(ambientLight);
 
-    const pointLight2 = new THREE.PointLight(0xffffff, 0.3, 200);
+    const pointLight2 = new THREE.PointLight(0xffffff, 0.37, 200);
     pointLight2.position.set(0, 10, 0);
     this.scene.add(pointLight2);
 
-    const pointLight3 = new THREE.PointLight(0xffffff, 0.3, 140);
+    const pointLight3 = new THREE.PointLight(0xffffff, 0.37, 140);
     pointLight3.position.set(0.4, 3, 0.4);
     this.scene.add(pointLight3);
   }
@@ -222,4 +253,12 @@ export class Scene {
     this._debugCamTargetHelper.material = new THREE.MeshBasicMaterial({color: 0x0000ff, depthTest: false, depthWrite: false});
     this.scene.add(this._debugCamTargetHelper);
   }
+
+  checkModelSetupProgress(): void {
+    this.modelSetupProgress++;
+    if (this.modelSetupProgress < 2) {
+      return;
+    }
+    this.loadedSceneCallback();
+}
 }
