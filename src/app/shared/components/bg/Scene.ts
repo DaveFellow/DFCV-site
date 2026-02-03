@@ -17,6 +17,8 @@ export class Scene {
   public get characterModel(): GLTF { return this._characterModel; }
   private _characterAnimMixer!: THREE.AnimationMixer;
   public get characterAnimMixer(): THREE.AnimationMixer { return this._characterAnimMixer; }
+  private _characterMesh!: THREE.Mesh;
+  public get characterMesh(): THREE.Mesh { return this._characterMesh; }
 
   public markers!: MarkersData;
   private readonly markerTracker: THREE.ArrowHelper = new THREE.ArrowHelper;
@@ -82,6 +84,7 @@ export class Scene {
   private initCameraSetup(): void {
     this.camera.position.set(0, 0, 2);
     this.camera.fov = 50;
+    this.camera.frustumCulled = false;
     this.updateCameraAspectRatio();
     this.orbitControls.enabled = false;
     // this.orbitControls.enableZoom = false;
@@ -168,8 +171,15 @@ export class Scene {
         const mesh = child as THREE.Mesh;
         mesh.material = new THREE.MeshToonMaterial({
           map: mesh.material instanceof THREE.MeshStandardMaterial && mesh.material.map ? mesh.material.map : null,
-          color: 0xFFFFFF
+          color: 0xFFFFFF,
+          opacity: 1,
+          transparent: true
         });
+
+        if (child.name === 'David_Model') {
+          this._characterMesh = child as THREE.Mesh;
+          this._characterMesh.frustumCulled = false;
+        }
       });
       this._characterModel = gltf;
       this._characterAnimMixer = new THREE.AnimationMixer(this._characterModel.scene);

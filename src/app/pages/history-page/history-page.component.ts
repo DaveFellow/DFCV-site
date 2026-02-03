@@ -28,7 +28,7 @@ export class HistoryPageComponent implements AfterViewInit {
     { text: ['2012', 'Freelance Designer'], offsetTop: 0, lineHeight: 0 },
     { text: ['2017', 'Freelance Developer'], offsetTop: 0, lineHeight: 0 },
     { text: ['2020', '4id'], offsetTop: 0, lineHeight: 0 },
-    { text: ['2022', 'Publicis Sapient'], offsetTop: 0, lineHeight: 0, lineTop: 0 },
+    { text: ['2022', 'Publicis Groupe'], offsetTop: 0, lineHeight: 0, lineTop: 0 },
   ];
 
   readonly pageContent = [
