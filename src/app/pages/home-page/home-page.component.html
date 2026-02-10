@@ -1,12 +1,24 @@
-<a routerLink="/about-me" [ngClass]="{ 'floating-link': true, 'visible': visibilityConditions['about-me']() }">
+<a routerLink="/about-me/summary" [ngClass]="{ 'floating-link': true, 'visible': visibilityConditions['about-me']() && camStateService.isInHomeState }">
   <span>Go to</span> About me
 </a>
 
-<a routerLink="/skillset" [ngClass]="{ 'floating-link': true, 'visible': visibilityConditions['skillset']() }">
+<a routerLink="/about-me/history" [ngClass]="{ 'floating-link': true, 'visible': visibilityConditions['history']() && camStateService.isInHomeState }">
+  <span>Go to</span> History
+</a>
+
+<a routerLink="/skillset" [ngClass]="{ 'floating-link': true, 'visible': visibilityConditions['skillset']() && camStateService.isInHomeState }">
   <span>Go to</span> Skillset
 </a>
 
-<a routerLink="/work-experience" [ngClass]="{ 'floating-link': true, 'visible': visibilityConditions['work-experience']() }">
+<a routerLink="/skillset/software-development" [ngClass]="{ 'floating-link': true, 'visible': visibilityConditions['software-dev']() && camStateService.isInHomeState }">
+  <span>Go to</span> Software Development
+</a>
+
+<a routerLink="/skillset/graphic-design" [ngClass]="{ 'floating-link': true, 'visible': visibilityConditions['graphic-design']() && camStateService.isInHomeState }">
+  <span>Go to</span> Graphic Design
+</a>
+
+<a routerLink="/work-experience" [ngClass]="{ 'floating-link': true, 'visible': visibilityConditions['work-experience']() && camStateService.isInHomeState }">
   <span>Go to</span> Work Experience
 </a>
 

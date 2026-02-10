@@ -6,7 +6,7 @@ import { Scene } from './Scene';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { bgDomAnimations } from './bg.anim';
-import { CameraAngleService } from '../../services/camera-angle.service';
+import { CameraStateService } from '../../services/camera-state.service';
 
 @Component({
   selector: 'app-bg',
@@ -34,7 +34,7 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     private renderer: Renderer2,
     private statesFactory: StatesFactoryService,
     private router: Router,
-    private camAngleService: CameraAngleService,
+    private camStateService: CameraStateService,
     private ngZone: NgZone
   ) {
     this.scene = new Scene(this.ngZone);
@@ -58,7 +58,8 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     if (!this.paused) requestAnimationFrame(() => this.animate());
     this.currentState?.onAnimation();
     this.scene.render();
-    this.camAngleService.updateAngle(this.scene.camera.rotation.z);
+    this.camStateService.updateAngle(this.scene.camera.rotation.z);
+    this.camStateService.isInHomeState = this.isInHomeState && this.scene.camera.fov <= 25;
   }
 
   setState(name: string): void {
@@ -127,5 +128,9 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   @HostListener('mouseleave')
   public stopCameraRotation() {
     this.cameraOrbitSpeed = 0;
+  }
+
+  private get isInHomeState() {
+    return ['/', '/home'].includes(this.currentState?.name || '');
   }
 }

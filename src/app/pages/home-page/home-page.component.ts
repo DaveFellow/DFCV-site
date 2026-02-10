@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { pageLinks } from 'src/app/shared/objects/PageLinks';
-import { CameraAngleService } from 'src/app/shared/services/camera-angle.service';
+import { CameraStateService } from 'src/app/shared/services/camera-state.service';
 
 interface VisibilityConditions {
   [key: string]: () => boolean
@@ -14,23 +14,22 @@ interface VisibilityConditions {
 export class HomePageComponent {
   public readonly links = [...pageLinks];
   private get angle() {
-    return this.camAngleService.angle;
+    return this.camStateService.angle;
   }
   
+  // 3.2 ; -3.1 -
   public visibilityConditions: VisibilityConditions = {
-    'about-me': () => this.angle > 1.8 && this.angle < 2.5,
-    'skillset': () => this.angle > 2.8 || this.angle < -3,
-    'work-experience': () => this.angle > -2.8 && this.angle < -2,
-
-    // 'about-me': { min: 1.7, max: 2.8 },
-    // 'skillset': { min: 2.81, max: 3.12 },
-    // 'work-experience': { min: 1.7, max: 2.8 },
+    'about-me': () => this.angle < -3 || this.angle > 3,
+    'history': () => this.angle > -3 && this.angle < -2,
+    'skillset': () => this.angle > -2 && this.angle < -1,
+    'graphic-design': () => this.angle > -1 && this.angle < 0,
+    'software-dev': () => this.angle > 0 && this.angle < 1,
+    'work-experience': () => this.angle > 1 && this.angle < 2,
   }
   
-  constructor(public camAngleService: CameraAngleService) {}
+  constructor(public camStateService: CameraStateService) {}
 
   getVisibilityCondition(index: number) {
     const key = this.links[index];
-
   }
 }

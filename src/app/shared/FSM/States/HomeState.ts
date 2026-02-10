@@ -1,4 +1,5 @@
 import { Scene } from "../../components/bg/Scene";
+import { CameraStateService } from "../../services/camera-state.service";
 import { BGTransitionState } from "./BGTransitionState";
 import * as THREE from 'three';
 
@@ -6,7 +7,7 @@ export class HomeState extends BGTransitionState {
   private ready = false;
 
   constructor(scene: Scene, name: string = '/home') {
-    const characterAnimationSettings = { name: 'Weird dance' };
+    const characterAnimationSettings = { name: 'anim_0' };
     super(scene, name, characterAnimationSettings);
     this.isHomeState = true;
   }
