@@ -6,7 +6,8 @@ export class HomeState extends BGTransitionState {
   private ready = false;
 
   constructor(scene: Scene, name: string = '/home') {
-    super(scene, name, 'Weird dance');
+    const characterAnimationSettings = { name: 'Weird dance' };
+    super(scene, name, characterAnimationSettings);
     this.isHomeState = true;
   }
   

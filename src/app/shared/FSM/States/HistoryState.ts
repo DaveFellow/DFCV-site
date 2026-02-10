@@ -4,6 +4,7 @@ import * as THREE from 'three';
 
 export class HistoryState extends BGTransitionState {
   constructor(scene: Scene) {
-    super(scene, '/about-me/history');
+    const characterAnimationSettings = { name: 'anim_5', speed: 0.5 };
+    super(scene, '/about-me/history', characterAnimationSettings);
   }
 }

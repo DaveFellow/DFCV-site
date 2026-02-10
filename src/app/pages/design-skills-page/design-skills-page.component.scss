@@ -3,9 +3,14 @@
 header {
   @include flexbox(row, flex-start, center);
   margin-bottom: 5rem;
+  padding-left: 50%;
 
   h2 {
     font-size: 6rem;
     margin-left: 3rem;
   }
+}
+
+.grid-container {
+  padding-left: 50%;
 }

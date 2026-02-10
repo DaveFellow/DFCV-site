@@ -4,6 +4,7 @@ import * as THREE from 'three';
 
 export class SummaryState extends BGTransitionState {
   constructor(scene: Scene, name: string = '/about-me/summary') {
-    super(scene, name);
+    const characterAnimationSettings = { name: 'anim_4' };
+    super(scene, name, characterAnimationSettings);
   }
 }

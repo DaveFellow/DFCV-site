@@ -10,7 +10,8 @@ export class SkillsetState extends BGTransitionState {
   private mouseOgParent?: THREE.Object3D;
 
   constructor(scene: Scene) {
-    super(scene, '/skillset', 'anim_1', 0.5);
+    const characterAnimationSettings = { name: 'anim_1', speed: 1 };
+    super(scene, '/skillset', characterAnimationSettings);
   }
 
   protected override additionalActions(): void {

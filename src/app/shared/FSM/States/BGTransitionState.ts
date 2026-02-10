@@ -1,4 +1,5 @@
 import { Scene } from "../../components/bg/Scene";
+import { CharacterAnimationSettings } from "../../models/CharacterAnimationSettings";
 import { UtilsService } from "../../services/utils.service";
 import { VectorsUtils } from "../../utils/vectors";
 import { AbstractState } from "./AbstractState";
@@ -7,14 +8,13 @@ import * as THREE from 'three';
 export abstract class BGTransitionState extends AbstractState {
   protected duration: number = 1000;
   protected factor: number = 0;
-  protected baseFOV = 50;
+  protected baseFOV = 40;
   protected isHomeState: boolean = false;
 
   protected initCamPosition: THREE.Vector3 = new THREE.Vector3;
   protected destCamPosition: THREE.Vector3 = new THREE.Vector3;
 
-  protected characterAnimationName?: string;
-  protected characterAnimationSpeed?: number = 1;
+  protected characterAnimationSettings: CharacterAnimationSettings;
   private canUpdateCharacterAnimation: boolean = false;
 
   public get getDestCamPosition(): THREE.Vector3 {
@@ -42,10 +42,12 @@ export abstract class BGTransitionState extends AbstractState {
   protected readonly utils = new UtilsService;
   protected readonly vectorsUtils: VectorsUtils;
 
-  constructor(scene: Scene, name: string, characterAnimationName?: string, characterAnimationSpeed?: number) {
+  constructor(scene: Scene, name: string, characterAnimationSettings?: CharacterAnimationSettings) {
     super(scene, name);
-    this.characterAnimationName = characterAnimationName;
-    this.characterAnimationSpeed = characterAnimationSpeed || 1;
+    this.characterAnimationSettings = {
+      name: characterAnimationSettings?.name || '',
+      speed: characterAnimationSettings?.speed || 1,
+    }
     this.vectorsUtils = new VectorsUtils;
   }
 
@@ -80,8 +82,7 @@ export abstract class BGTransitionState extends AbstractState {
     }
 
     if (this.factor == 1) {
-      const opacity = (this.scene.characterMesh.material as THREE.MeshToonMaterial).opacity;
-      (this.scene.characterMesh.material as THREE.MeshToonMaterial).opacity = Math.min(1, opacity * (1 + this.fadeFactor));
+      this.characterFadeIn();
       return;
     }
     
@@ -90,9 +91,7 @@ export abstract class BGTransitionState extends AbstractState {
     this.setCameraPosition();
     this.setCameraTarget();
     this.setTime();
-
-    const opacity = (this.scene.characterMesh.material as THREE.MeshToonMaterial).opacity;
-    (this.scene.characterMesh.material as THREE.MeshToonMaterial).opacity = Math.max(0, opacity * (1 - this.fadeFactor));
+    this.characterFadeOut();
 
     if (this.isHomeState) return;
 
@@ -100,7 +99,7 @@ export abstract class BGTransitionState extends AbstractState {
       const remainingFOV = this.baseFOV - this.scene.camera.fov;
       this.scene.camera.fov += (remainingFOV * this.factor) * 0.9;
     } else {
-      this.scene.camera.fov = 50;
+      this.scene.camera.fov = this.baseFOV;
     }
     this.scene.camera.updateProjectionMatrix();
   }
@@ -127,18 +126,28 @@ export abstract class BGTransitionState extends AbstractState {
   }
 
   private initCharacterAnimation(): void {
-    const animation = this.scene.characterModel.animations.find(anim => anim.name === this.characterAnimationName);
+    const animation = this.scene.characterModel.animations.find(anim => anim.name === this.characterAnimationSettings.name);
     if (!animation) return;
     this.scene.characterAnimMixer.stopAllAction();
     const action = this.scene.characterAnimMixer.clipAction(animation);
     action.setLoop(THREE.LoopRepeat, Infinity);
-    action.setEffectiveTimeScale(this.characterAnimationSpeed || 1);
+    action.setEffectiveTimeScale(this.characterAnimationSettings.speed || 1);
     action.play();
   }
 
   private updateCharacterAnimation(): void {
-    if (!this.characterAnimationName) return;
+    if (!this.characterAnimationSettings.name) return;
     this.scene.characterAnimMixer.update(this.utils.getDeltaTime());
+  }
+
+  private characterFadeIn(): void {
+    const opacity = (this.scene.characterMesh.material as THREE.MeshToonMaterial).opacity;
+    (this.scene.characterMesh.material as THREE.MeshToonMaterial).opacity = Math.min(1, opacity * (1 + this.fadeFactor));
+  }
+
+  private characterFadeOut(): void {
+    const opacity = (this.scene.characterMesh.material as THREE.MeshToonMaterial).opacity;
+    (this.scene.characterMesh.material as THREE.MeshToonMaterial).opacity = Math.max(0, opacity * (1 - this.fadeFactor));
   }
 
   protected additionalActions(): void {}

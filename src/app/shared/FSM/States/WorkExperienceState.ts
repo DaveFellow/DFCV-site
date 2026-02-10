@@ -4,6 +4,7 @@ import * as THREE from 'three';
 
 export class WorkExperienceState extends BGTransitionState {
   constructor(scene: Scene) {
-    super(scene, '/work-experience');
+    const characterAnimationSettings = { name: 'anim_6', speed: 0.1 };
+    super(scene, '/work-experience', characterAnimationSettings);
   }
 }
