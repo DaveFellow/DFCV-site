@@ -9,10 +9,11 @@ import { bgDomAnimations } from './bg.anim';
 import { CameraStateService } from '../../services/camera-state.service';
 
 @Component({
-  selector: 'app-bg',
-  templateUrl: './bg.component.html',
-  styleUrls: ['./bg.component.scss'],
-  animations: [ bgDomAnimations ]
+    selector: 'app-bg',
+    templateUrl: './bg.component.html',
+    styleUrls: ['./bg.component.scss'],
+    animations: [bgDomAnimations],
+    standalone: false
 })
 export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   @ViewChild('container') container!: ElementRef<HTMLCanvasElement>;

@@ -2,9 +2,10 @@ import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular
 import { Tab } from '../../models/Tab';
 
 @Component({
-  selector: 'tabbed-container',
-  templateUrl: './tabbed-container.component.html',
-  styleUrls: ['./tabbed-container.component.scss']
+    selector: 'tabbed-container',
+    templateUrl: './tabbed-container.component.html',
+    styleUrls: ['./tabbed-container.component.scss'],
+    standalone: false
 })
 /**
  * This is a fake tabs container, it's made only for aesthetic purpose.

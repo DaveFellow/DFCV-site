@@ -5,10 +5,11 @@ import { ReplaySubject } from 'rxjs';
 import { routeAnimations } from './work-experience.anim';
 
 @Component({
-  selector: 'app-work-experience-page',
-  templateUrl: './work-experience-page.component.html',
-  styleUrls: ['./work-experience-page.component.scss'],
-  animations: [ routeAnimations ]
+    selector: 'app-work-experience-page',
+    templateUrl: './work-experience-page.component.html',
+    styleUrls: ['./work-experience-page.component.scss'],
+    animations: [routeAnimations],
+    standalone: false
 })
 export class WorkExperiencePageComponent implements AfterViewInit {
   @ViewChild('wrapper') wrapperElement!: ElementRef<HTMLDivElement>;

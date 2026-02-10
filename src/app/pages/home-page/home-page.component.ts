@@ -7,9 +7,10 @@ interface VisibilityConditions {
 }
 
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss']
+    selector: 'app-home-page',
+    templateUrl: './home-page.component.html',
+    styleUrls: ['./home-page.component.scss'],
+    standalone: false
 })
 export class HomePageComponent {
   public readonly links = [...pageLinks];

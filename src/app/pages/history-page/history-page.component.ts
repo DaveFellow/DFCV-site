@@ -4,9 +4,10 @@ import { Tab } from 'src/app/shared/models/Tab';
 import { tabs } from 'src/app/shared/objects/AboutMePage';
 
 @Component({
-  selector: 'app-history-page',
-  templateUrl: './history-page.component.html',
-  styleUrls: ['./history-page.component.scss']
+    selector: 'app-history-page',
+    templateUrl: './history-page.component.html',
+    styleUrls: ['./history-page.component.scss'],
+    standalone: false
 })
 export class HistoryPageComponent implements AfterViewInit {
   @ViewChild('wrapper') wrapper!: ElementRef;

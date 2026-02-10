@@ -2,9 +2,10 @@ import { Component, ElementRef, HostBinding, Input, OnInit, ViewChild } from '@a
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'link-button',
-  templateUrl: './link-button.component.html',
-  styleUrls: ['./link-button.component.scss'],
+    selector: 'link-button',
+    templateUrl: './link-button.component.html',
+    styleUrls: ['./link-button.component.scss'],
+    standalone: false
 })
 export class LinkButtonComponent implements OnInit {
   @Input('active') isActive: boolean = false;

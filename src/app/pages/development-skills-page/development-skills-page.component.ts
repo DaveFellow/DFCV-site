@@ -3,10 +3,11 @@ import { SkillCard } from 'src/app/shared/models/Skills';
 import { subpageHeaderAnimation } from '../skillset-page/skillset-page.anim';
 
 @Component({
-  selector: 'app-development-skills-page',
-  templateUrl: './development-skills-page.component.html',
-  styleUrls: ['./development-skills-page.component.scss'],
-  animations: [ subpageHeaderAnimation ]
+    selector: 'app-development-skills-page',
+    templateUrl: './development-skills-page.component.html',
+    styleUrls: ['./development-skills-page.component.scss'],
+    animations: [subpageHeaderAnimation],
+    standalone: false
 })
 export class DevelopmentSkillsPageComponent {
 // ,,,UX Designer,Visual Design,,XT - Application Engineering,XT - Mobile Cross Platform,XT Web: Architect,XT Web: Banner,XT-Web: Responsive

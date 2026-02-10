@@ -5,10 +5,11 @@ import { filter, interval, map, Observable, takeUntil } from 'rxjs';
 import { CurrentRouteService } from './shared/services/current-route.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  animations: [ routeAnimations ]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    animations: [routeAnimations],
+    standalone: false
 })
 export class AppComponent implements OnInit, AfterViewChecked {
   title = 'David Fuentes :: CV';

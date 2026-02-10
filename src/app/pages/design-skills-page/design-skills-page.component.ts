@@ -3,10 +3,11 @@ import { SkillCard } from 'src/app/shared/models/Skills';
 import { subpageHeaderAnimation } from '../skillset-page/skillset-page.anim';
 
 @Component({
-  selector: 'app-design-skills-page',
-  templateUrl: './design-skills-page.component.html',
-  styleUrls: ['./design-skills-page.component.scss'],
-  animations: [ subpageHeaderAnimation ]
+    selector: 'app-design-skills-page',
+    templateUrl: './design-skills-page.component.html',
+    styleUrls: ['./design-skills-page.component.scss'],
+    animations: [subpageHeaderAnimation],
+    standalone: false
 })
 export class DesignSkillsPageComponent {
   public cardsData: SkillCard[] = [

@@ -1,9 +1,9 @@
 import { Component, HostBinding, Input } from '@angular/core';
 
 @Component({
-  selector: 'arrow-button',
-  template:`<button tabindex="0" [ngStyle]="{ width: size, height: size }"></button>`,
-  styles: [`
+    selector: 'arrow-button',
+    template: `<button tabindex="0" [ngStyle]="{ width: size, height: size }"></button>`,
+    styles: [`
     button {
       position: relative;
       display: block;
@@ -16,7 +16,8 @@ import { Component, HostBinding, Input } from '@angular/core';
 
       border: 0;
     }
-  `]
+  `],
+    standalone: false
 })
 export class ArrowButtonComponent {
   @Input() size: string = '7rem';
