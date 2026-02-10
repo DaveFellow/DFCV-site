@@ -6,7 +6,6 @@ import { TabbedContainerModule } from 'src/app/shared/components/tabbed-containe
 
 const routes: Routes = [
   { path: '', component: AboutMePageComponent, children: [
-    { path: '', pathMatch: 'full', redirectTo: 'summary' },
     { path: 'summary', loadChildren: () => import('src/app/pages/summary-page/summary-page.module').then(m => m.SummaryPageModule) },
     { path: 'history', loadChildren: () => import('src/app/pages/history-page/history-page.module').then(m => m.HistoryPageModule) }
   ] }

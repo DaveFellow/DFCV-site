@@ -152,7 +152,7 @@ export class Scene {
           const mesh = child as THREE.Mesh;
           mesh.material = new THREE.MeshToonMaterial({ 
             gradientMap,
-            // map: mesh.material instanceof THREE.MeshStandardMaterial && mesh.material.map ? mesh.material.map : null,
+            map: mesh.material instanceof THREE.MeshStandardMaterial && mesh.material.map ? mesh.material.map : null,
             color: mesh.name == 'Room' ? 0xE7F6FF : 0xD1EFFF
           });
         }

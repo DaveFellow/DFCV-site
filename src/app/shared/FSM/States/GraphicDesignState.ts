@@ -25,22 +25,19 @@ export class GraphicDesignState extends BGTransitionState {
 
   protected override additionalActions(): void {
     this.keyboard = this.scene.scene.getObjectByName('Keyboard');
-    this.keyboardOgPosition = this.keyboard!.position.clone();
-
     this.mouse = this.scene.scene.getObjectByName('Mouse');
-    this.mouseOgPosition = this.mouse!.position.clone();
-
     this.tablet = this.scene.scene.getObjectByName('Tablet');
-    this.tabletOgPosition = this.tablet!.position.clone();
-
     this.pen = this.scene.scene.getObjectByName('Tablet_Pen');
-    this.penOgPosition = this.pen!.position.clone();
-    this.penOgRotation = this.pen!.rotation.clone();
-    this.penOgParent = this.pen!.parent!;
-
     this.rightHand = (this.scene.characterMesh as THREE.SkinnedMesh).skeleton.bones.find(elem => elem.name === 'handr');
 
     if (!this.keyboard || !this.mouse || !this.rightHand || !this.tablet || !this.pen) return;
+
+    this.keyboardOgPosition = this.keyboard!.position.clone();
+    this.mouseOgPosition = this.mouse!.position.clone();
+    this.tabletOgPosition = this.tablet!.position.clone();
+    this.penOgPosition = this.pen!.position.clone();
+    this.penOgRotation = this.pen!.rotation.clone();
+    this.penOgParent = this.pen!.parent!;
 
     this.keyboard.position.set(
       this.keyboardOgPosition!.x,

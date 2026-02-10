@@ -6,8 +6,6 @@ import { AbstractState } from '../States/AbstractState';
 import { State } from '../States/State';
 import { Scene } from '../../components/bg/Scene';
 import { HistoryState } from '../States/HistoryState';
-import { SampleState3 } from '../States/SampleState3';
-import { SampleState4 } from '../States/SampleState4';
 import { SkillsetState } from '../States/SkillsetState';
 import { SummaryStateAlt } from '../States/SummaryStateAlt';
 import { WorkExperienceState } from '../States/WorkExperienceState';
@@ -38,8 +36,6 @@ export class StatesFactoryService {
       new SoftwareDevelopmentState(scene),
       new GraphicDesignState(scene),
       new WorkExperienceState(scene),
-      new SampleState3(scene),
-      new SampleState4(scene),
     ];
   }
 }

@@ -12,8 +12,8 @@
   display: block;
   padding: 1.2rem 1.5rem;
   position: relative;
-  // color: var(--primary-color);
-  color: rgba(255, 255, 255, .5);
+  // color: var(--accent-color);
+  color: var(--unselected-tab-text-color);
 
   &::before {
     content: '';
