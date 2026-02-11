@@ -25,4 +25,8 @@ export class HeaderComponent implements OnInit {
         this.activeRouteRoot = (this.activeRoute.match(/\/[\w-]+/) || ['/'])[0];
       });
   }
+
+  public linkIsActive(route: string): boolean {
+    return (route.startsWith(this.activeRouteRoot) && this.activeRouteRoot !== '/') || (this.activeRouteRoot === '/' && route === '/home');
+  }
 }
