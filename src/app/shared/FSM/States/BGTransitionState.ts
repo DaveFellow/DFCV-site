@@ -6,7 +6,7 @@ import { AbstractState } from "./AbstractState";
 import * as THREE from 'three';
 
 export abstract class BGTransitionState extends AbstractState {
-  protected duration: number = 1000;
+  protected duration: number = 1500;
   protected factor: number = 0;
   protected baseFOV = 40;
   protected isHomeState: boolean = false;
@@ -26,7 +26,7 @@ export abstract class BGTransitionState extends AbstractState {
   private totalTime: number = 0;
 
   private get fadeFactor() {
-    return this.factor * 0.1;
+    return this.factor * 0.2;
   } 
 
   public get timeIsRunning(): boolean {
@@ -86,7 +86,7 @@ export abstract class BGTransitionState extends AbstractState {
       return;
     }
     
-    const squaredFactor = Math.sqrt(this.totalTime / this.duration);
+    const squaredFactor = this.easeInOutCubic(this.totalTime / this.duration);
     this.factor = Math.min(squaredFactor, 1);
     this.setCameraPosition();
     this.setCameraTarget();
@@ -148,6 +148,12 @@ export abstract class BGTransitionState extends AbstractState {
   private characterFadeOut(): void {
     const opacity = (this.scene.characterMesh.material as THREE.MeshToonMaterial).opacity;
     (this.scene.characterMesh.material as THREE.MeshToonMaterial).opacity = Math.max(0, opacity * (1 - this.fadeFactor));
+  }
+
+  private easeInOutCubic(t: number): number {
+    return t < 0.5
+      ? 4 * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
 
   protected additionalActions(): void {}

@@ -36,8 +36,6 @@ export class Scene {
 
   public get prevMarker(): Marker { return this.targetMarkers['prev']; }
   public get nextMarker(): Marker { return this.targetMarkers['next']; }
-  public prevMarkerIsValid = (axis: 'position' | 'lookAt'): boolean => this.vectorsUtils.isDefault(this.prevMarker[axis]) == false;
-  public nextMarkerIsValid = (axis: 'position' | 'lookAt'): boolean => this.vectorsUtils.isDefault(this.nextMarker[axis]) == false;
 
   public canControl: boolean = false;
 
@@ -108,7 +106,6 @@ export class Scene {
      */    
     this.setModels();
     this.addLights();
-    this.setDebugModelSetup();
 
     this.ready = true;
   }
@@ -154,6 +151,7 @@ export class Scene {
       });
       this.scene.add(gltf.scene);
       this.setMarkers(lookAtMarkers, positionMarkers);
+      this.setDebugModelSetup();
       this.setCharacterModel(this.scene);
       this.checkModelSetupProgress();
     });
@@ -185,9 +183,11 @@ export class Scene {
 
   private setMarkers(lookAtMarkers: THREE.Object3D[], positionMarkers: THREE.Object3D[]): void {
     this.markers = {}
-    const fn = (marker: THREE.Object3D, positionMarker?: THREE.Object3D) => this.markers[`${marker.name.replace(/_/g, '/')}`] = {
-      position: (positionMarker?.position ?? new THREE.Vector3).clone(),
-      lookAt: marker.position.clone()
+    const fn = (marker: THREE.Object3D, positionMarker?: THREE.Object3D) => {
+      this.markers[`${marker.name.replace(/_/g, '/')}`] = {
+        position: (positionMarker?.position ?? new THREE.Vector3).clone(),
+        lookAt: marker.position.clone()
+      }
     }
     for (let marker of lookAtMarkers) {
       const positionMarker = positionMarkers.find(posMarker => posMarker.name.match(marker.name));
@@ -239,6 +239,8 @@ export class Scene {
       axesHelper.position.set(elem.position.x, elem.position.y, elem.position.z);
       (axesHelper.material as THREE.LineBasicMaterial).depthTest = false;
       (axesHelper.material as THREE.LineBasicMaterial).depthWrite = false;
+      axesHelper.lookAt(elem.lookAt);
+      axesHelper.scale.set(1, 2.5, 4);
       this.scene.add(axesHelper);
 
       const sphere = new THREE.SphereGeometry(0.1);
