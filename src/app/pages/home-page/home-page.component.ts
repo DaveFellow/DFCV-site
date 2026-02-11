@@ -18,7 +18,6 @@ export class HomePageComponent {
     return this.camStateService.angle;
   }
   
-  // 3.2 ; -3.1 -
   public visibilityConditions: VisibilityConditions = {
     'about-me': () => this.angle < -3 || this.angle > 3,
     'history': () => this.angle > -3 && this.angle < -2,

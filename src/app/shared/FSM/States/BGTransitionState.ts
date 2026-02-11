@@ -42,6 +42,9 @@ export abstract class BGTransitionState extends AbstractState {
   protected readonly utils = new UtilsService;
   protected readonly vectorsUtils: VectorsUtils;
 
+  characterAnimTimeout: any = null;
+  additionalActionsTimeout: any = null;
+
   constructor(scene: Scene, name: string, characterAnimationSettings?: CharacterAnimationSettings) {
     super(scene, name);
     this.characterAnimationSettings = {
@@ -68,12 +71,12 @@ export abstract class BGTransitionState extends AbstractState {
 
     (this.scene.characterMesh.material as THREE.MeshToonMaterial).opacity = 1;
 
-    setTimeout(() => {
+    this.characterAnimTimeout = setTimeout(() => {
       this.canUpdateCharacterAnimation = true;
       this.initCharacterAnimation();
     }, this.duration / 2);
 
-    setTimeout(() => this.additionalActions(), this.duration);
+    this.additionalActionsTimeout = setTimeout(() => this.additionalActions(), this.duration);
   }
   
   public override onAnimation(): void {
@@ -105,6 +108,8 @@ export abstract class BGTransitionState extends AbstractState {
   }
 
   public override onExit(): void {
+    clearTimeout(this.additionalActionsTimeout);
+    clearTimeout(this.characterAnimTimeout);
     this.additionalActionsCleanup();
   }
 

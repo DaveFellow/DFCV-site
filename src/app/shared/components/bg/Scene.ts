@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { VectorsUtils } from '../../utils/vectors';
-import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Marker, MarkersData } from '../../models/Generics';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 
@@ -64,8 +64,6 @@ export class Scene {
     this.initCameraSetup();
     this.initModelsSetup();
     this.render();
-    // setInterval(() => console.log(this.camera.position.distanceTo(new THREE.Vector3)), 1000);
-    // setInterval(() => console.log(this.camera.position.toArray()), 1000);
   }
 
 
@@ -82,7 +80,6 @@ export class Scene {
     this.camera.frustumCulled = false;
     this.updateCameraAspectRatio();
     this.orbitControls.enabled = false;
-    // this.orbitControls.enableZoom = false;
     this.orbitControls.enablePan = false;
 
     this.orbitControls.maxPolarAngle = 1;
@@ -99,11 +96,6 @@ export class Scene {
 
 
   private initModelsSetup(): void {
-    /**
-     * Personaje con color
-     * Volver a colores cálidos anteriores por si acaso (quizá no, me gusta blanco todo)
-     * Sombras u oclusión ambiental baked
-     */    
     this.setModels();
     this.addLights();
 
@@ -135,7 +127,7 @@ export class Scene {
           (child as THREE.Mesh).material = new THREE.MeshToonMaterial({
             gradientMap,
             map,
-            // color: 0xE1F1FF
+            color: 0xE1F1FF
           });
           return;
         }
@@ -249,12 +241,10 @@ export class Scene {
       this.scene.add(mesh);
     });
 
-    // this.orbitControls.target = this._debugCamPosition.position;
-
     this._debugCamPosition.geometry = new THREE.SphereGeometry(0.1);
     this._debugCamPosition.material = new THREE.MeshBasicMaterial({color: 0xffff00, depthTest: false, depthWrite: false});
-//    this.scene.add(this._debugCamPosition);
-//    this.scene.add(this._debugCamPositionAxes);
+    this.scene.add(this._debugCamPosition);
+    this.scene.add(this._debugCamPositionAxes);
 
     this._debugCamTargetHelper.geometry = new THREE.SphereGeometry(0.1);
     this._debugCamTargetHelper.material = new THREE.MeshBasicMaterial({color: 0x0000ff, depthTest: false, depthWrite: false});

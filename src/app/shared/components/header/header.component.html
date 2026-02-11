@@ -1,14 +1,14 @@
 <header>
-  <div id="logo" [routerLink]="['/']">
+  <div id="logo" [routerLink]="['/home']">
     <img src="assets/img/logo.svg" alt="Site logo">
   </div>
 
   <nav>
     @for (link of links; track link) {
       <link-button
-        [active]="activeRouteRoot == link.route"
+        [active]="link.route.startsWith(this.activeRouteRoot)"
         [route]="link.route"
-        >
+      >
         {{ link.label }}
       </link-button>
     }

@@ -5,51 +5,48 @@ import { subpageHeaderAnimation } from '../skillset-page/skillset-page.anim';
 @Component({
     selector: 'app-development-skills-page',
     templateUrl: './development-skills-page.component.html',
-    styleUrls: ['./development-skills-page.component.scss'],
+    styleUrls: [ './development-skills-page.component.scss' ],
     animations: [subpageHeaderAnimation],
     standalone: false
 })
 export class DevelopmentSkillsPageComponent {
-// ,,,UX Designer,Visual Design,,XT - Application Engineering,XT - Mobile Cross Platform,XT Web: Architect,XT Web: Banner,XT-Web: Responsive
-// Other skills: Unity | C# | Vue | PHP | Laravel
-
   public cardsData: SkillCard[] = [
     {
-      title: 'Interactive Dev',
-      body: ['Specialized on interface programming'],
+      title: 'UI/UX Programmer',
+      body: [ 'Specialized on user interface and experience programming.' ],
     }, {
       title: 'HTML / CSS',
-      body: ['Most recent web standards and best practices'],
+      body: [ 'Most recent web standards and best practices.' ],
     }, {
-      title: 'Javascript Development - JS',
-      body: ['Everyone\'s parter on web development front. Vanilla or "flavoured".'],
+      title: 'Javascript Development',
+      body: [ 'Everyone\'s partner on web development front. Vanilla or "flavoured" with any framework.' ],
     }, {
       title: 'Angular',
-      body: ['The most state of the art web development framework for enterprise level software'],
-    }, {
-      title: 'Vue',
-      body: ['Versatile and scalable for web projects'],
+      body: [ 'The most state of the art web development framework for enterprise level software.' ],
     }, {
       title: 'Mobile - Cross Platform',
-      body: ['Using Ionic framework to create a highly versatile web development environment'],
+      body: [ 'Using Ionic framework to create a highly versatile web development environment.' ],
     }, {
-      title: 'Testing',
-      body: ['To assure the best experience'],
+      title: 'Unit Testing',
+      body: [ 'To assure the best software quality.' ],
+    }, {
+      title: 'E2E Testing',
+      body: [ 'To assure the best user experience across all platforms and devices.' ],
     }, {
       title: 'Application Engineering',
-      body: ['On the browser or native using the most state of the art web technologies'],
+      body: [ 'On the browser or native using the most state of the art web technologies.' ],
     }, {
-      title: 'Responsive Web development',
-      body: ['So we make sure nobody loose on the experience'],
+      title: 'Responsive Development',
+      body: [ 'Any screen size, any device, any experience.' ],
     }, {
       title: 'Unity',
-      body: ['For games and non-game graphically rich experiences'],
+      body: [ 'For game development and for non-game graphically rich applications.' ],
     }, {
       title: 'C#',
-      body: ['Solid base on the grammar. Used alongside Unity but flexible enough to adapt as needed'],
+      body: [ 'Mostly used alongside Unity. flexible enough to adapt as needed to any environment or framework.' ],
     }, {
       title: 'PHP / Laravel',
-      body: ['Some backend background is always good'],
+      body: [ 'Some backend background is always good.' ],
     }
   ];
 }

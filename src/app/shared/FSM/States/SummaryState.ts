@@ -33,6 +33,5 @@ export class SummaryState extends BGTransitionState {
     this.cupOgParent?.attach(this.cup!);
     this.cup?.position.copy(this.cupOgPosition!);
     this.cup?.rotation.copy(this.cupOgRotation!);
-    // this.pen.rotation.set(0.8, 0, 0);
   }
 }

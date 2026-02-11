@@ -26,12 +26,7 @@ export class WorkExperiencePageComponent implements AfterViewInit {
 
   readonly workExperience: WorkExperience[] = workExperienceData;
 
-  constructor(private cd: ChangeDetectorRef) {
-
-  }
-
   ngAfterViewInit(): void {
-    // this.cd.detectChanges();    
   }
 
   @HostListener('mousemove', ['$event'])
@@ -48,18 +43,6 @@ export class WorkExperiencePageComponent implements AfterViewInit {
 
   @HostListener('window:mouseup')
   public endDrag(): void {
-    // const lastDragSpeed = this.currentDragSpeed;
-    
-    // const stopped = (lastDragSpeed > 0 && this.currentDragSpeed <= this.decelerationThreshold)
-    //   || (lastDragSpeed < 0 && this.currentDragSpeed >= -this.decelerationThreshold);
-    // // console.log(movement, '<', movement < -threshold, '>', movement > threshold);
-    
-    // while (!stopped) {
-    //   this.currentDragSpeed *= 0.99;
-    //   console.log(this.currentDragSpeed);
-    //   this.wrapperElement.nativeElement.scrollBy(this.currentDragSpeed, 0);
-    // }
-
     this.isScrollingOnX = false;
   }
 

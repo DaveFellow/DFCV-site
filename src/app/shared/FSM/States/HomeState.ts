@@ -8,21 +8,14 @@ export class HomeState extends BGTransitionState {
 
   constructor(scene: Scene, name: string = '/home') {
     const characterAnimationSettings = { name: 'anim_0' };
+    scene.lastOrbitPosition = new THREE.Vector3(75.45, 67.18, -72.483);
     super(scene, name, characterAnimationSettings);
     this.isHomeState = true;
   }
   
   public override onEnter(): void {
-    if (this.ready === false) {
-      this.scene.lastOrbitPosition = new THREE.Vector3(-75.45200245539156, 67.18014334339586, 72.48295059870483);
-      this.scene.camera.position.set(this.scene.lastOrbitPosition.x, this.scene.lastOrbitPosition.y, this.scene.lastOrbitPosition.z);
-      this.ready = true;
-    }
-
     this.scene.markers[this.name].position = this.scene.lastOrbitPosition.clone();
-
     super.onEnter();
-
     setTimeout(() => this.scene.canControl = true, this.duration);
     this.scene.orbitControls.enabled = true;
   }
