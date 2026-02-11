@@ -35,19 +35,19 @@ export class WorkExperiencePageComponent implements AfterViewInit {
   }
 
   @HostListener('mousemove', ['$event'])
-  private scrollOnDrag(e: MouseEvent): void {
+  public scrollOnDrag(e: MouseEvent): void {
     if (!this.isScrollingOnX) return;
     this.currentDragSpeed = e.movementX * -1;
     this.wrapperElement.nativeElement.scrollBy(this.currentDragSpeed, 0);
   }
 
-  @HostListener('mousedown', ['$event'])
-  private initDrag(): void {
+  @HostListener('mousedown')
+  public initDrag(): void {
     this.isScrollingOnX = true;
   }
 
-  @HostListener('window:mouseup', ['$event'])
-  private endDrag(): void {
+  @HostListener('window:mouseup')
+  public endDrag(): void {
     // const lastDragSpeed = this.currentDragSpeed;
     
     // const stopped = (lastDragSpeed > 0 && this.currentDragSpeed <= this.decelerationThreshold)

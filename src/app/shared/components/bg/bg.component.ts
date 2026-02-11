@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Input, NgZone, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { StatesMachine } from '../../FSM/StatesMachine';
 import { StatesFactoryService } from '../../FSM/Factory/states-factory.service';
 import { State } from '../../FSM/States/State';
@@ -36,9 +36,8 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     private statesFactory: StatesFactoryService,
     private router: Router,
     private camStateService: CameraStateService,
-    private ngZone: NgZone
   ) {
-    this.scene = new Scene(this.ngZone);
+    this.scene = new Scene();
   }
 
   ngOnInit(): void {

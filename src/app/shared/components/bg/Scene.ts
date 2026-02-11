@@ -4,10 +4,8 @@ import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Marker, MarkersData } from '../../models/Generics';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
-import { NgZone } from '@angular/core';
 
 export class Scene {
-  public readonly ngZone: NgZone;
   public readonly renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   public readonly camera = new THREE.PerspectiveCamera();
   public readonly scene = new THREE.Scene();
@@ -53,9 +51,8 @@ export class Scene {
   _debug: boolean = false;
   // Debug members END
 
-  constructor(ngZone: NgZone) {
+  constructor() {
     this.vectorsUtils = new VectorsUtils;
-    this.ngZone = ngZone;
   }
 
   render(): void {
@@ -109,11 +106,9 @@ export class Scene {
      * Volver a colores cálidos anteriores por si acaso (quizá no, me gusta blanco todo)
      * Sombras u oclusión ambiental baked
      */    
-    this.ngZone.runOutsideAngular(() => {
-      this.setModels();
-      this.addLights();
-      this.setDebugModelSetup();
-    });
+    this.setModels();
+    this.addLights();
+    this.setDebugModelSetup();
 
     this.ready = true;
   }
