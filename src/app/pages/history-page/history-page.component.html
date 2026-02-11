@@ -1,27 +1,35 @@
-<div id="wrapper" #wrapper>  
+<div id="wrapper" #wrapper>
   <tabbed-container [tabs]="tabs" activeTab="history">
-    <div *ngFor="let content of pageContent; let i = index" #bookmark class="bookmark" [ngClass]="{ current: currentBookmark == i }">
-      <h3>{{ content.title }}</h3>
-      <p *ngFor="let paragraph of content.paragraphs">{{ paragraph }}</p>
-      <p class="sidenote" *ngIf="content.sidenote"><b>Sidenote</b>: {{ content.sidenote }}</p>
-    </div>
+    @for (content of pageContent; track content; let i = $index) {
+      <div #bookmark class="bookmark" [ngClass]="{ current: currentBookmark == i }">
+        <h3>{{ content.title }}</h3>
+        @for (paragraph of content.paragraphs; track paragraph) {
+          <p>{{ paragraph }}</p>
+        }
+        @if (content.sidenote) {
+          <p class="sidenote"><b>Sidenote</b>: {{ content.sidenote }}</p>
+        }
+      </div>
+    }
   </tabbed-container>
 
   <div id="timeline" #timeline>
-    <link-button
-      *ngFor="let item of timelineItems; let i = index"
-      [active]="currentBookmark == i"
-      (click)="goToBookmark(i)"
-      [ngStyle]="{ top: item.offsetTop * .95 + 'px' }"
-    >
-      <div class="button-inner" #timelineButtonInner>
-        <p>{{ item.text[0] }}</p>
-        <p>{{ item.text[1] }}</p>
-
-        <div *ngIf="i"
-          class="timeline-line"
-          [ngStyle]="{ height: item.lineHeight + 'px' }"></div>
-      </div>
-    </link-button>
+    @for (item of timelineItems; track item; let i = $index) {
+      <link-button
+        [active]="currentBookmark == i"
+        (click)="goToBookmark(i)"
+        [ngStyle]="{ top: item.offsetTop * .95 + 'px' }"
+        >
+        <div class="button-inner" #timelineButtonInner>
+          <p>{{ item.text[0] }}</p>
+          <p>{{ item.text[1] }}</p>
+          @if (i) {
+            <div
+              class="timeline-line"
+            [ngStyle]="{ height: item.lineHeight + 'px' }"></div>
+          }
+        </div>
+      </link-button>
+    }
   </div>
 </div>

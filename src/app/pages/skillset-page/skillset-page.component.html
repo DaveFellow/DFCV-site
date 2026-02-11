@@ -2,22 +2,21 @@
   id="wrapper"
   [class]="currentRoute.segment"
   [@routeAnimations]="currentRoute.segment"
->  
-  <ng-container *ngIf="currentRoute.segment == 'skillset'">
+  >
+  @if (currentRoute.segment == 'skillset') {
     <div id="development-link" class="link" >
       <h3 class="super-title" routerLink="./software-development" role="link">
         <span>Software</span>
         <span class="super-title__outline">Development</span>
       </h3>
     </div>
-    
     <div id="design-link" class="link" >
       <h3 class="super-title super-title--right" routerLink="./graphic-design" role="link">
         <span class="super-title__outline">Graphic</span>
         <span>Design</span>
       </h3>
     </div>
-  </ng-container>
+  }
 
   <section id="content">
     <router-outlet></router-outlet>

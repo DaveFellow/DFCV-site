@@ -1,6 +1,10 @@
 <div id="wrapper" [@skillsetGridAnim]>
-  <skill-card *ngFor="let card of data" [title]="card.title">
-    <span icon></span>
-    <p *ngFor="let text of card.body">{{ text }}</p>
-  </skill-card>
+  @for (card of data; track card) {
+    <skill-card [title]="card.title">
+      <span icon></span>
+      @for (text of card.body; track text) {
+        <p>{{ text }}</p>
+      }
+    </skill-card>
+  }
 </div>

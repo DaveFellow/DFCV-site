@@ -4,12 +4,13 @@
   </div>
 
   <nav>
-    <link-button
-      *ngFor="let link of links"
-      [active]="activeRouteRoot == link.route"
-      [route]="link.route"
-    >
-      {{ link.label }}
-    </link-button>
+    @for (link of links; track link) {
+      <link-button
+        [active]="activeRouteRoot == link.route"
+        [route]="link.route"
+        >
+        {{ link.label }}
+      </link-button>
+    }
   </nav>
 </header>
