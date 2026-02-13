@@ -1,5 +1,5 @@
 <header [@header]>
-  <arrow-button routerLink="/skillset" size="5rem"></arrow-button>
+  <arrow-button routerLink="/skillset" [size]="backButtonSizes" />
   
   <h2 class="super-title super-title--inline">
     <span>Graphic</span>
@@ -8,5 +8,5 @@
 </header>
 
 <div class="grid-container">
-  <skillset-grid [data]="cardsData"></skillset-grid>
+  <skillset-grid [data]="cardsData" />
 </div>

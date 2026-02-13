@@ -3,16 +3,15 @@
   grid-template-columns: repeat(2, [tabs] min-content) 1fr;
   grid-template-rows: 
     [tabs] min-content 
-    [content] calc(100vh - 23rem)
+    [content] calc(100vh - var(--tab-content-bottom-space))
     [end];
   transition: .3s;
 }
 
 .tab {
   display: block;
-  padding: 1.2rem 1.5rem;
+  padding: var(--tab-padding);
   position: relative;
-  // color: var(--accent-color);
   color: var(--unselected-tab-text-color);
 
   &::before {
@@ -40,12 +39,12 @@
 #content {
   background-color: var(--selected-tab-bg-color);
   backdrop-filter: var(--bg-blur);
-  padding: 6rem 7rem;
+  padding: var(--tab-content-padding);
   grid-row: content / end;
   grid-column: tabs / end;
   transition: .3s;
   overflow: auto;
-  
+
   .content-inner {
     animation: content-fade-in .3s;
     animation-delay: .4s;

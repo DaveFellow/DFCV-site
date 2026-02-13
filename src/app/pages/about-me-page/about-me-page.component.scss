@@ -19,10 +19,10 @@
 
 #presentation-card {
   position: fixed;
-  bottom: 15rem;
+  bottom: var(--presentation-card-bottom-space);
   background-color: var(--card-bg);
   backdrop-filter: var(--bg-blur);
-  padding: 3rem;
+  padding: var(--presentation-card-padding);
   z-index: 0;
   overflow: hidden;
   right: var(--main-content-padding);
@@ -52,7 +52,7 @@
   p {
     margin-bottom: 0;
     line-height: 1.2;
-    font-size: 1.6rem;
+    font-size: var(--main-font-size);
     white-space: nowrap;
   }
 }

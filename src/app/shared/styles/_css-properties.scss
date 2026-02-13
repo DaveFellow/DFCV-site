@@ -1,4 +1,6 @@
 :root {
+  --main-font-size: 1.6rem;
+  --p-font-size: 1.8rem;
   --primary-color: #364058;
   --accent-color: #CE313A;
   --font-primary-color: #1B1B1B;
@@ -14,6 +16,33 @@
   --small-title-color: var(--accent-color);
   --big-title-color: var(--accent-color);
   --main-header-height: 7rem;
+  --main-logo-height: 3rem;
   --main-content-padding: 5rem;
   --main-content-height: calc(100% - var(--main-header-height));
+  --tab-padding: 1.2rem 1.5rem;
+  --tab-content-padding: 6rem 7rem;
+  --tab-content-bottom-space: 23rem;
+  --presentation-card-bottom-space: 15rem;
+  --presentation-card-padding: 3rem;
+  --skillset-grid-gap: 2rem;
+  --skillset-subpage-super-title-size: 6rem;
+  --arrow-button-size: 7rem;
+
+  @media (max-width: 1400px) {
+    --main-font-size: 1.4rem;
+    --p-font-size: 1.6rem;
+    --main-header-height: 5rem;
+    --main-logo-height: 2rem;
+    --main-content-padding: 2rem;
+    --tab-padding: .8rem 1.5rem;
+    --tab-content-bottom-space: 16rem;
+    --tab-content-padding: 2.5rem 5.5rem;
+    --presentation-card-bottom-space: 6rem;
+    --presentation-card-padding: 2rem;
+  }
+
+  @media (max-width: 900px) {
+    --skillset-subpage-super-title-size: 4rem;
+    --arrow-button-size: 2rem;
+  }
 }

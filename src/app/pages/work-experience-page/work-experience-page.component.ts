@@ -1,7 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, signal, ViewChild } from '@angular/core';
 import { WorkExperience } from 'src/app/shared/models/WorkExperience';
 import { workExperienceData } from './work-experience-data';
-import { ReplaySubject } from 'rxjs';
 import { routeAnimations } from './work-experience.anim';
 
 @Component({
@@ -15,18 +14,18 @@ export class WorkExperiencePageComponent implements AfterViewInit {
   @ViewChild('wrapper') wrapperElement!: ElementRef<HTMLDivElement>;
   @ViewChild('item') itemElement!: ElementRef<HTMLDivElement>;
 
+  canShowTail = signal(false);
+
   public get backgroundHeight() {
     return this.itemElement?.nativeElement.clientHeight + 100 || 0;
   }
 
   private isScrollingOnX: boolean = false;
   private currentDragSpeed: number = 0;
-  private readonly decelerationThreshold = 2;
-
-
   readonly workExperience: WorkExperience[] = workExperienceData;
 
   ngAfterViewInit(): void {
+    this.canShowTail.set(true);
   }
 
   @HostListener('mousemove', ['$event'])

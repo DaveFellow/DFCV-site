@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SkillCard } from 'src/app/shared/models/Skills';
 import { subpageHeaderAnimation } from '../skillset-page/skillset-page.anim';
+import { backButtonSizes } from 'src/app/shared/objects/SkillsetPage';
 
 @Component({
     selector: 'app-design-skills-page',
@@ -10,6 +11,8 @@ import { subpageHeaderAnimation } from '../skillset-page/skillset-page.anim';
     standalone: false
 })
 export class DesignSkillsPageComponent {
+  public backButtonSizes = backButtonSizes;
+
   public cardsData: SkillCard[] = [
     {
       title: 'Graphic Design',

@@ -6,9 +6,12 @@
 
   @for (exp of workExperience; track exp) {
     <div
-      class="work-exp"
+      [ngClass]="{
+        'work-exp': true,
+        'can-show-tail': canShowTail()
+      }"
       #item
-      >
+    >
       <div class="work-exp__year">{{ exp.year }}</div>
       <h3 class="work-exp__title super-title">{{ exp.title }}</h3>
       <div class="work-exp__subtitle">{{ exp.subtitle }}</div>

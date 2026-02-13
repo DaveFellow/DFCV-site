@@ -1,12 +1,12 @@
 @import '../../shared/styles/mixins';
 
 header {
-  @include flexbox(row, flex-start, center);
+  @include flexbox(row, flex-end, center);
   margin-bottom: 5rem;
   padding-left: 50%;
 
   h2 {
-    font-size: 6rem;
+    font-size: var(--skillset-subpage-super-title-size);
     margin-left: 3rem;
   }
 }

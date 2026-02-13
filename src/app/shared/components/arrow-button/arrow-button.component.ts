@@ -1,8 +1,8 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, HostListener, Input, OnInit, signal } from '@angular/core';
 
 @Component({
     selector: 'arrow-button',
-    template: `<button tabindex="0" [ngStyle]="{ width: size, height: size }"></button>`,
+    template: `<button tabindex="0" [ngStyle]="{ width: _size(), height: _size() }"></button>`,
     styles: [`
     button {
       position: relative;
@@ -35,8 +35,38 @@ import { Component, HostBinding, Input } from '@angular/core';
   `],
     standalone: false
 })
-export class ArrowButtonComponent {
-  @Input() size: string = '7rem';
+export class ArrowButtonComponent implements OnInit {
+  _size = signal('7rem');
+  @Input() size: string | {
+    [key: string]: string;
+  } = '7rem';
   @HostBinding('attr.aria-role') hostAriaRole = 'button';
   @HostBinding('attr.tabindex') hostTabindex = -1;
+
+  ngOnInit() {
+    this.onResize();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    if (typeof this.size === 'string') {
+      this._size.set(this.size);
+      return;
+    }
+
+    const widthKeys = Object.keys(this.size)
+      .map(key => parseInt(key))
+      .sort((a, b) => a - b);
+
+    let i = 0;
+    for (const widthKey of widthKeys) {
+      const prevValue = widthKeys[i - 1] || 0;
+
+      if (window.innerWidth < widthKey + 1 && window.innerWidth >= prevValue) {
+        this._size.set(this.size[widthKey]);
+        return;
+      }
+      i++;
+    }
+  }
 }

@@ -1,8 +1,8 @@
 #wrapper {
   display: grid;
-  gap: 2rem;
+  gap: var(--skillset-grid-gap);
   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-  // grid-template-columns: repeat(4, minmax(1fr, 10rem));
+  margin-bottom: var(--skillset-grid-gap);
 }
 
 skill-card {
