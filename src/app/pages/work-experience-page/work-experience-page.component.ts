@@ -10,11 +10,9 @@ import { routeAnimations } from './work-experience.anim';
     animations: [routeAnimations],
     standalone: false
 })
-export class WorkExperiencePageComponent implements AfterViewInit {
+export class WorkExperiencePageComponent {
   @ViewChild('wrapper') wrapperElement!: ElementRef<HTMLDivElement>;
   @ViewChild('item') itemElement!: ElementRef<HTMLDivElement>;
-
-  canShowTail = signal(false);
 
   public get backgroundHeight() {
     return this.itemElement?.nativeElement.clientHeight + 100 || 0;
@@ -23,10 +21,6 @@ export class WorkExperiencePageComponent implements AfterViewInit {
   private isScrollingOnX: boolean = false;
   private currentDragSpeed: number = 0;
   readonly workExperience: WorkExperience[] = workExperienceData;
-
-  ngAfterViewInit(): void {
-    this.canShowTail.set(true);
-  }
 
   @HostListener('mousemove', ['$event'])
   public scrollOnDrag(e: MouseEvent): void {

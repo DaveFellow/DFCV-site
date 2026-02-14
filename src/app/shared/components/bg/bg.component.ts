@@ -92,42 +92,6 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
 
   private setRouteActions(route: string): void {
     this.setState(route);
-    // console.log(route);
-  }
-
-  // @HostListener('window:mousemove', ['$event'])
-  private setMousePosition(e: MouseEvent): void {
-    if (!this.scene.canControl) {
-      this.cameraOrbitSpeed = 0;
-      return;
-    }
-
-    const baseSpeed = 0.3;
-    const thresholdX = window.innerWidth * .2;
-    const thresholdY = window.innerHeight * .10;
-    const onLeftEdge = e.clientX <= thresholdX;
-    const rightEdgeStart = window.innerWidth - thresholdX;
-    const onRightEdge = e.clientX >= rightEdgeStart;
-    const onTheMiddle = e.clientY <= (window.innerHeight - thresholdY)
-      && e.clientY >= thresholdY;
-
-    if (onLeftEdge && onTheMiddle) {
-      const position = e.clientX / thresholdX;
-      this.cameraOrbitSpeed = (1 - position) * -1 * baseSpeed;
-      return;
-    }
-    
-    if (onRightEdge && onTheMiddle) {
-      this.cameraOrbitSpeed = (e.clientX - rightEdgeStart) / thresholdX * baseSpeed;
-      return;
-    }
-
-    this.cameraOrbitSpeed = 0;
-  }
-
-  @HostListener('mouseleave')
-  public stopCameraRotation() {
-    this.cameraOrbitSpeed = 0;
   }
 
   private get isInHomeState() {

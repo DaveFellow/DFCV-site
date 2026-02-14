@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, QueryList, Renderer2, signal, Signal, ViewChild, ViewChildren, WritableSignal } from '@angular/core';
 import { TabbedContainerComponent } from 'src/app/shared/components/tabbed-container/tabbed-container.component';
 import { Tab } from 'src/app/shared/models/Tab';
 import { tabs } from 'src/app/shared/objects/AboutMePage';
@@ -19,7 +19,7 @@ export class HistoryPageComponent implements AfterViewInit {
   @ViewChild(TabbedContainerComponent)
   private content!: TabbedContainerComponent;
 
-  public currentBookmark: number = 0;
+  public currentBookmark = signal(0);
   public contentHeight: number = 0;
 
   resizeEvent!: Event;
@@ -85,7 +85,7 @@ export class HistoryPageComponent implements AfterViewInit {
     const element = this.bookmarks.get(index);
     if (!element) return;
     element.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(() => this.currentBookmark = index, 100);
+    setTimeout(() => this.currentBookmark.set(index), 100);
   }
 
   @HostListener('window:resize')
@@ -118,7 +118,7 @@ export class HistoryPageComponent implements AfterViewInit {
         const offsetTop = paddingTop + bookmarkTop;
 
         if (target.scrollTop >= offsetTop) return;
-        this.currentBookmark = index;
+        this.currentBookmark.set(index);
         bookmarkActivated = true;
       });
     });

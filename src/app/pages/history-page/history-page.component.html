@@ -1,7 +1,7 @@
 <div id="wrapper" #wrapper>
   <tabbed-container [tabs]="tabs" activeTab="history">
     @for (content of pageContent; track content; let i = $index) {
-      <div #bookmark class="bookmark" [ngClass]="{ current: currentBookmark == i }">
+      <div #bookmark class="bookmark" [ngClass]="{ current: currentBookmark() == i }">
         <h3>{{ content.title }}</h3>
         @for (paragraph of content.paragraphs; track paragraph) {
           <p>{{ paragraph }}</p>
@@ -16,7 +16,7 @@
   <div id="timeline" #timeline>
     @for (item of timelineItems; track item; let i = $index) {
       <link-button
-        [active]="currentBookmark == i"
+        [active]="currentBookmark() == i"
         (click)="goToBookmark(i)"
         [ngStyle]="{ top: item.offsetTop * .95 + 'px' }"
         >

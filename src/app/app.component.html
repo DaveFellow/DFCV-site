@@ -1,11 +1,11 @@
-<app-bg [paused]="bgPaused"></app-bg>
+<app-bg [paused]="bgPaused()"></app-bg>
 
-<app-layout [ngClass]="{ 'can-control': canControl }">
+<app-layout [ngClass]="{ 'can-control': canControl() }">
   <div id="router-outlet-container" @routeAnimations>
     <router-outlet></router-outlet>
   </div>
 </app-layout>
 
-<div id="hello-overlay" [ngClass]="{ hidden: showOverlay === false }">
+<div id="hello-overlay" [ngClass]="{ hidden: showOverlay() === false }">
   <span class="super-title">{{ helloText | async}}</span>
 </div>

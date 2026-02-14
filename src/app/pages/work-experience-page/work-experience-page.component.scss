@@ -15,7 +15,7 @@
 
   
   @media (max-width: 900px) {
-    grid-auto-columns: 90vw;
+    grid-auto-columns: 80vw;
     gap: 3rem;
     align-content: end;
     padding-bottom: 12rem;
@@ -61,6 +61,10 @@
     grid-template-columns: [content] 1fr [end];
     background: rgba(255, 255, 255, 0.8);
     padding: 4rem;
+  }
+
+  @media (max-width: 900px) {
+    padding: 2rem;
   }
 
   &::after {

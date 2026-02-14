@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { routeAnimations } from './app.anim';
 import { filter, interval, map, Observable, takeUntil } from 'rxjs';
@@ -14,13 +14,13 @@ import { CurrentRouteService } from './shared/services/current-route.service';
 export class AppComponent implements OnInit, AfterViewChecked {
   title = 'David Fuentes :: CV';
 
-  bgPaused: boolean = false;
+  bgPaused = signal(false);
 
-  canControl: boolean = false;
+  canControl = signal(false);
 
-  showOverlay: boolean = true;
+  showOverlay = signal(true);
 
-  _debug: boolean = true;
+  _debug = false;
 
   helloText: Observable<string> = interval(100).pipe(
     map(i => {
@@ -38,15 +38,15 @@ export class AppComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.currentRoute.setRoute(this.router.url);
-    setTimeout(() => this.showOverlay = false, 2500);
+    setTimeout(() => this.showOverlay.set(false), 2500);
     
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe((e) => {
         this.currentRoute.setRoute((e as NavigationEnd).url);
-        this.canControl = false;
+        this.canControl.set(false);
         if (this.currentRoute.segment != 'home') return;
-        setTimeout(() => this.canControl = true, 700);
+        setTimeout(() => this.canControl.set(true), 700);
       });
   }
 
