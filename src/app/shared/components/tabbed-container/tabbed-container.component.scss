@@ -17,6 +17,7 @@
   padding: var(--tab-padding);
   position: relative;
   color: var(--unselected-tab-text-color);
+  text-align: center;
 
   &::before {
     content: '';

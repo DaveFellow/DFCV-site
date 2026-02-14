@@ -26,9 +26,11 @@
   --presentation-card-top-space: auto;
   --presentation-card-bottom-space: 15rem;
   --presentation-card-padding: 3rem;
-  --skillset-grid-gap: 2rem;
   --skillset-subpage-super-title-size: 6rem;
   --arrow-button-size: 7rem;
+  --mobile-bottom-space: 11rem;
+  --mobile-content-size: 40vh;
+  --above-mobile-content: calc(var(--mobile-content-size) + var(--mobile-bottom-space));
 
   @media (max-width: 1400px) {
     --main-font-size: 1.4rem;
@@ -50,8 +52,9 @@
 
   @media (max-width: 900px) {
     --main-logo-height: 3rem;
-    --tab-content-size: 40vh;
+    --tab-content-size: var(--mobile-content-size);
     --presentation-card-bottom-space: calc(var(--tab-content-size) + var(--tab-content-bottom-space));
     --presentation-card-padding: 1rem;
+    --skillset-subpage-super-title-size: 3rem;
   }
 }

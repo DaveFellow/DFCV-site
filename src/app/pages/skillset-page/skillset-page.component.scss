@@ -18,7 +18,11 @@
 .link {
   cursor: pointer;
   position: absolute;
-  top: 25%;
+  top: 50%;
+
+  @media (max-width: 900px) {
+    top: 25%;
+  }
   
   &:nth-child(2) {
     right: var(--main-content-padding);
@@ -33,6 +37,10 @@
     @media (max-width: 1024px) and (min-height: 1024px) {
       font-size: 6vh;
       transform: translateY(-0);
+    }
+
+    @media (max-width: 900px) {
+      font-size: 4rem;
     }
   }
 }

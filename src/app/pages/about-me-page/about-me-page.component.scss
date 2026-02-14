@@ -5,9 +5,19 @@
     #main-info {
       width: 70%;
       right: var(--main-content-padding);
+
+      @media (max-width: 900px) {
+        width: 100%;
+        right: 0;
+      }
     }
     #presentation-card {
       right: auto;
+
+      @media (max-width: 900px) {
+        left: auto;
+        right: var(--main-content-padding);
+      }
     }
   }
 
@@ -22,7 +32,7 @@
 
   @media (max-width: 900px) {
     width: 100%;
-    bottom: 11rem;
+    bottom: var(--mobile-bottom-space);
     left: 0;
   }
 }

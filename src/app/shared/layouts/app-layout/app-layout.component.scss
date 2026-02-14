@@ -3,3 +3,8 @@ main {
   position: relative;
   overflow: auto;
 }
+
+app-header {
+  position: relative;
+  z-index: 1000;
+}

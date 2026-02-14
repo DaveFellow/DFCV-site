@@ -1,8 +1,18 @@
 #wrapper {
   display: grid;
-  gap: var(--skillset-grid-gap);
+  gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
   margin-bottom: var(--skillset-grid-gap);
+
+  @media (max-width: 900px) {
+    position: fixed;
+    left: 0;
+    bottom: var(--mobile-bottom-space);
+    height: var(--mobile-content-size);
+    overflow: auto;
+    padding-inline: var(--main-content-padding);
+    gap: 1rem;
+  }
 }
 
 skill-card {

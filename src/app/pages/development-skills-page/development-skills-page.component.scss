@@ -4,12 +4,26 @@ header {
   @include flexbox(row, flex-start, center);
   margin-bottom: 5rem;
 
+  @media (max-width: 900px) {
+    margin-bottom: 0;
+    position: fixed;
+    bottom: calc(var(--above-mobile-content) + 2rem);
+  }
+
   h2 {
     font-size: var(--skillset-subpage-super-title-size);
     margin-left: 3rem;
+
+    @media (max-width: 900px) {
+      margin-left: 2rem;
+    }
   }
 }
 
 .grid-container {
   padding-right: 50%;
+
+  @media (max-width: 1200px) {
+    padding-right: 0;
+  }
 }
