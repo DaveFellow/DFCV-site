@@ -10,22 +10,40 @@
       right: auto;
     }
   }
+
+  @media (max-width: 900px) {
+    padding-bottom: 30rem;
+  }
 }
 
 #main-info {
   position: fixed;
   width: 50%;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    bottom: 11rem;
+    left: 0;
+  }
 }
 
 #presentation-card {
   position: fixed;
   bottom: var(--presentation-card-bottom-space);
+  right: var(--main-content-padding);
+
   background-color: var(--card-bg);
   backdrop-filter: var(--bg-blur);
+
   padding: var(--presentation-card-padding);
+  
   z-index: 0;
   overflow: hidden;
-  right: var(--main-content-padding);
+
+  @media (max-width: 900px) {
+    right: auto;
+    left: var(--main-content-padding);
+  }
 
   &::after, &::before {
     content: '';

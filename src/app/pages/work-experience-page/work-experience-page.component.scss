@@ -1,6 +1,6 @@
 #wrapper {
   display: grid;
-  grid-auto-columns: minmax(50rem, auto);
+  grid-auto-columns: 50rem;
   grid-auto-rows: 40rem;
   gap: 10rem;
   align-items: start;
@@ -12,6 +12,15 @@
   padding: var(--main-content-padding) 10rem;
 
   z-index: 1;
+
+  
+  @media (max-width: 900px) {
+    grid-auto-columns: 90vw;
+    gap: 3rem;
+    align-content: end;
+    padding-bottom: 12rem;
+    padding-inline: 2rem;
+  }
 
   &:active {
     cursor: grabbing;
@@ -27,7 +36,7 @@
     transform: translateY(-50%);
     left: 0;
 
-    @media (max-width: 900px) {
+    @media (max-width: 1024px) {
       display: none;
     }
   }
@@ -48,7 +57,7 @@
 
   backdrop-filter: var(--bg-blur);
   
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     grid-template-columns: [content] 1fr [end];
     background: rgba(255, 255, 255, 0.8);
     padding: 4rem;
@@ -73,7 +82,7 @@
     text-align: center;
     font-weight: bold;
 
-    @media (max-width: 900px) {
+    @media (max-width: 1024px) {
       grid-column: content;
       padding: 0;
       text-align: left;

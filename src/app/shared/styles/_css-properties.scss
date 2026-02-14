@@ -20,8 +20,10 @@
   --main-content-padding: 5rem;
   --main-content-height: calc(100% - var(--main-header-height));
   --tab-padding: 1.2rem 1.5rem;
+  --tab-content-size: calc(100vh - var(--tab-content-bottom-space));
   --tab-content-padding: 6rem 7rem;
   --tab-content-bottom-space: 23rem;
+  --presentation-card-top-space: auto;
   --presentation-card-bottom-space: 15rem;
   --presentation-card-padding: 3rem;
   --skillset-grid-gap: 2rem;
@@ -41,8 +43,15 @@
     --presentation-card-padding: 2rem;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     --skillset-subpage-super-title-size: 4rem;
     --arrow-button-size: 2rem;
+  }
+
+  @media (max-width: 900px) {
+    --main-logo-height: 3rem;
+    --tab-content-size: 40vh;
+    --presentation-card-bottom-space: calc(var(--tab-content-size) + var(--tab-content-bottom-space));
+    --presentation-card-padding: 1rem;
   }
 }

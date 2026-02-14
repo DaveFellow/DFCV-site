@@ -18,13 +18,21 @@
 .link {
   cursor: pointer;
   position: absolute;
-  top: 50%;
+  top: 25%;
   
-  &:nth-child(2) { right: 5rem }
+  &:nth-child(2) {
+    right: var(--main-content-padding);
+  }
 
   & > .super-title {
     transform: translateY(-50%);
     user-select: none;
+    cursor: pointer;
     font-size: 10vh;
+
+    @media (max-width: 1024px) and (min-height: 1024px) {
+      font-size: 6vh;
+      transform: translateY(-0);
+    }
   }
 }

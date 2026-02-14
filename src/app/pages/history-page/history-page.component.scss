@@ -5,7 +5,7 @@
   grid-template-columns: 1fr 30rem;
   padding-left: 13rem;
 
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     grid-template-columns: 1fr;
   }
 }
@@ -44,7 +44,7 @@ tabbed-container {
   animation-delay: .5s;
   animation-fill-mode: backwards;
 
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 

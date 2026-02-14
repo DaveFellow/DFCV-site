@@ -1,16 +1,30 @@
-<header>
-  <div id="logo" [routerLink]="['/home']">
-    <img src="assets/img/logo.svg" alt="Site logo">
+<header [ngClass]="{ 'mobile-menu-open': mobileMenuOpen() }">
+  <div id="logo" (click)="goToRoute('/home')">
+    <img [src]="'assets/img/logo' + (mobileMenuOpen() ? '_accent' : '') + '.svg'" alt="Site logo">
   </div>
 
-  <nav>
-    @for (link of links; track link) {
-      <link-button
-        [active]="linkIsActive(link.route)"
-        [route]="link.route"
-      >
-        {{ link.label }}
-      </link-button>
+  @if (isInMobile() === false || mobileMenuOpen()) {
+    <nav>
+      @for (link of links; track link) {
+        <link-button
+          [active]="linkIsActive(link.route)"
+          (click)="goToRoute(link.route)"
+        >
+          {{ link.label }}
+        </link-button>
+      }
+    </nav>
+  }
+
+  @if (mobileMenuOpen()) {
+    <div id="menu-bg"></div>
+  }
+
+  <div id="menu-btn" (click)="toggleMobileMenu()" [ngClass]="{ open: mobileMenuOpen() }">
+    @if (mobileMenuOpen()) {
+      <span>&times;</span> CLOSE
+    } @else {
+      <span>&#9776;</span> MENU
     }
-  </nav>
+  </div>
 </header>

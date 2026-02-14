@@ -3,9 +3,13 @@
   grid-template-columns: repeat(2, [tabs] min-content) 1fr;
   grid-template-rows: 
     [tabs] min-content 
-    [content] calc(100vh - var(--tab-content-bottom-space))
+    [content] var(--tab-content-size)
     [end];
   transition: .3s;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, [tabs] 50vw) 1fr;
+  }
 }
 
 .tab {
