@@ -32,11 +32,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm i
-    - run: npm run build-prod --if-present
     - name: Checkout
       uses: actions/checkout@v4
     - name: Setup Pages
       uses: actions/configure-pages@v5
+    - run: npm run build-prod --if-present
+    - run: ls -R ./dist
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
