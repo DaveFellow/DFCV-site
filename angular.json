@@ -51,7 +51,7 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "https://davefellow.github.io/cv-site-build/"
+              "baseHref": "https://davefellow.github.io/DFCV-site/"
             },
             "development": {
               "optimization": false,
