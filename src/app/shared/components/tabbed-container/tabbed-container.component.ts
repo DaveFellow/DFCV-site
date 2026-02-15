@@ -1,11 +1,17 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Tab } from '../../models/Tab';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'tabbed-container',
     templateUrl: './tabbed-container.component.html',
     styleUrls: ['./tabbed-container.component.scss'],
-    standalone: false
+    imports: [
+      CommonModule,
+      RouterModule
+    ],
+    standalone: true
 })
 /**
  * This is a fake tabs container, it's made only for aesthetic purpose.

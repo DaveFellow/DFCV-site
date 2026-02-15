@@ -1,11 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostBinding, Input, OnInit, signal, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
     selector: 'link-button',
     templateUrl: './link-button.component.html',
     styleUrls: ['./link-button.component.scss'],
-    standalone: false
+    imports: [
+      CommonModule,
+      RouterModule
+    ],
+    standalone: true
 })
 export class LinkButtonComponent implements OnInit {
   @Input('active') isActive: boolean = false;

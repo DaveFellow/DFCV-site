@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, HostBinding, HostListener, Input, OnInit, signal } from '@angular/core';
 
 @Component({
@@ -33,7 +34,8 @@ import { Component, HostBinding, HostListener, Input, OnInit, signal } from '@an
       }
     }
   `],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule]
 })
 export class ArrowButtonComponent implements OnInit {
   _size = signal('7rem');

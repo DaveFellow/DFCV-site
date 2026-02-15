@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DevelopmentSkillsPageComponent } from './development-skills-page.component';
 import { RouterModule, Routes } from '@angular/router';
-import { SkillsetGridModule } from 'src/app/shared/components/skillset-grid/skillset-grid.module';
-import { ArrowButtonModule } from 'src/app/shared/components/arrow-button/arrow-button.module';
+import { ArrowButtonComponent } from 'src/app/shared/components/arrow-button/arrow-button.component';
+import { SkillsetGridComponent } from 'src/app/shared/components/skillset-grid/skillset-grid.component';
 
 const routes: Routes = [
   { path: '', component: DevelopmentSkillsPageComponent }
@@ -16,8 +16,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    SkillsetGridModule,
-    ArrowButtonModule
+    SkillsetGridComponent,
+    ArrowButtonComponent
   ]
 })
 export class DevelopmentSkillsPageModule { }

@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppLayoutComponent } from './app-layout.component';
-import { HeaderModule } from '../../components/header/header.module';
-import { FooterModule } from '../../components/footer/footer.module';
+import { HeaderComponent } from '../../components/header/header.component';
 
 
 
@@ -12,8 +11,7 @@ import { FooterModule } from '../../components/footer/footer.module';
   ],
   imports: [
     CommonModule,
-    HeaderModule,
-    FooterModule
+    HeaderComponent,
   ],
   exports: [
     AppLayoutComponent

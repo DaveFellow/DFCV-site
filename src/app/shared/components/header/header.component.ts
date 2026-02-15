@@ -1,13 +1,20 @@
 import { Component, HostListener, OnInit, signal } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { pageLinks } from '../../objects/PageLinks';
+import { CommonModule } from '@angular/common';
+import { LinkButtonComponent } from '../link-button/link-button.component';
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
-    standalone: false
+    imports: [
+      CommonModule,
+      LinkButtonComponent,
+      RouterModule
+    ],
+    standalone: true,
 })
 export class HeaderComponent implements OnInit {
   public activeRoute: string = '/';
