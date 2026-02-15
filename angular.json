@@ -38,6 +38,9 @@
           },
           "configurations": {
             "production": {
+              "outputPath": {
+                "base": "dist/df-portfolio-site"
+              },
               "budgets": [
                 {
                   "type": "initial",
