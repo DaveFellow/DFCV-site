@@ -37,7 +37,7 @@ jobs:
         cache: 'npm'
     - run: npm i
     - run: npm run build-prod --if-present
-    - run: ls -R ./dist
+    - run: cp ./dist/df-portfolio-site/browser/index.html ./dist/df-portfolio-site/browser/404.html
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
