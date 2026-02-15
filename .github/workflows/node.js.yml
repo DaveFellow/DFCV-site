@@ -28,6 +28,7 @@ jobs:
         cache: 'npm'
     - run: npm i
     - run: rm -rf dist/df-portfolio-site
+    - run: mkdir dist
     - run: mkdir dist/df-portfolio-site
     - run: npm run build-prod --if-present
     - name: Upload dist as artifact
