@@ -26,16 +26,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm i
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Setup Pages
-      uses: actions/configure-pages@v5
     - run: npm run build-prod --if-present
     - run: ls -R ./dist
     - name: Upload artifact
