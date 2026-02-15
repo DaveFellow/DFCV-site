@@ -33,4 +33,4 @@ jobs:
     - name: Upload dist as artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: ./dist/df-portfolio-site
+        path: ./dist
