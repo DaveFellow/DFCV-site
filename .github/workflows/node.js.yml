@@ -29,6 +29,6 @@ jobs:
     - run: npm i
     - run: npm run build-prod --if-present
     - name: Upload dist as artifact
-      uses: actions/upload-pages-artifact@v2
+      uses: actions/upload-pages-artifact@v3
       with:
         path: ./dist/df-portfolio-site
