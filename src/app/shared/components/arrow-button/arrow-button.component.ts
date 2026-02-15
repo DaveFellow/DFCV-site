@@ -3,19 +3,24 @@ import { Component, HostBinding, HostListener, Input, OnInit, signal } from '@an
 
 @Component({
     selector: 'arrow-button',
-    template: `<button tabindex="0" [ngStyle]="{ width: _size(), height: _size() }"></button>`,
+    template: `
+      <button tabindex="0" [ngStyle]="{ width: _size(), height: _size() }">
+        <img src="assets/img/back_arrow.svg" alt="Back icon">
+      </button>`,
     styles: [`
     button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: none;
+      margin-top: .3rem;
+
       position: relative;
       display: block;
       width: 7rem;
       height: 7rem;
-      transform: translateX(1rem);
+      translate: 1rem .2rem;
     
-      background: url('/assets/img/back_arrow.svg') no-repeat;
-      background-size: contain;
-      background-position: center;
-
       border: 0;
 
       cursor: pointer;
@@ -23,14 +28,18 @@ import { Component, HostBinding, HostListener, Input, OnInit, signal } from '@an
       &:hover {
         animation: bounce 2s ease-in-out infinite;
       }
+
+      img {
+        width: 100%;
+      }
     }
 
     @keyframes bounce {
       0%, 100% {
-        transform: translateX(1rem);
+        translate: 1rem .2rem;
       }
       50% {
-        transform: translateX(0);
+        translate: 0 .2rem;
       }
     }
   `],
