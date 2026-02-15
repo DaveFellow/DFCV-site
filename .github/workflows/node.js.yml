@@ -38,7 +38,6 @@ jobs:
     #   uses: actions/upload-pages-artifact@v3
     #   with:
     #     path: ./dist
-    - run:  ls -R ./dist
   deploy:
     environment:
       name: github-pages
@@ -50,6 +49,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - run:  ls -R ./dist
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
