@@ -5,10 +5,13 @@
 
   @if (isInMobile() === false || mobileMenuOpen()) {
     <nav>
-      @for (link of links; track link) {
+      @for (link of links; track link; let i = $index) {
         <link-button
           [active]="linkIsActive(link.route)"
           (click)="goToRoute(link.route)"
+          animate.enter="fade-in translate-in"
+          animate.leave="fade-out"
+          [style]="{ '--index': i }"
         >
           {{ link.label }}
         </link-button>
@@ -17,7 +20,11 @@
   }
 
   @if (mobileMenuOpen()) {
-    <div id="menu-bg"></div>
+    <div
+      id="menu-bg"
+      animate.enter="fade-in"
+      animate.leave="fade-out"
+    ></div>
   }
 
   <div id="menu-btn" (click)="toggleMobileMenu()" [ngClass]="{ open: mobileMenuOpen() }">

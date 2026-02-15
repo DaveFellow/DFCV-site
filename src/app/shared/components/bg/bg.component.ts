@@ -5,14 +5,12 @@ import { State } from '../../FSM/States/State';
 import { Scene } from './Scene';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import { bgDomAnimations } from './bg.anim';
 import { CameraStateService } from '../../services/camera-state.service';
 
 @Component({
     selector: 'app-bg',
     templateUrl: './bg.component.html',
     styleUrls: ['./bg.component.scss'],
-    animations: [bgDomAnimations],
     standalone: false
 })
 export class BGComponent implements OnInit, AfterViewInit, StatesMachine {

@@ -1,4 +1,4 @@
-@import './mixins';
+@use './mixins' as *;
 
 *, *::after, *::before {
   margin: 0;

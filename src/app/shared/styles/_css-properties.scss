@@ -57,4 +57,16 @@
     --presentation-card-padding: 1rem;
     --skillset-subpage-super-title-size: 3rem;
   }
+
+  // Animation props
+  --anim-fade-in-duration: 200ms;
+  --anim-fade-in-curve: ease-in-out;
+  --anim-fade-out-duration: 200ms;
+  --anim-fade-out-curve: ease-in-out;
+  --anim-translate-in: 0 0;
+  --anim-translate-in-duration: 200ms;
+  --anim-translate-in-curve: ease-out;
+  --anim-translate-out: 0 0;
+  --anim-translate-out-duration: 200ms;
+  --anim-translate-out-curve: ease-in;
 }

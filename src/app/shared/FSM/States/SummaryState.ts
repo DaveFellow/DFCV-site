@@ -6,6 +6,7 @@ export class SummaryState extends BGTransitionState {
   private cup?: THREE.Object3D;
   private cupOgPosition?: THREE.Vector3;
   private cupOgRotation?: THREE.Euler;
+  private cupOgScale?: THREE.Vector3;
   private cupOgParent?: THREE.Object3D;
   private rightHand?: THREE.Bone;
 
@@ -22,6 +23,7 @@ export class SummaryState extends BGTransitionState {
 
     this.cupOgPosition = this.cup?.position.clone();
     this.cupOgRotation = this.cup?.rotation.clone();
+    this.cupOgScale = this.cup?.scale.clone();
     this.cupOgParent = this.cup?.parent!;
 
     this.rightHand.attach(this.cup);
@@ -33,5 +35,6 @@ export class SummaryState extends BGTransitionState {
     this.cupOgParent?.attach(this.cup!);
     this.cup?.position.copy(this.cupOgPosition!);
     this.cup?.rotation.copy(this.cupOgRotation!);
+    this.cup?.scale.copy(this.cupOgScale!);
   }
 }

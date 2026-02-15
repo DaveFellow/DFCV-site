@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, Input, OnInit, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,18 +13,18 @@ export class LinkButtonComponent implements OnInit {
   
   @HostBinding('attr.tabindex') hostTabindex: string = '-1';
   
-  public role: string = '';
-  public ariaLabel: string = '';
+  public role = signal('');
+  public ariaLabel = signal('');
   
   @ViewChild('label') labelElem!: ElementRef<HTMLSpanElement>;
 
   constructor (public router: Router) {}
 
   ngOnInit(): void {
-    this.role = this.route ? 'link' : 'button';
+    this.role.set(this.route ? 'link' : 'button');
   }
   
   ngAfterViewInit(): void {
-    this.ariaLabel = this.labelElem.nativeElement.textContent || '';
+    this.ariaLabel.set(this.labelElem.nativeElement.textContent.trim() || '');
   }
 }

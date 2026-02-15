@@ -1,4 +1,5 @@
-@import '../../styles/mixins';
+@use '../../styles/mixins' as *;
+@use '../../styles/animations';
 
 header {
   @include flexbox(row, space-between, center);
@@ -27,7 +28,7 @@ nav {
   z-index: 2;
   @include flexbox();
   transform: translateY(.4rem);
-
+  
   @media (max-width: 900px) {
     @include flexbox(column, center, center);
     position: fixed;
@@ -35,9 +36,25 @@ nav {
     top: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
-    
-    link-button {
+  }
+
+  link-button {
+    @media (max-width: 900px) {
       @include flexbox(row, center, center);
+
+      --anim-fade-in-duration: 800ms;
+      --anim-fade-out-duration: 800ms;
+      --anim-translate-in-duration: 800ms;
+      --anim-translate-in: 0 3rem;
+
+      transition: 
+        opacity var(--anim-fade-out-duration),
+        translate var(--anim-translate-in-duration) var(--anim-translate-in-curve);
+
+      &.fade-in, &.translate-in {
+        transition-delay: calc(200ms * var(--index));
+      }
+      
       ::ng-deep #wrapper {
         margin-bottom: 3rem;
         width: 100%;
@@ -99,4 +116,6 @@ nav {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(5px);
   z-index: 1;
+  --anim-fade-in-duration: 150ms;
+  --anim-fade-out-duration: 500ms;
 }

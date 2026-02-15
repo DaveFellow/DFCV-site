@@ -1,0 +1,33 @@
+.fade-in {
+  opacity: 1;
+  transition: opacity var(--anim-fade-in-duration);
+  transition-timing-function: var(--anim-fade-in-curve);
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity var(--anim-fade-out-duration);
+  transition-timing-function: var(--anim-fade-out-curve);
+  @starting-style {
+    opacity: 1;
+  }
+}
+
+.translate-in {
+  translate: 0 0;
+  transition: translate var(--anim-translate-in-duration) var(--anim-translate-in-curve);
+  @starting-style {
+    translate: var(--anim-translate-in);
+  }
+}
+
+.translate-out {
+  translate: var(--anim-translate-out);
+  transition: translate var(--anim-translate-out-duration) var(--anim-translate-out-curve);
+  @starting-style {
+    translate: 0 0;
+  }
+}

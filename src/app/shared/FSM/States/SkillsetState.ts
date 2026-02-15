@@ -7,6 +7,7 @@ export class SkillsetState extends BGTransitionState {
   private mouse?: THREE.Object3D;
   private mouseOgPosition?: THREE.Vector3;
   private mouseOgRotation?: THREE.Euler;
+  private mouseOgScale?: THREE.Vector3;
   private mouseOgParent?: THREE.Object3D;
 
   constructor(scene: Scene) {
@@ -18,6 +19,7 @@ export class SkillsetState extends BGTransitionState {
     this.mouse = this.scene.scene.getObjectByName('Mouse');
     this.mouseOgPosition = this.mouse!.position.clone();
     this.mouseOgRotation = this.mouse!.rotation.clone();
+    this.mouseOgScale = this.mouse!.scale.clone();
     this.mouseOgParent = this.mouse!.parent!;
 
     this.rightHand = (this.scene.characterMesh as THREE.SkinnedMesh).skeleton.bones.find(elem => elem.name === 'handr');
@@ -33,5 +35,6 @@ export class SkillsetState extends BGTransitionState {
     this.mouseOgParent?.attach(this.mouse!)
     this.mouse?.position.copy(this.mouseOgPosition!);
     this.mouse?.rotation.copy(this.mouseOgRotation!);
+    this.mouse?.scale.copy(this.mouseOgScale!);
   }
 }

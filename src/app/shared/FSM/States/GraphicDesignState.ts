@@ -6,16 +6,20 @@ export class GraphicDesignState extends BGTransitionState {
 
   private mouse?: THREE.Object3D;
   private mouseOgPosition?: THREE.Vector3;
+  private mouseOgScale?: THREE.Vector3;
 
   private keyboard?: THREE.Object3D;
   private keyboardOgPosition?: THREE.Vector3;
+  private keyboardOgScale?: THREE.Vector3;
 
   private tablet?: THREE.Object3D;
   private tabletOgPosition?: THREE.Vector3;
+  private tabletOgScale?: THREE.Vector3;
 
   private pen?: THREE.Object3D;
   private penOgPosition?: THREE.Vector3;
   private penOgRotation?: THREE.Euler;
+  private penOgScale?: THREE.Vector3;
   private penOgParent?: THREE.Object3D;
   
   constructor(scene: Scene) {
@@ -33,10 +37,17 @@ export class GraphicDesignState extends BGTransitionState {
     if (!this.keyboard || !this.mouse || !this.rightHand || !this.tablet || !this.pen) return;
 
     this.keyboardOgPosition = this.keyboard!.position.clone();
+    this.keyboardOgScale = this.keyboard!.scale.clone();
+
     this.mouseOgPosition = this.mouse!.position.clone();
+    this.mouseOgScale = this.mouse!.scale.clone();
+
     this.tabletOgPosition = this.tablet!.position.clone();
+    this.tabletOgScale = this.tablet!.scale.clone();
+
     this.penOgPosition = this.pen!.position.clone();
     this.penOgRotation = this.pen!.rotation.clone();
+    this.penOgScale = this.pen!.scale.clone();
     this.penOgParent = this.pen!.parent!;
 
     this.keyboard.position.set(
@@ -64,10 +75,17 @@ export class GraphicDesignState extends BGTransitionState {
 
   protected override additionalActionsCleanup(): void {
     this.keyboard?.position.copy(this.keyboardOgPosition!);
+    this.keyboard?.scale.copy(this.keyboardOgScale!);
+
     this.mouse?.position.copy(this.mouseOgPosition!);
+    this.mouse?.scale.copy(this.mouseOgScale!);
+
     this.tablet?.position.copy(this.tabletOgPosition!);
+    this.tablet?.scale.copy(this.tabletOgScale!);
+
     this.penOgParent?.attach(this.pen!);
     this.pen?.position.copy(this.penOgPosition!);
     this.pen?.rotation.copy(this.penOgRotation!);
+    this.pen?.scale.copy(this.penOgScale!);
   }
 }

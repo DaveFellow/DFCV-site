@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
-import { UtilsService } from 'src/app/shared/services/utils.service';
+import { Component } from '@angular/core';
 import { routeAnimations } from './about-me-page.anim';
 import { CurrentRouteService } from 'src/app/shared/services/current-route.service';
 
