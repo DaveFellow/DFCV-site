@@ -37,7 +37,7 @@ export class DesignSkillsPageComponent {
       body: [ 'From the storyboard to final 2D animations, I can bring life to any concept' ]
     }, {
       title: 'Taking the Steer',
-      body: [ 'Whenever it\'s necessary, he can take care of the full requirement from design to implementation' ]
+      body: [ 'Whenever it\'s necessary, I can take care of the full requirement from design to code implementation' ]
     }, 
   ];
 }

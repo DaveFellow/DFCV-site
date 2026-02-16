@@ -46,7 +46,7 @@ export class DevelopmentSkillsPageComponent {
       body: [ 'For game development and for non-game graphically rich applications.' ],
     }, {
       title: 'C#',
-      body: [ 'Mostly used alongside Unity. flexible enough to adapt as needed to any environment or framework.' ],
+      body: [ 'Mostly used alongside Unity. I\'m flexible enough to adapt as needed to any environment or framework.' ],
     }, {
       title: 'PHP / Laravel',
       body: [ 'Some backend background is always good.' ],
