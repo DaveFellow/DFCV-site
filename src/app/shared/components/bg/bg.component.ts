@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, ElementRef, HostListener, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { StatesMachine } from '../../FSM/StatesMachine';
 import { StatesFactoryService } from '../../FSM/Factory/states-factory.service';
 import { State } from '../../FSM/States/State';
@@ -6,6 +6,7 @@ import { Scene } from './Scene';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { CameraStateService } from '../../services/camera-state.service';
+import { ScreenResolutionService } from '../../services/screen-resolution.service';
 
 @Component({
     selector: 'app-bg',
@@ -34,8 +35,13 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     private statesFactory: StatesFactoryService,
     private router: Router,
     private camStateService: CameraStateService,
+    private screenResolutionService: ScreenResolutionService
   ) {
     this.scene = new Scene();
+    effect(() => {
+      this.screenResolutionService.currentResolution();
+      this.scene.updateViewport();
+    });
   }
 
   ngOnInit(): void {
@@ -81,11 +87,6 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     this.statesFactory.setup(this.scene);
     this.renderer.appendChild(this.container.nativeElement, this.scene.renderer.domElement);
     this.setState(this.router.url);
-  }
-
-  @HostListener('window:resize')
-  public updateViewport(): void {
-    this.scene.updateViewport();
   }
 
   private setRouteActions(route: string): void {

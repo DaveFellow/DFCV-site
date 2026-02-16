@@ -1,7 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, QueryList, Renderer2, signal, Signal, ViewChild, ViewChildren, WritableSignal } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, effect, ElementRef, HostListener, QueryList, Renderer2, signal, Signal, ViewChild, ViewChildren, WritableSignal } from '@angular/core';
 import { TabbedContainerComponent } from 'src/app/shared/components/tabbed-container/tabbed-container.component';
 import { Tab } from 'src/app/shared/models/Tab';
 import { tabs } from 'src/app/shared/objects/AboutMePage';
+import { ScreenResolutionService } from 'src/app/shared/services/screen-resolution.service';
 
 @Component({
     selector: 'app-history-page',
@@ -72,6 +73,14 @@ export class HistoryPageComponent implements AfterViewInit {
   @ViewChildren('bookmark') bookmarks!: QueryList<ElementRef<HTMLDivElement>>;
 
   public tabs: Tab[] = tabs;
+  
+  constructor(private screenResolutionService: ScreenResolutionService) {
+    effect(() => {
+      this.screenResolutionService.currentResolution();
+      this.setTimelineItemsData();
+    });
+  }
+
 
   ngAfterViewInit(): void {       
     this.wrapperHeight = this.wrapper.nativeElement.clientHeight;
@@ -88,9 +97,8 @@ export class HistoryPageComponent implements AfterViewInit {
     setTimeout(() => this.currentBookmark.set(index), 100);
   }
 
-  @HostListener('window:resize')
   public setTimelineItemsData(): void {    
-    this.content.children.forEach((child: HTMLElement, index: number) => {
+    this.content?.children.forEach((child: HTMLElement, index: number) => {
       if (!index) return;
       const prevItem = this.timelineItems[index - 1];
       const currentItem = this.timelineItems[index];

@@ -1,23 +1,19 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, HostListener, OnInit, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { routeAnimations } from './app.anim';
 import { filter, interval, map, Observable, takeUntil } from 'rxjs';
 import { CurrentRouteService } from './shared/services/current-route.service';
+import { ScreenResolutionService } from './shared/services/screen-resolution.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    animations: [routeAnimations],
     standalone: false
 })
 export class AppComponent implements OnInit, AfterViewChecked {
   title = 'David Fuentes :: CV';
-
   bgPaused = signal(false);
-
   canControl = signal(false);
-
   showOverlay = signal(true);
 
   _debug = false;
@@ -33,7 +29,8 @@ export class AppComponent implements OnInit, AfterViewChecked {
   constructor(
     private cd: ChangeDetectorRef,
     private router: Router,
-    private currentRoute: CurrentRouteService
+    private currentRoute: CurrentRouteService,
+    private screenResolutionService: ScreenResolutionService
   ) {}
 
   ngOnInit() {
@@ -52,5 +49,13 @@ export class AppComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked() {
     this.cd.detectChanges();
+  }
+
+  @HostListener('window:resize')
+  public updateResolution() {
+    this.screenResolutionService.currentResolution.set({
+      x: window.innerWidth,
+      y: window.innerHeight
+    });
   }
 }

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostBinding, HostListener, Input, OnInit, signal } from '@angular/core';
+import { Component, effect, HostBinding, HostListener, Input, OnInit, signal } from '@angular/core';
+import { ScreenResolutionService } from '../../services/screen-resolution.service';
 
 @Component({
     selector: 'arrow-button',
@@ -54,12 +55,21 @@ export class ArrowButtonComponent implements OnInit {
   @HostBinding('attr.aria-role') hostAriaRole = 'button';
   @HostBinding('attr.tabindex') hostTabindex = -1;
 
-  ngOnInit() {
-    this.onResize();
+  constructor(private screenResolutionService: ScreenResolutionService) {
+    effect(() => this.onResize(this.screenResolutionService.currentResolution()));
   }
 
-  @HostListener('window:resize')
-  onResize() {
+  ngOnInit() {
+    this.onResize({
+      x: window.innerWidth,
+      y: window.innerHeight
+    });
+  }
+
+  onResize(resolution: {
+    x: number,
+    y: number
+  }) {
     if (typeof this.size === 'string') {
       this._size.set(this.size);
       return;
@@ -73,7 +83,7 @@ export class ArrowButtonComponent implements OnInit {
     for (const widthKey of widthKeys) {
       const prevValue = widthKeys[i - 1] || 0;
 
-      if (window.innerWidth < widthKey + 1 && window.innerWidth >= prevValue) {
+      if (resolution.x < widthKey + 1 && resolution.x >= prevValue) {
         this._size.set(this.size[widthKey]);
         return;
       }

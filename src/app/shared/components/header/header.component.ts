@@ -1,9 +1,10 @@
-import { Component, HostListener, OnInit, signal } from '@angular/core';
+import { Component, effect, HostListener, OnInit, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { pageLinks } from '../../objects/PageLinks';
 import { CommonModule } from '@angular/common';
 import { LinkButtonComponent } from '../link-button/link-button.component';
+import { ScreenResolutionService } from '../../services/screen-resolution.service';
 
 @Component({
     selector: 'app-header',
@@ -24,9 +25,18 @@ export class HeaderComponent implements OnInit {
 
   public readonly links = [...pageLinks];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private screenResolutionService: ScreenResolutionService
+  ) {
+    effect(() => {
+      this.screenResolutionService.currentResolution();
+      this.onResize();
+    });
+  }
 
   ngOnInit(): void {
+    this.onResize();
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe((e) => {
@@ -39,7 +49,6 @@ export class HeaderComponent implements OnInit {
     return (route.startsWith(this.activeRouteRoot) && this.activeRouteRoot !== '/') || (this.activeRouteRoot === '/' && route === '/home');
   }
 
-  @HostListener('window:resize')
   public onResize(): void {
     this.mobileMenuOpen.set(false);
     this.isInMobile.set(window.innerWidth <= 900);
