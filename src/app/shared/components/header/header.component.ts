@@ -64,6 +64,10 @@ export class HeaderComponent implements OnInit {
     window.open('https://www.linkedin.com/in/david-fuentes-dev-designer', '_blank');
   }
 
+  public goToRepository(): void {
+    window.open('https://github.com/DaveFellow/DFCV-site', '_blank');
+  }
+
   public toggleMobileMenu(): void {
     this.mobileMenuOpen.update((open) => !open);
   }

@@ -21,10 +21,21 @@
         animate.enter="fade-in translate-in"
         animate.leave="fade-out"
         [style]="{ '--index': links.length }"
+        (click)="goToRepository()"
+      >
+        <span id="linkedin-link">
+          GitHub Repository <img src="assets/img/external-link-icon.svg" alt="External site">
+        </span>
+      </link-button>
+
+      <link-button
+        animate.enter="fade-in translate-in"
+        animate.leave="fade-out"
+        [style]="{ '--index': links.length }"
         (click)="goToLinkedIn()"
       >
         <span id="linkedin-link">
-          LinkedIn <img src="assets/img/external-link-icon.svg" alt="External site">
+          My LinkedIn <img src="assets/img/external-link-icon.svg" alt="External site">
         </span>
       </link-button>
     </nav>
