@@ -7,6 +7,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { CameraStateService } from '../../services/camera-state.service';
 import { ScreenResolutionService } from '../../services/screen-resolution.service';
+import { BGTransitionState } from '../../FSM/States/BGTransitionState';
 
 @Component({
     selector: 'app-bg',
@@ -23,6 +24,8 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   
   currentState: State | null = null;
 
+  private screenInPortrait: boolean;
+
   private cameraOrbitSpeed = 0;
   public get panningDirection() {
     return !this.cameraOrbitSpeed ? ''
@@ -38,9 +41,16 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
     private screenResolutionService: ScreenResolutionService
   ) {
     this.scene = new Scene();
+    this.screenInPortrait = this.scene.screenInPortrait;
     effect(() => {
       this.screenResolutionService.currentResolution();
       this.scene.updateViewport();
+
+      if (this.screenInPortrait === this.scene.screenInPortrait) {
+        return;
+      }
+      (this.currentState as BGTransitionState)?.switchCameraOrientation();
+      this.screenInPortrait = this.scene.screenInPortrait;
     });
   }
 

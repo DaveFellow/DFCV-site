@@ -42,6 +42,10 @@ export class Scene {
   private ready: boolean = false;
   public get isReady() { return this.ready; }
 
+  public get screenInPortrait(): boolean {
+    return window.innerHeight > window.innerWidth;
+  }
+
   // Debug members
   private readonly _debugCamPosition: THREE.Mesh = new THREE.Mesh;
   private readonly _debugCamPositionAxes: THREE.AxesHelper = new THREE.AxesHelper(20);
@@ -213,7 +217,7 @@ export class Scene {
   public trackMarker(name: string): void {
     this.markerTrackLerpFromPos = this.markerTrackLerp.clone();
     this.targetMarkers['prev'] = this.targetMarkers['next'];
-    this.targetMarkers['next'] = this.markers[name];
+    this.targetMarkers['next'] = this.getMarker(name);
   }
 
   public getSteppedRotation(factor: number): THREE.Vector3 {
@@ -257,5 +261,16 @@ export class Scene {
       return;
     }
     this.loadedSceneCallback();
-}
+  }
+
+  public getMarker(name: string) {
+    if (this.screenInPortrait === false) {
+      return this.markers[name];
+    }
+    const portraitMarker = name.endsWith('001') 
+      ? this.markers[`${name.slice(0, -3)}//portrait001` ]
+      : this.markers[`${name}//portrait`];
+
+    return portraitMarker ?? this.markers[name]
+  }
 }

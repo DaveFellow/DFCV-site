@@ -60,6 +60,10 @@ export class HeaderComponent implements OnInit {
     this.mobileMenuOpen.set(false);
   }
 
+  public goToLinkedIn(): void {
+    window.open('https://www.linkedin.com/in/david-fuentes-dev-designer', '_blank');
+  }
+
   public toggleMobileMenu(): void {
     this.mobileMenuOpen.update((open) => !open);
   }

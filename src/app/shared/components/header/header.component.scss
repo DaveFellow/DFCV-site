@@ -69,6 +69,22 @@ nav {
         }
       }
     }
+
+    #linkedin-link {
+      @include flexbox(row, center, center);
+
+      img {
+        width: 1.5rem;
+        margin-left: .5rem;
+        filter: brightness(5);
+        opacity: .5;
+        transition: opacity 0.35s ease-in-out;
+      }
+
+      &:hover img {
+        opacity: 1;
+      }
+    }
   }
 }
 

@@ -161,6 +161,13 @@ export abstract class BGTransitionState extends AbstractState {
       : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
 
+  public switchCameraOrientation(): void {
+    this.factor = 1;
+    this.scene.trackMarker(this.name);
+    this.setCameraPosition();
+    this.setCameraTarget();
+  }
+
   protected additionalActions(): void {}
 
   protected additionalActionsCleanup(): void {}
