@@ -36,7 +36,6 @@ export class AppComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.currentRoute.setRoute(this.router.url);
     setTimeout(() => this.showOverlay.set(false), 2500);
-    
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe((e) => {
@@ -52,7 +51,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
   }
 
   @HostListener('window:resize')
-  public updateResolution() {
+  public updateResolution() {    
     this.screenResolutionService.currentResolution.set({
       x: window.innerWidth,
       y: window.innerHeight

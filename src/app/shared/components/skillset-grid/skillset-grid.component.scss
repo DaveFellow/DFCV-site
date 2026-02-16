@@ -5,6 +5,7 @@
   margin-bottom: var(--skillset-grid-gap);
 
   @media (max-width: 900px) {
+    width: 100%;
     position: fixed;
     left: 0;
     bottom: var(--mobile-bottom-space);
