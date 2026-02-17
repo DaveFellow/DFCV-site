@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, HostBinding, HostListener, Input, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, effect, HostBinding, HostListener, Input, OnInit, signal } from '@angular/core';
 import { ScreenResolutionService } from '../../services/screen-resolution.service';
 
 @Component({
@@ -47,7 +47,7 @@ import { ScreenResolutionService } from '../../services/screen-resolution.servic
     standalone: true,
     imports: [CommonModule]
 })
-export class ArrowButtonComponent implements OnInit {
+export class ArrowButtonComponent implements AfterViewInit {
   _size = signal('7rem');
   @Input() size: string | {
     [key: string]: string;
@@ -59,7 +59,7 @@ export class ArrowButtonComponent implements OnInit {
     effect(() => this.onResize(this.screenResolutionService.currentResolution()));
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.onResize({
       x: window.innerWidth,
       y: window.innerHeight
@@ -76,7 +76,7 @@ export class ArrowButtonComponent implements OnInit {
     }
 
     const widthKeys = Object.keys(this.size)
-      .map(key => parseInt(key))
+      .map(key => key === 'default' ? Infinity : parseInt(key))
       .sort((a, b) => a - b);
 
     let i = 0;
@@ -84,7 +84,7 @@ export class ArrowButtonComponent implements OnInit {
       const prevValue = widthKeys[i - 1] || 0;
 
       if (resolution.x < widthKey + 1 && resolution.x >= prevValue) {
-        this._size.set(this.size[widthKey]);
+        this._size.set(this.size[widthKey === Infinity ? 'default' : widthKey]);
         return;
       }
       i++;
