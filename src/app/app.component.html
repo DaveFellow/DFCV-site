@@ -1,4 +1,4 @@
-<app-bg [paused]="bgPaused()"></app-bg>
+<app-bg [paused]="bgPaused()" (setupFinished)="hideOverlay()"></app-bg>
 
 <app-layout [ngClass]="{ 'can-control': canControl() }">
   <div id="router-outlet-container">
@@ -6,6 +6,19 @@
   </div>
 </app-layout>
 
-<div id="hello-overlay" [ngClass]="{ hidden: showOverlay() === false }">
+<div
+  id="hello-overlay"
+  [ngClass]="{
+    hidden: showOverlay() === false
+  }"
+>
   <span class="super-title">{{ helloText | async}}</span>
+
+  <span class="loading-txt">
+    @if (showReadyText()) {
+      Ready!
+    } @else {
+      Loading...
+    }
+  </span>
 </div>

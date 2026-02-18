@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, ElementRef, HostListener, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { StatesMachine } from '../../FSM/StatesMachine';
 import { StatesFactoryService } from '../../FSM/Factory/states-factory.service';
 import { State } from '../../FSM/States/State';
@@ -19,6 +19,8 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   @ViewChild('container') container!: ElementRef<HTMLCanvasElement>;
 
   @Input() paused: boolean = false;
+  
+  @Output() setupFinished: EventEmitter<void> = new EventEmitter;
 
   public scene: Scene;
   
@@ -63,6 +65,7 @@ export class BGComponent implements OnInit, AfterViewInit, StatesMachine {
   ngAfterViewInit() {
     this.scene.setup(() => {
       this.setup();
+      this.setupFinished.emit();
       if (!this.paused) this.animate();
     });
   }

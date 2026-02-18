@@ -15,6 +15,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
   bgPaused = signal(false);
   canControl = signal(false);
   showOverlay = signal(true);
+  showReadyText = signal(false);
 
   _debug = false;
 
@@ -35,7 +36,6 @@ export class AppComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.currentRoute.setRoute(this.router.url);
-    setTimeout(() => this.showOverlay.set(false), 2500);
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe((e) => {
@@ -56,5 +56,10 @@ export class AppComponent implements OnInit, AfterViewChecked {
       x: window.innerWidth,
       y: window.innerHeight
     });
+  }
+
+  public hideOverlay(): void {
+    this.showReadyText.set(true)
+    setTimeout(() => this.showOverlay.set(false), 2500);
   }
 }
