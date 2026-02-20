@@ -54,11 +54,10 @@
 
   overflow: auto;
   height: 100%;
-
-  backdrop-filter: var(--bg-blur);
   
   @media (max-width: 1024px) {
     grid-template-columns: [content] 1fr [end];
+    backdrop-filter: var(--bg-blur);
     background: rgba(255, 255, 255, 0.8);
     padding: 4rem;
   }
